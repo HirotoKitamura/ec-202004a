@@ -32,10 +32,10 @@ public class OrderRepository {
 		order.setDeliveryTime(rs.getTimestamp("delivery_time"));
 		order.setPaymentMethod(rs.getInt("payment_method"));
 		
-		// TODO　正しい値をセットする
+		// TODO　正しい値をセットする（サービスでやるかも）
 		User user=null;
 		order.setUser(user);
-		// TODO　正しい値をセットする
+		// TODO　正しい値をセットする（サービスでやるかも）
 		List<OrderItem> orderItemList=null;
 		order.setOrderItemList(orderItemList);
 		
@@ -65,7 +65,7 @@ public class OrderRepository {
 		String sql="id,select user_id,status,total_price,order_date," 
 					+ "destination_name,destination_email,destination_zipcode,"  
 					+ "destination_address,destination_tel,delivery_time," 
-					+ "payment_method from orders where user_id=:user_id and status=0";
+					+ "payment_method from orders where user_id=:user_id and status=0;";
 		SqlParameterSource param = new MapSqlParameterSource("user_id",userId);
 		
 		Order order=template.queryForObject(sql, param, ORDER_ROW_MAPPER);
