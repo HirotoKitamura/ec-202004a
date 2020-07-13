@@ -23,7 +23,6 @@ public class Test {
 
 	@RequestMapping("")
 	public String index() {
-		session.invalidate();
 		return "item_detail";
 	}
 }
