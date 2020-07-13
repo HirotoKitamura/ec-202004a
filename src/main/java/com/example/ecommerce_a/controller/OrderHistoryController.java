@@ -22,4 +22,16 @@ public class OrderHistoryController {
 		// ここに諸々の処理を書く
 		return "history_list";
 	}
+
+	/**
+	 * 注文履歴の詳細画面を表示する.
+	 * 
+	 * @param orderId 注文ID
+	 * @return 注文履歴の詳細画面
+	 */
+	@RequestMapping("showHistoryDetail")
+	public String showHistoryDetail(Integer orderId) {
+		// ここに諸々の処理を書く
+		return "history_detail";
+	}
 }
