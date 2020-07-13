@@ -26,16 +26,15 @@ public class UserRepository {
 	private static final RowMapper<User> USER_ROWMAPPER = new BeanPropertyRowMapper<User>(User.class);
 
 	/**
-	 * メールアドレスとパスワードからユーザーを検索.
+	 * メールアドレスからユーザーを検索.
 	 * 
-	 * @param email    メールアドレス
-	 * @param password パスワード
+	 * @param email メールアドレス
 	 * @return 検索結果 ない場合はnull
 	 */
-	public User findByEmailAndPassWord(String email, String password) {
+	public User findByEmail(String email) {
 		String sql = "SELECT id, name, email, password, zipcode, address, telephone"
-				+ " FROM users WHERE email = :email AND password = :password;";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("email", email).addValue("password", password);
+				+ " FROM users WHERE email = :email";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("email", email);
 		List<User> userList = template.query(sql, param, USER_ROWMAPPER);
 		if (userList.size() == 0) {
 			return null;

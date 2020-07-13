@@ -1,6 +1,7 @@
 package com.example.ecommerce_a.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +20,23 @@ public class LoginLogoutService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private PasswordEncoder encoder;
+
 	/**
-	 * メールアドレスとパスワードからユーザーを検索.
+	 * メールアドレスとパスワードからログイン判定をする.
 	 * 
 	 * @param email    メールアドレス
 	 * @param password パスワード
-	 * @return 検索結果 ない場合はnull
+	 * @return ログインユーザー 該当するユーザーがいない場合はnull
 	 */
-	public User searchByEmailAndPassword(String email, String password) {
-		return userRepository.findByEmailAndPassWord(email, password);
+	public User login(String email, String password) {
+		System.out.println(encoder.encode("besabesa"));
+		User user = userRepository.findByEmail(email);
+		if (user != null && encoder.matches(password, user.getPassword())) {
+			return user;
+		} else {
+			return null;
+		}
 	}
 }
