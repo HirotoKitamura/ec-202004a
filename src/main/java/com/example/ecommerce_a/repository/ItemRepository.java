@@ -11,6 +11,12 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+/**
+ * 商品情報を扱うリポジトリクラス.
+ * 
+ * @author junpei.azuma
+ *
+ */
 @Repository
 public class ItemRepository {
 
