@@ -15,16 +15,10 @@ public class Order {
 	private Integer id;
 	/** ユーザーID */
 	private Integer userId;
-	/** 
-	 *　状態 
-	 * TODO 余裕があればEnumに変更する。
+	/**
+	 * 状態 TODO 余裕があればEnumに変更する。
 	 *
-	 *　0:注文前
-	 *　1:未入金
-	 *　2:入金済
-	 *　3:発送済
-	 *　4:配送完了
-	 *　9:キャンセル
+	 * 0:注文前 1:未入金 2:入金済 3:発送済 4:配送完了 9:キャンセル
 	 *
 	 */
 	private Integer status;
@@ -44,18 +38,35 @@ public class Order {
 	private String destinationTell;
 	/** 配達時間 */
 	private Timestamp deliveryTime;
-	/** 支払い方法
-	 * TODO 余裕があればEnumに変更する。
+	/**
+	 * 支払い方法 TODO 余裕があればEnumに変更する。
 	 * 
-	 * 1:代金引換
-	 * 2:クレジットカード
+	 * 1:代金引換 2:クレジットカード
 	 * 
-	 *  */
+	 */
 	private Integer payment_method;
 	/** ユーザー */
 	private User user;
 	/** 注文商品リスト */
 	private List<OrderItem> orderItemList;
+
+	/**
+	 * 消費税を計算.
+	 * 
+	 * @return 消費税
+	 */
+	public Integer getTax() {
+		return (int) (totalPrice * 0.08);
+	};
+
+	/**
+	 * 税込金額を計算.
+	 * 
+	 * @return 税込価格
+	 */
+	public Integer getCalcTotalPrice() {
+		return (int) (totalPrice + getTax());
+	}
 
 	public Integer getId() {
 		return id;
