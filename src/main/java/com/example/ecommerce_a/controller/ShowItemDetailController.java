@@ -32,6 +32,5 @@ public class ShowItemDetailController {
 		Item item = service.ShowItemDetail(itemID);
 		model.addAttribute("item", item);
 		return "item_detail";
-		
 	}
 }

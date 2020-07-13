@@ -61,11 +61,11 @@
 					<tbody th:each="item, count: ${itemList}">
 						<tr>
 							<td>
-								<a href="#">
+								<a th:href="@{/showItemDetail(?itemId=${item.id})}">
 									<img th:src="@{'/img_curry/' + ${item.imagePath}}"
 										class="img-responsive img-rounded item-img-center" width="200" height="600">
 								</a><br>
-								<a href="#" th:text="${item.name}"></a><br>
+								<a th:href="@{/showItemDetail(?itemId=${item.id})}" th:text="${item.name}"></a><br>
 								<span class="price">&nbsp;М&nbsp;</span> <span th:text="${#numbers.formatInteger(item.priceM, 3, 'COMMA')} + '円(税抜)' "></span><br>
 								<span class="price">&nbsp;Ｌ</span> <span th:text="${#numbers.formatInteger(item.priceL, 3, 'COMMA')} + '円(税抜)' "></span><br>
 							</td>
