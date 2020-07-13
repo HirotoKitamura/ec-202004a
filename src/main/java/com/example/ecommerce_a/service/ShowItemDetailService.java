@@ -29,8 +29,8 @@ public class ShowItemDetailService {
 	 * @param itemID 取得する商品のid
 	 * @return 表示する商品情報
 	 */
-	public Item ShowItemDetail(Integer itemID) {
-		Item item = itemRepository.load(itemID);
+	public Item showItemDetail(Integer itemId) {
+		Item item = itemRepository.load(itemId);
 		item.setToppingList(toppingRepository.findAll());
 		return item;
 	}
