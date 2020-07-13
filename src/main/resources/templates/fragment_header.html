@@ -34,7 +34,7 @@
 						<a href="item_list_pizza.html" th:href="@{/logout}" class="navbar-link">ログアウト</a>&nbsp;&nbsp;
 						</span>
 						<span th:unless="${session.user}">
-						<a href="login.html" th:href="@{/toLogin}" class="navbar-link">ログイン</a>&nbsp;&nbsp;
+						<a href="login.html" th:href="@{/toLogin?from=header}" class="navbar-link">ログイン</a>&nbsp;&nbsp;
 						</span>
 					</p>
 				</div>

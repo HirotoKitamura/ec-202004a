@@ -23,7 +23,7 @@ public class Test {
 
 	@RequestMapping("")
 	public String index() {
-		session.setAttribute("user", "hinata");
+		session.invalidate();
 		return "item_detail";
 	}
 }
