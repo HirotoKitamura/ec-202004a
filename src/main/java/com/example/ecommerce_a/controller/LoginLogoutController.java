@@ -41,7 +41,7 @@ public class LoginLogoutController {
 	 */
 	@RequestMapping("toLogin")
 	public String toLogin(String from) {
-		session.setAttribute("from", from == null ? "cart" : "header");// nullだった場合は変更しないなどするといいかも
+		session.setAttribute("from", from);// nullだった場合は変更しないなどするといいかも
 		return "login";
 	}
 
@@ -67,7 +67,13 @@ public class LoginLogoutController {
 		if ("cart".equals(from)) {
 			return "redirect:/chuumonKakunin";
 		} else {
-			return "redirect:/showItems";
+			return "redirect:/";
 		}
+	}
+
+	@RequestMapping("logout")
+	public String logout() {
+		session.invalidate();
+		return "redirect:/";
 	}
 }

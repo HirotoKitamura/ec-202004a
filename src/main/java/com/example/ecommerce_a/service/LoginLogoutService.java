@@ -31,7 +31,6 @@ public class LoginLogoutService {
 	 * @return ログインユーザー 該当するユーザーがいない場合はnull
 	 */
 	public User login(String email, String password) {
-		System.out.println(encoder.encode("besabesa"));
 		User user = userRepository.findByEmail(email);
 		if (user != null && encoder.matches(password, user.getPassword())) {
 			return user;
