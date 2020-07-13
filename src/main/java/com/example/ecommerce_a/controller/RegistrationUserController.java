@@ -44,14 +44,16 @@ public class RegistrationUserController {
 	 * @return ユーザ登録画面(仮実装)
 	 */
 	@RequestMapping("/insert-user")
-	public String insertUser(@Validated RegistrationUserForm form,BindingResult result) {
-		
-		//バリデーション✅
-		if(result.hasErrors()) {
+	public String insertUser(@Validated RegistrationUserForm form, BindingResult result) {
+
+		if (registrationuserService.isExistEmail(form.getEmail())) {// 既存ユーザ
+			result.rejectValue("email", "", "そのメールアドレスは既に登録されています");
+			return index();
+			
+		} else if (result.hasErrors()) {// 他バリデーション
 			return index();
 		}
-		
-		//insert
+		// insert
 		registrationuserService.insertUser(form);
 
 		return "redirect:/toLogin";

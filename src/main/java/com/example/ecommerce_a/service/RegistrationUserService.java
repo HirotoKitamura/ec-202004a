@@ -30,4 +30,18 @@ public class RegistrationUserService {
 		
 		userRepository.insertUser(user);
 	}
+	
+	/**
+	 * 既存のメールアドレスかどうかを判定する．
+	 * 
+	 * @param email メールアドレス
+	 * @return 存在の有無（有:true/無:false）
+	 */
+	public boolean isExistEmail(String email) {
+		if(userRepository.findByEmail(email)== null) {
+			return false;
+		}else {
+			return true;
+		}
+	}
 }
