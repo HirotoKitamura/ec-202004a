@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.ecommerce_a.domain.Item;
 import com.example.ecommerce_a.repository.ItemRepository;
+import com.example.ecommerce_a.repository.ToppingRepository;
 
 /**
  * 商品詳細を表示するサービスクラス.
