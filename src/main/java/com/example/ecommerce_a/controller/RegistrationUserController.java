@@ -49,7 +49,11 @@ public class RegistrationUserController {
 		if (registrationuserService.isExistEmail(form.getEmail())) {// 既存ユーザ
 			result.rejectValue("email", "", "そのメールアドレスは既に登録されています");
 			return index();
-			
+
+		} else if (! form.getPassword().equals(form.getCheckpassword())) {// パスワード不一致
+			result.rejectValue("checkpassword", "", "パスワードと確認用パスワードが不一致です");
+			return index();
+
 		} else if (result.hasErrors()) {// 他バリデーション
 			return index();
 		}
