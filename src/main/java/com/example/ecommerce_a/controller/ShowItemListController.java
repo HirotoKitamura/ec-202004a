@@ -35,6 +35,7 @@ public class ShowItemListController {
 	public String showItemList(String name, String order, Model model) {
 		List<Item> itemList = service.showItemList(name, order);
 		model.addAttribute("itemList", itemList);
+		System.out.println(itemList.size());
 		return "item_list_curry";
 	}
 }

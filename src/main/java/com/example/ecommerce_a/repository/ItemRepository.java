@@ -43,11 +43,18 @@ public class ItemRepository {
 	 * @return 条件に合致する商品一覧
 	 */
 	public List<Item> findByFuzzyName(String name, String order) {
-		if (order == null) {
-			order = "";
+		if (name == null) {
+			name = "";
 		}
+		String sql = "select id, name, description, price_m, price_l, image_path, deleted "
+				+    "from items where name like :name ";
 		name = "%" + name + "%";
-		String sql = "select id, name, description, price_m, price_l, image_path, deleted from items where name like :name order by price :order;";
+		if ("desc".equals(order)) {
+			order = "order by price_m desc;";
+		} else {
+			order = "order by price_m;";
+		}
+		sql += order;
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", name).addValue("order", order);
 		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
 		return itemList;
