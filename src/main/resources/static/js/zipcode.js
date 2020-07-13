@@ -20,6 +20,7 @@ $(function() {
 			console.log("textStatus     : " + textStatus);
 			console.log("errorThrown    : " + errorThrown.message);
 		}).always(function(data) {
+			console.log("aaaaa")
 		});
 	})
 });

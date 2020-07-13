@@ -5,7 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ネットでピザ注文</title>
-<link  rel="stylesheet" th:href="@{/css/bootstrap.css}"  href="../static/css/bootstrap.css">
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}"
+	href="../static/css/bootstrap.css">
 <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -24,6 +25,7 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
+
 					<a class="navbar-brand" href="item_list_pizza.html"> <!-- 企業ロゴ --> <img
 						alt="main log" th:src="@{/img_pizza/header_logo.png}" height="35">
 					</a>
@@ -40,18 +42,21 @@
 			</div>
 			<!-- /.container-fluid -->
 		</nav>
-		
+
 		<!-- login form -->
 		<div class="row">
-			<div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-10 col-xs-12">
+			<div
+				class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-10 col-xs-12">
 				<div class="well">
-					<form method="post" action="item_list_pizza.html" th:action="@{/registration-user/insert-user}" th:object="${registrationUserForm}">
+					<form method="post" action="item_list_pizza.html"
+						th:action="@{/registration-user/insert-user}"
+						th:object="${registrationUserForm}">
 						<fieldset>
 							<legend>ユーザ登録</legend>
 							<div class="form-group">
-								<label for="inputName">名前:</label><label
-									class="control-label" style="color: red" for="inputError">名前を入力してください</label>
-								<input type="text" id="inputName" class="form-control"
+								<label for="inputName">名前:</label><label class="control-label"
+									style="color: red" for="inputError">名前を入力してください</label> <input
+									type="text" id="inputName" class="form-control"
 									placeholder="Name" th:field="*{name}">
 							</div>
 							<div class="form-group">
@@ -61,41 +66,36 @@
 									placeholder="Email" th:field="*{email}">
 							</div>
 							<div class="form-group">
-								<label for="inputZipcode">郵便番号:</label>
-								<label
+								<label for="inputZipcode">郵便番号:</label> <label
 									class="control-label" style="color: red" for="inputError">郵便番号を入力してください</label>
 									<input type="button" id="buttonZipcode" value="住所検索">
 								<input type="text" id="inputZipcode" class="form-control"
 									placeholder="Zipcode" th:field="*{zipcode}">
-								
 							</div>
 							<div class="form-group">
-								<label for="inputAddress">住所:</label>
-								<label
+								<label for="inputAddress">住所:</label> <label
 									class="control-label" style="color: red" for="inputError">住所を入力してください</label>
 								<input type="text" id="inputAddress" class="form-control"
 									placeholder="Address" th:field="*{address}">
 							</div>
 							<div class="form-group">
-								<label for="inputTel">電話番号:</label>
-								<label
-									class="control-label" style="color: red" for="inputError">電話番号を入力してください</label>
-								<input type="text" id="inputTel" class="form-control"
+								<label for="inputTel">電話番号:</label> <label class="control-label"
+									style="color: red" for="inputError">電話番号を入力してください</label> <input
+									type="text" id="inputTel" class="form-control"
 									placeholder="Tel" th:field="*{telephone}">
 							</div>
 							<div class="form-group">
-								<label for="inputPassword">パスワード:</label>
-								<label
+								<label for="inputPassword">パスワード:</label> <label
 									class="control-label" style="color: red" for="inputError">パスワードを入力してください</label>
 								<input type="text" id="inputPassword" class="form-control"
 									placeholder="Password" th:field="*{password}">
 							</div>
 							<div class="form-group">
-								<label for="inputConfirmationPassword">確認用パスワード:</label>
-								<label
+								<label for="inputConfirmationPassword">確認用パスワード:</label> <label
 									class="control-label" style="color: red" for="inputError">確認用パスワードを入力してください</label>
-								<input type="text" id="inputConfirmationPassword" class="form-control"
-									placeholder="Confirmation Password" th:field="*{checkpassword}">
+								<input type="text" id="inputConfirmationPassword"
+									class="form-control" placeholder="Confirmation Password"
+									th:field="*{checkpassword}">
 							</div>
 							<div class="form-group">
 								<button type="submit" class="btn btn-primary">登録</button>
@@ -110,8 +110,17 @@
 	</div>
 	<!-- end container -->
 	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/zipcode.js}"></script>
+	<script>
+		$(function() {
+			$("[type=reset]").on("click", function() {
+				for (let i = 0; i < 7; i++) {
+					$("input.form-control")[i].val("");
+				}
+			});
+		});
+	</script>
 </body>
 </html>
