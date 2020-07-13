@@ -72,18 +72,18 @@ public class OrderItemRepository {
 		template.update(sql, param);
 	}
 
-	/**
-	 * 注文IDから、注文商品一覧を取得する.
-	 * 
-	 * @param orderId　注文ID
-	 * @return　注文商品一覧
-	 */
-	public List<OrderItem> findByOrderId(Integer orderId) {
-		String sql = "select id,item_id,order_id,quantity,size from order_items "
-				+ "where order_id=:order_id order by id";
-		SqlParameterSource param = new MapSqlParameterSource("order_id",orderId);
-		List<OrderItem> orderItems = template.query(sql, param, ORDER_ITEM_ROW_MAPPER);
-		return orderItems;
-	}
+//	/**
+//	 * 注文IDから、注文商品一覧を取得する.
+//	 * 
+//	 * @param orderId　注文ID
+//	 * @return　注文商品一覧
+//	 */
+//	public List<OrderItem> findByOrderId(Integer orderId) {
+//		String sql = "select id,item_id,order_id,quantity,size from order_items "
+//				+ "where order_id=:order_id order by id";
+//		SqlParameterSource param = new MapSqlParameterSource("order_id",orderId);
+//		List<OrderItem> orderItems = template.query(sql, param, ORDER_ITEM_ROW_MAPPER);
+//		return orderItems;
+//	}
 
 }

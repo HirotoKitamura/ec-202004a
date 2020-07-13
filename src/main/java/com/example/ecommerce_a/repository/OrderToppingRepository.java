@@ -24,11 +24,15 @@ public class OrderToppingRepository {
 	/** 値をセットするRowMapper */
 	private final RowMapper<OrderTopping> OREDER_TOPPING_ROW_MAPPER = (rs, i) -> {
 		OrderTopping orderTopping = new OrderTopping();
-		orderTopping.setId(rs.getInt("id"));
+		Topping topping= new Topping();
+		orderTopping.setId(rs.getInt("ot_id"));
 		orderTopping.setToppingId(rs.getInt("topping_id"));
 		orderTopping.setOrderItemId(rs.getInt("order_item_id"));
+		topping.setId(rs.getInt("t_id"));
+		topping.setName(rs.getString("name"));
+		topping.setPriceM(rs.getInt("price_m"));
+		topping.setPriceL(rs.getInt("price_L"));
 
-		Topping topping = null;
 		orderTopping.setTopping(topping);
 
 		return orderTopping;
@@ -66,18 +70,20 @@ public class OrderToppingRepository {
 		
 	}
 	
-	/**
-	 * 注文商品IDから、注文トッピング情報一覧を取得する.
-	 * 
-	 * @param orderItemid 注文商品ID
-	 * @return　注文トッピング情報一覧
-	 */
-	public List<OrderTopping> findByOrderItemId(Integer orderItemid){
-		String sql="select id,topping_id,order_item_id from order_toppings "
-				+ "where order_item_id=:order_item_id order by id;";
-		SqlParameterSource param = new MapSqlParameterSource("order_item_id",orderItemid);
-		List<OrderTopping> orderToppings=template.query(sql,param , OREDER_TOPPING_ROW_MAPPER);
-		return orderToppings;
-	}
+//	/**
+//	 * 注文商品IDから、注文トッピング情報一覧を取得する.
+//	 * 
+//	 * @param orderItemid 注文商品ID
+//	 * @return　注文トッピング情報一覧
+//	 */
+//	public List<OrderTopping> findByOrderItemId(Integer orderItemId){
+//		String sql="select ot.id as ot_id,topping_id,order_item_id,t.id as t_id,name,price_m,price_l "
+//				+ " from order_toppings as ot"
+//				+ "left join toppings as t on ot.topping_id=t.id"
+//				+ "where order_item_id=:order_item_id order by ot.id;";
+//		SqlParameterSource param = new MapSqlParameterSource("order_item_id",orderItemId);
+//		List<OrderTopping> orderToppings=template.query(sql,param , OREDER_TOPPING_ROW_MAPPER);
+//		return orderToppings;
+//	}
 
 }
