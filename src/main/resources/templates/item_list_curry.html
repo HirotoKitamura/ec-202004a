@@ -71,6 +71,15 @@
 				</div>
 			</div>
 		</div>
+		
+		並び替え <br />
+		<form th:action="@{/showItemList}" method="post">
+		  <select name="order" id="">
+			<option value="asc">価格の安い順</option>
+			<option value="desc">価格の高い順</option>
+		</select>
+		<button>並び替え</button>
+		</form>
 
 		<!-- table -->
 		<div class="row">
