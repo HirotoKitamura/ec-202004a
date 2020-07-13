@@ -22,6 +22,21 @@ public class User {
 	/** 電話番号 */
 	private String telephone;
 
+	public User(Integer id, String name, String email, String password, String zipcode, String address,
+			String telephone) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.zipcode = zipcode;
+		this.address = address;
+		this.telephone = telephone;
+	}
+
+	public User() {
+	}
+
 	public Integer getId() {
 		return id;
 	}
