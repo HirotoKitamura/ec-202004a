@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.example.ecommerce_a.domain.User;
@@ -22,6 +23,9 @@ import com.example.ecommerce_a.domain.User;
 public class UserRepository {
 	@Autowired
 	NamedParameterJdbcTemplate template;
+	
+	@Autowired
+	PasswordEncoder encoder;
 
 	private static final RowMapper<User> USER_ROWMAPPER = new BeanPropertyRowMapper<User>(User.class);
 
@@ -50,9 +54,9 @@ public class UserRepository {
 	public void insertUser(User user) {
 		String sql = "INSERT INTO users(name,email,password,zipcode,address,telephone)"
 				+ " VALUES (:name,:email,:password,:zipcode,:address,:telephone);";
-
+		
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", user.getName())
-				.addValue("email", user.getEmail()).addValue("password", user.getPassword())
+				.addValue("email", user.getEmail()).addValue("password", encoder.encode(user.getPassword()))
 				.addValue("zipcode", user.getZipcode()).addValue("address", user.getAddress())
 				.addValue("telephone", user.getTelephone());
 
