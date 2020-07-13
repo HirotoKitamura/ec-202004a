@@ -28,8 +28,10 @@ public class ShowItemDetailController {
 	 * @param model リクエストスコープに値を渡すためのオブジェクト
 	 * @return 商品詳細ページ
 	 */
-	public String showItemDetail(Integer itemID, Model model) {
-		Item item = service.ShowItemDetail(itemID);
+	
+	@RequestMapping("")
+	public String showItemDetail(Integer itemId, Model model) {
+		Item item = service.showItemDetail(itemId);
 		model.addAttribute("item", item);
 		return "item_detail";
 	}
