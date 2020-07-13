@@ -45,6 +45,6 @@ public class RegistrationUserController {
 	public String insertUser(RegistrationUserForm form) {
 		registrationuserService.insertUser(form);
 
-		return "redirect:/registration-user";
+		return "redirect:/toLogin";
 	}
 }
