@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.ecommerce_a.domain.Item;
-import com.example.ecommerce_a.repository.ShowItemListService;
+import com.example.ecommerce_a.service.ShowItemListService;
 
 /**
  * 商品一覧表示と検索を行うコントローラクラス.

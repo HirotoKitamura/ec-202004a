@@ -1,4 +1,4 @@
-package com.example.ecommerce_a.repository;
+package com.example.ecommerce_a.service;
 
 import java.util.List;
 
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.ecommerce_a.domain.Item;
+import com.example.ecommerce_a.repository.ItemRepository;
 
 /**
  * 商品一覧表示と検索を行うサービスクラス.
