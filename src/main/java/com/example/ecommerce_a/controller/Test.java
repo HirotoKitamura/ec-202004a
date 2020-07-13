@@ -3,6 +3,8 @@ package com.example.ecommerce_a.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,14 +17,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  */
 @Controller
-@RequestMapping("")
+@RequestMapping("test")
 public class Test {
 
 	@Autowired
 	private HttpSession session;
+	@Autowired
+	MailSender sender;
 
 	@RequestMapping("")
 	public String index() {
-		return "item_detail";
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setFrom("sapec.tsukuba.ac.jp@gmail.com");
+		msg.setTo("hiroto.kitamura@rakus.co.jp");
+		msg.setSubject("テストメール");// タイトルの設定
+		msg.setText("Spring Boot より本文送信"); // 本文の設定
+		sender.send(msg);
+		return "redirect:/toLogin";
 	}
 }
