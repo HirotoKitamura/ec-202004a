@@ -2,6 +2,8 @@ package com.example.ecommerce_a.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -42,7 +44,14 @@ public class RegistrationUserController {
 	 * @return ユーザ登録画面(仮実装)
 	 */
 	@RequestMapping("/insert-user")
-	public String insertUser(RegistrationUserForm form) {
+	public String insertUser(@Validated RegistrationUserForm form,BindingResult result) {
+		
+		//バリデーション✅
+		if(result.hasErrors()) {
+			return index();
+		}
+		
+		//insert
 		registrationuserService.insertUser(form);
 
 		return "redirect:/registration-user";

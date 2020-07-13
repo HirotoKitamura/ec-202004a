@@ -1,5 +1,11 @@
 package com.example.ecommerce_a.form;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+
 /**
  * ユーザ登録情報のフォーム．
  * 
@@ -8,33 +14,36 @@ package com.example.ecommerce_a.form;
  */
 public class RegistrationUserForm {
 
-	/**
-	 * ユーザの名前．
-	 */
+	/** ユーザの名前． */
+	@NotBlank(message = "名前を入力してください")
 	private String name;
-	/**
-	 * メールアドレス．
-	 */
+
+	/** メールアドレス． */
+	@NotBlank(message = "メールアドレスを入力してください")
+	@Email(message = "メールアドレスの形式ではありません")
 	private String email;
-	/**
-	 * 郵便番号．
-	 */
+
+	/** 郵便番号． */
+	@NotBlank(message = "郵便番号を入力してください")
+	@Pattern(regexp = "^[0-9]{3}-[0-9]{4}$", message = "郵便番号はXXX-XXXXの形式で入力してください")
 	private String zipcode;
-	/**
-	 * 住所．
-	 */
+
+	/** 住所． */
+	@NotBlank(message = "住所を入力してください")
 	private String address;
-	/**
-	 * 電話番号．
-	 */
+
+	/** 電話番号． */
+	@NotBlank(message = "電話番号を入力してください")
+	@Pattern(regexp = "^[0-9]{2,4}-[0-9]{4}-[0-9]{4}$", message = "電話番号はXXXX-XXXX-XXXXの形式で入力してください")
 	private String telephone;
-	/**
-	 * パスワード．
-	 */
+
+	/** パスワード． */
+	@NotBlank(message = "パスワードを入力してください")
+	@Length(min = 8, max = 16, message = "パスワードは８文字以上１６文字以内で設定してください")
 	private String password;
-	/**
-	 * 確認用パスワード．
-	 */
+
+	/** 確認用パスワード． */
+	@NotBlank(message = "確認用パスワードを入力してください")
 	private String checkpassword;
 
 	public String getName() {

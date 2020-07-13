@@ -55,44 +55,44 @@
 							<legend>ユーザ登録</legend>
 							<div class="form-group">
 								<label for="inputName">名前:</label><label class="control-label"
-									style="color: red" for="inputError">名前を入力してください</label> <input
+									style="color: red" for="inputError" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">名前を入力してください</label> <input
 									type="text" id="inputName" class="form-control"
 									placeholder="Name" th:field="*{name}">
 							</div>
 							<div class="form-group">
 								<label for="inputEmail">メールアドレス:</label><label
-									class="control-label" style="color: red" for="inputError">メールアドレスを入力してください</label>
+									class="control-label" style="color: red" for="inputError" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">メールアドレスを入力してください</label>
 								<input type="text" id="inputEmail" class="form-control"
 									placeholder="Email" th:field="*{email}">
 							</div>
 							<div class="form-group">
 								<label for="inputZipcode">郵便番号:</label> <label
-									class="control-label" style="color: red" for="inputError">郵便番号を入力してください</label>
+									class="control-label" style="color: red" for="inputError" th:if="${#fields.hasErrors('zipcode')}" th:errors="*{zipcode}">郵便番号を入力してください</label>
 									<input type="button" id="buttonZipcode" value="住所検索">
 								<input type="text" id="inputZipcode" class="form-control"
 									placeholder="Zipcode" th:field="*{zipcode}">
 							</div>
 							<div class="form-group">
 								<label for="inputAddress">住所:</label> <label
-									class="control-label" style="color: red" for="inputError">住所を入力してください</label>
+									class="control-label" style="color: red" for="inputError" th:if="${#fields.hasErrors('address')}" th:errors="*{address}">住所を入力してください</label>
 								<input type="text" id="inputAddress" class="form-control"
 									placeholder="Address" th:field="*{address}">
 							</div>
 							<div class="form-group">
 								<label for="inputTel">電話番号:</label> <label class="control-label"
-									style="color: red" for="inputError">電話番号を入力してください</label> <input
+									style="color: red" for="inputError" th:if="${#fields.hasErrors('telephone')}" th:errors="*{telephone}">電話番号を入力してください</label> <input
 									type="text" id="inputTel" class="form-control"
 									placeholder="Tel" th:field="*{telephone}">
 							</div>
 							<div class="form-group">
 								<label for="inputPassword">パスワード:</label> <label
-									class="control-label" style="color: red" for="inputError">パスワードを入力してください</label>
+									class="control-label" style="color: red" for="inputError" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">パスワードを入力してください</label>
 								<input type="text" id="inputPassword" class="form-control"
 									placeholder="Password" th:field="*{password}">
 							</div>
 							<div class="form-group">
 								<label for="inputConfirmationPassword">確認用パスワード:</label> <label
-									class="control-label" style="color: red" for="inputError">確認用パスワードを入力してください</label>
+									class="control-label" style="color: red" for="inputError"  th:if="${#fields.hasErrors('checkpassword')}" th:errors="*{checkpassword}">確認用パスワードを入力してください</label>
 								<input type="text" id="inputConfirmationPassword"
 									class="form-control" placeholder="Confirmation Password"
 									th:field="*{checkpassword}">
