@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>注文履歴</title>
+<link rel="stylesheet" th:href="@{/css/piza.css}">
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+	<div class="container">
+		<div th:include="fragment_header::frag_header">
+		</div>
+				<div class="row">
+			<div
+				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+				<h3 class="text-center">注文履歴</h3>
+				<table class="table table-striped item-list-table">
+					<tbody>
+						<tr>
+							<th>
+								<div class="text-center">
+									注文日時
+								</div>
+							</th>
+							<th>
+								<div class="text-center">
+									注文商品
+								</div>
+							</th>
+							<th>
+								<div class="text-center">
+									小計
+								</div>
+							</th>
+							<th>
+								<div class="text-center">
+									税込価格
+								</div>
+							</th>
+						</tr>
+						<tr>
+							<td>
+								<div class="text-center">
+									2020-07-04
+								</div>
+							</td>
+							<td>
+									<ul>
+										<li>カレー</li>
+										<li>カツカレー</li>
+										<li>冷やし中華</li>
+									</ul>
+							</td>
+							<td>
+								<div class="text-center">
+									2,800円
+								</div>
+							</td>
+							<td>
+								<div class="text-center">
+									3,080円
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="text-center">
+									2020-07-04
+								</div>
+							</td>
+							<td>
+									<ul>
+										<li>カレー</li>
+										<li>カツカレー</li>
+										<li>冷やし中華</li>
+									</ul>
+							</td>
+							<td>
+								<div class="text-center">
+									2,800円
+								</div>
+							</td>
+							<td>
+								<div class="text-center">
+									3,080円
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- end container -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>
