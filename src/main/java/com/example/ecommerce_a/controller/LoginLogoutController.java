@@ -67,13 +67,13 @@ public class LoginLogoutController {
 		if ("cart".equals(from)) {
 			return "redirect:/chuumonKakunin";
 		} else {
-			return "redirect:/";
+			return "redirect:/showItemList";
 		}
 	}
 
 	@RequestMapping("logout")
 	public String logout() {
 		session.invalidate();
-		return "redirect:/";
+		return "redirect:/showItemList";
 	}
 }

@@ -54,6 +54,6 @@ public class RegistrationUserController {
 		//insert
 		registrationuserService.insertUser(form);
 
-		return "redirect:/registration-user";
+		return "redirect:/toLogin";
 	}
 }
