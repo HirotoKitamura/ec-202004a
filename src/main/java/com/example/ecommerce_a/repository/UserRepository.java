@@ -42,4 +42,21 @@ public class UserRepository {
 		}
 		return userList.get(0);
 	}
+
+	/**
+	 * ユーザ情報を登録する．
+	 * 
+	 * @param user ユーザ情報
+	 */
+	public void insertUser(User user) {
+		String sql = "INSERT INTO users(name,email,password,zipcode,address,telephone)"
+				+ " VALUES (:name,:email,:password,:zipcode,:address,:telephone);";
+
+		SqlParameterSource param = new MapSqlParameterSource().addValue("name", user.getName())
+				.addValue("email", user.getEmail()).addValue("password", user.getPassword())
+				.addValue("zipcode", user.getZipcode()).addValue("address", user.getAddress())
+				.addValue("telephone", user.getTelephone());
+
+		template.update(sql, param);
+	}
 }
