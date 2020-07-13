@@ -14,9 +14,17 @@ import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.OrderItem;
 import com.example.ecommerce_a.domain.User;
 
+/**
+ * 注文テーブルを操作するリポジトリ.
+ * 
+ * @author hyoga.ito
+ *
+ */
 @Repository
 public class OrderRepository {
 	
+	
+	/** 値セット用RowMapper */
 	private final RowMapper<Order> ORDER_ROW_MAPPER =(rs,i)->{
 		Order order=new Order();
 		order.setId(rs.getInt("id"));
@@ -44,9 +52,15 @@ public class OrderRepository {
 		
 	};
 	
+	/** SQL実行用変数 */
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
+	/**
+	 * 注文情報を挿入する.
+	 * 
+	 * @param order 注文内容
+	 */
 	public void insert(Order order) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
 		
@@ -61,6 +75,12 @@ public class OrderRepository {
 		template.update(sql, param);
 	}
 	
+	/**
+	 * ユーザーIDとステータス（0=注文前）から、注文情報を取得する.
+	 * 
+	 * @param userId ユーザーID
+	 * @return　注文情報
+	 */
 	public Order findByUserIdAndStatus0(Integer userId) {
 		String sql="id,select user_id,status,total_price,order_date," 
 					+ "destination_name,destination_email,destination_zipcode,"  

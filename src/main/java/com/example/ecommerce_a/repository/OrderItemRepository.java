@@ -14,8 +14,15 @@ import com.example.ecommerce_a.domain.Item;
 import com.example.ecommerce_a.domain.OrderItem;
 import com.example.ecommerce_a.domain.OrderTopping;
 
+/**
+ * 注文商品情報を操作するリポジトリ.
+ * 
+ * @author hyoga.ito
+ *
+ */
 @Repository
 public class OrderItemRepository {
+	/** 値をセットするRowMapper */
 	private final RowMapper<OrderItem> ORDER_ITEM_ROW_MAPPER = (rs, i) -> {
 		OrderItem orderItem = new OrderItem();
 		orderItem.setId(rs.getInt("id"));
@@ -37,9 +44,15 @@ public class OrderItemRepository {
 
 	};
 
+	/** SQL実行用変数 */
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 
+	/**
+	 * 注文商品情報を挿入する.
+	 * 
+	 * @param orderItem 注文商品情報
+	 */
 	public void insert(OrderItem orderItem) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(orderItem);
 		String sql = "inset into order_items(item_id,order_id,quantity,size) values"
@@ -48,12 +61,23 @@ public class OrderItemRepository {
 		template.update(sql, param);
 	}
 
+	/**
+	 * 注文商品IDから、注文商品情報を削除する.
+	 * 
+	 * @param id 注文商品ID
+	 */
 	public void deleteById(Integer id) {
 		String sql = "delete from order_items where id=:id";
 		SqlParameterSource param = new MapSqlParameterSource("id", id);
 		template.update(sql, param);
 	}
 
+	/**
+	 * 注文IDから、注文商品一覧を取得する.
+	 * 
+	 * @param orderId　注文ID
+	 * @return　注文商品一覧
+	 */
 	public List<OrderItem> findByOrderId(Integer orderId) {
 		String sql = "select id,item_id,order_id,quantity,size from order_items "
 				+ "where order_id=:order_id order by id";
