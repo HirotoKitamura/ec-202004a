@@ -89,9 +89,13 @@
 	<script>
 		$(function() {
 			$("[type=reset]").on("click", function() {
-				for (let i = 0; i < 7; i++) {
-					$("input.form-control")[i].val("");
-				}
+				$("input.form-control#inputName").val("");
+				$("input.form-control#inputEmail").val("");
+				$("input.form-control#inputZipcode").val("");
+				$("input.form-control#inputAddress").val("");
+				$("input.form-control#inputTel").val("");
+				$("input.form-control#inputPassword").val("");
+				$("input.form-control#ConfirmationPassword").val("");
 			});
 		});
 	</script>
