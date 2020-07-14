@@ -42,9 +42,9 @@ public class Order {
 	 * 支払い方法 TODO 余裕があればEnumに変更する。
 	 * 
 	 * 1:代金引換 2:クレジットカード
-	 * 
 	 */
-	private Integer payment_method;
+	private Integer paymentMethod;
+
 	/** ユーザー */
 	private User user;
 	/** 注文商品リスト */
@@ -164,12 +164,12 @@ public class Order {
 		this.deliveryTime = deliveryTime;
 	}
 
-	public Integer getPayment_method() {
-		return payment_method;
+	public Integer getPaymentMethod() {
+		return paymentMethod;
 	}
 
-	public void setPayment_method(Integer payment_method) {
-		this.payment_method = payment_method;
+	public void setPaymentMethod(Integer paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 
 	public User getUser() {
@@ -194,7 +194,7 @@ public class Order {
 				+ ", orderDate=" + orderDate + ", destinationName=" + destinationName + ", destinationEmail="
 				+ destinationEmail + ", destinationZipcode=" + destinationZipcode + ", destinationAddress="
 				+ destinationAddress + ", destinationTell=" + destinationTell + ", deliveryTime=" + deliveryTime
-				+ ", payment_method=" + payment_method + ", user=" + user + ", orderItemList=" + orderItemList + "]";
+				+ ", payment_method=" + paymentMethod + ", user=" + user + ", orderItemList=" + orderItemList + "]";
 	}
 
 }
