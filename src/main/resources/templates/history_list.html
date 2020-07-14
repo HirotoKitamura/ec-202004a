@@ -136,7 +136,7 @@
 						<tr th:each="order:${orderList}">
 							<td>
 								<div class="text-center">
-									<a th:text="${order.orderDate}" th:href="@{'/showHistoryDetail'+${order.id}}" style="text-decoration: underline;">2020-07-04</a>
+									<a th:text="${order.orderDate}" th:href="@{'/showHistoryDetail?id='+${order.id}}" style="text-decoration: underline;">2020-07-04</a>
 								</div>
 							</td>
 							<td>
