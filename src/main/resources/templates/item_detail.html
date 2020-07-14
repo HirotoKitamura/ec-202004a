@@ -59,10 +59,10 @@
 									</label>
 								</div>
 								<div class="col-sm-12" >
-								
+								<input type="checkbox" id="allCheck">全てチェックする
 									<div th:each="topping : ${item.toppingList}">
 									  <label class="checkbox-inline" id="topping-check">
-									    <input type="checkbox" value="" th:text="${topping.name}">
+									    <input type="checkbox" th:value="${topping.id}" th:text="${topping.name}">
 									  </label>
 									</div>
 								</div>
@@ -127,5 +127,6 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script th:src="@{/js/bootstrap.min.js}"></script>
 	<script th:src="@{/js/changeprice.js}"></script>
+	<script th:src="@{/js/allcheck.js}"></script>
 </body>
 </html>
