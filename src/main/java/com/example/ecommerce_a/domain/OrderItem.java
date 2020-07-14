@@ -16,13 +16,34 @@ public class OrderItem {
 	/** 注文ID */
 	private Integer orderId;
 	/** 数量 */
-	private Integer quantitiy;
+	private Integer quantity;
 	/** サイズ */
 	private Character size;
 	/** 商品 */
 	private Item item;
 	/** 注文トッピングリスト */
 	private List<OrderTopping> orderToppingList;
+
+	/**
+	 * 小計を計算.
+	 * 
+	 * @return 小計
+	 */
+	public Integer getSubTotal() {
+		int subTotal = 0;
+		if (size == 'M') {
+			subTotal += item.getPriceM() * quantity;
+			for (OrderTopping topping : orderToppingList) {
+				subTotal += topping.getTopping().getPriceM();
+			}
+		} else {
+			subTotal += item.getPriceL() * quantity;
+			for (OrderTopping topping : orderToppingList) {
+				subTotal += topping.getTopping().getPriceL();
+			}
+		}
+		return subTotal;
+	}
 
 	public Integer getId() {
 		return id;
@@ -49,11 +70,11 @@ public class OrderItem {
 	}
 
 	public Integer getQuantitiy() {
-		return quantitiy;
+		return quantity;
 	}
 
 	public void setQuantitiy(Integer quantitiy) {
-		this.quantitiy = quantitiy;
+		this.quantity = quantitiy;
 	}
 
 	public Character getSize() {
@@ -82,7 +103,7 @@ public class OrderItem {
 
 	@Override
 	public String toString() {
-		return "OrderItem [id=" + id + ", itemId=" + itemId + ", orderId=" + orderId + ", quantitiy=" + quantitiy
+		return "OrderItem [id=" + id + ", itemId=" + itemId + ", orderId=" + orderId + ", quantitiy=" + quantity
 				+ ", size=" + size + ", item=" + item + ", orderToppingList=" + orderToppingList + "]";
 	}
 
