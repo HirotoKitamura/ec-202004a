@@ -19,14 +19,14 @@ import com.example.ecommerce_a.service.ShowItemListService;
 @Controller
 @RequestMapping("showItemList")
 public class ShowItemListController {
-	
+
 	@Autowired
 	private ShowItemListService service;
-	
+
 	/**
 	 * 商品一覧表示と検索を行う.
 	 * 
-	 * @param name 検索ワード
+	 * @param name  検索ワード
 	 * @param order 表示順(デフォルトでは価格の安い順になるように設定)
 	 * @param model リクエストスコープに値を格納するためのオブジェクト
 	 * @return 商品一覧ページ
@@ -38,6 +38,9 @@ public class ShowItemListController {
 			model.addAttribute("message", "該当する商品がありません");
 			itemList = service.showItemList("", order);
 		}
+		// オートコンプリート用にJavaScriptの配列の中身を文字列で作ってスコープへ格納
+		StringBuilder itemListForAutocomplete = service.getItemListForAutocomplete(itemList);
+		model.addAttribute("itemListForAutocomplete", itemListForAutocomplete);
 		model.addAttribute("itemList", itemList);
 		return "item_list_curry";
 	}
