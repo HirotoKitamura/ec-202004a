@@ -1,7 +1,10 @@
 package com.example.ecommerce_a.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.example.ecommerce_a.domain.Order;
 
 /**
  * 注文履歴のコントローラー.
@@ -30,8 +33,10 @@ public class OrderHistoryController {
 	 * @return 注文履歴の詳細画面
 	 */
 	@RequestMapping("showHistoryDetail")
-	public String showHistoryDetail(Integer orderId) {
-		// ここに諸々の処理を書く
+	public String showHistoryDetail(Integer orderId, Model model) {
+		Order order = new Order();
+//		order.setTotalPrice(700);
+		model.addAttribute("order", order);
 		return "history_detail";
 	}
 }

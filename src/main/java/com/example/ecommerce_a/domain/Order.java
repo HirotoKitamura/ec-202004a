@@ -56,7 +56,11 @@ public class Order {
 	 * @return 消費税
 	 */
 	public Integer getTax() {
-		return (int) (totalPrice * 0.08);
+		try {
+			return (int) (totalPrice * 0.08);
+		} catch (Exception e) {
+			return null;
+		}
 	};
 
 	/**
@@ -65,7 +69,11 @@ public class Order {
 	 * @return 税込価格
 	 */
 	public Integer getCalcTotalPrice() {
-		return (int) (totalPrice + getTax());
+		try {
+			return (int) (totalPrice + getTax());
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	public Integer getId() {
