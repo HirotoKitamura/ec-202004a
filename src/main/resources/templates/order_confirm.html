@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<link th:href="@{/css/piza.css}" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -11,7 +13,7 @@
 		<div class="row">
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
-				<h3 class="text-center">ショッピングカート</h3>
+				<h3 class="text-center">注文内容確認</h3>
 				<table class="table table-striped item-list-table">
 					<tbody>
 						<tr>
@@ -61,11 +63,6 @@
 									<span th:text="${#numbers.formatInteger(orderItem.subTotal,0,'COMMA')}"></span>円
 								</div>
 							</td>
-							<td>
-								<div class="text-center">
-									<a th:href="@{'/deleteItem?id='+${orderItem.id}}" class="btn btn-primary">削除</a>
-								</div>
-							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -79,6 +76,194 @@
 				</div>
 			</div>
 		</div>
+		<form action="order_finished.html">
+			<div class="row">
+				<div
+					class="table-responsive col-lg-offset-3 col-lg-6 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+					<h3 class="text-center">お届け先情報</h3>
+					<table class="table table-striped item-list-table">
+						<tbody>
+							<tr>
+								<td>
+									<div class="text-center">
+										お名前
+									</div>
+								</td>
+								<td>
+									<input type="text">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="text-center">
+										メールアドレス
+									</div>
+								</td>
+								<td>
+									<input type="text">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="text-center">
+										郵便番号
+									</div>
+								</td>
+								<td>
+									<input type="text">&nbsp;&nbsp;<button>住所検索</button>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="text-center">
+										住所
+									</div>
+								</td>
+								<td>
+									<input type="text">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="text-center">
+										電話番号
+									</div>
+								</td>
+								<td>
+									<input type="text">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="text-center">
+										配達日時
+									</div>
+								</td>
+								<td>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-12">
+												<label
+													class="control-label" style="color: red" for="inputPeriod">配達日時を入力してください</label>
+											</div>
+											<div class="col-sm-5">
+												<input type="date" name="name" id="name"
+													class="form-control input-sm" />
+											</div>
 
+										</div>
+										<div class="row">
+											<div class="col-sm-12">
+												<label class="radio-inline">
+													<input type="radio"
+														name="responsibleCompany" checked="checked">
+													10時
+												</label>
+												<label class="radio-inline">
+													<input type="radio"
+														name="responsibleCompany">
+													11時
+												</label>
+												<label class="radio-inline">
+													<input type="radio"
+														name="responsibleCompany">
+													12時
+												</label><br>
+												<label class="radio-inline">
+													<input type="radio"
+														name="responsibleCompany">
+													13時
+												</label>
+												<label class="radio-inline">
+													<input type="radio"
+														name="responsibleCompany">
+													14時
+												</label>
+												<label class="radio-inline">
+													<input type="radio"
+														name="responsibleCompany">
+													15時
+												</label><br>
+												<label class="radio-inline">
+													<input type="radio"
+														name="responsibleCompany">
+													16時
+												</label>
+												<label class="radio-inline">
+													<input type="radio"
+														name="responsibleCompany">
+													17時
+												</label>
+												<label class="radio-inline">
+													<input type="radio"
+														name="responsibleCompany">
+													18時
+												</label><br>
+											</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<!-- table -->
+			<div class="row">
+				<div
+					class="table-responsive col-lg-offset-3 col-lg-6 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+					<h3 class="text-center">お支払い方法</h3>
+					<table class="table table-striped item-list-table">
+						<tbody>
+							<tr>
+								<td>
+									<div class="text-center">
+										代金引換
+									</div>
+								</td>
+								<td>
+									<div class="row">
+										<div class="col-sm-12">
+											<label class="radio-inline">
+												<input type="radio"
+													name="responsibleCompany" checked="checked">
+												代金引換
+											</label>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="text-center">
+										クレジットカード決済
+									</div>
+								</td>
+								<td align="center">
+									<div class="row">
+										<div class="col-sm-12">
+											<label class="radio-inline">
+												<input type="radio"
+													name="responsibleCompany" checked="checked">
+												クレジットカード
+											</label><br><br>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-offset-4 col-xs-4">
+					<div class="form-group">
+						<input class="form-control btn btn-warning btn-block" type="submit" value="この内容で注文する">
+					</div>
+				</div>
+			</div>
+		</form>
+</div>
 </body>
 </html>
