@@ -54,11 +54,13 @@
 		<button>並び替え</button>
 		</form>
 
+        <span th:if="${message} != null" th:text="${message}"></span> <br />
 		<!-- table -->
 		<div class="row">
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 				<table class="table table-striped item-list-table">
+				
 					<tbody th:each="item, count: ${itemList}">
 						<tr>
 							<td>
