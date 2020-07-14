@@ -1,9 +1,6 @@
 package com.example.ecommerce_a.repository;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,7 +8,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.example.ecommerce_a.domain.OrderTopping;
-import com.example.ecommerce_a.domain.Topping;
 
 /**
  * 注文トッピング情報を操作するリポジトリ.
@@ -21,23 +17,23 @@ import com.example.ecommerce_a.domain.Topping;
  */
 @Repository
 public class OrderToppingRepository {
-	/** 値をセットするRowMapper */
-	private final RowMapper<OrderTopping> OREDER_TOPPING_ROW_MAPPER = (rs, i) -> {
-		OrderTopping orderTopping = new OrderTopping();
-		Topping topping= new Topping();
-		orderTopping.setId(rs.getInt("ot_id"));
-		orderTopping.setToppingId(rs.getInt("topping_id"));
-		orderTopping.setOrderItemId(rs.getInt("order_item_id"));
-		topping.setId(rs.getInt("t_id"));
-		topping.setName(rs.getString("name"));
-		topping.setPriceM(rs.getInt("price_m"));
-		topping.setPriceL(rs.getInt("price_L"));
-
-		orderTopping.setTopping(topping);
-
-		return orderTopping;
-
-	};
+//	/** 値をセットするRowMapper */
+//	private final RowMapper<OrderTopping> OREDER_TOPPING_ROW_MAPPER = (rs, i) -> {
+//		OrderTopping orderTopping = new OrderTopping();
+//		Topping topping= new Topping();
+//		orderTopping.setId(rs.getInt("ot_id"));
+//		orderTopping.setToppingId(rs.getInt("topping_id"));
+//		orderTopping.setOrderItemId(rs.getInt("order_item_id"));
+//		topping.setId(rs.getInt("t_id"));
+//		topping.setName(rs.getString("name"));
+//		topping.setPriceM(rs.getInt("price_m"));
+//		topping.setPriceL(rs.getInt("price_L"));
+//
+//		orderTopping.setTopping(topping);
+//
+//		return orderTopping;
+//
+//	};
 
 	/** SQL実行用変数 */
 	@Autowired
@@ -52,7 +48,7 @@ public class OrderToppingRepository {
 
 		SqlParameterSource param = new BeanPropertySqlParameterSource(orderTopping);
 		String sql = "insert into order_toppings(topping_id,order_item_id) " 
-					+ "values(:topping_id,:order_item_id);";
+					+ "values(:toppingId,:orderItemId);";
 
 		template.update(sql, param);
 

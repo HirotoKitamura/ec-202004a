@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -68,7 +69,7 @@ public class OrderRepository {
 				orderItem.setId(rs.getInt("oi_id"));
 				orderItem.setItemId(rs.getInt("item_id"));
 				orderItem.setOrderId(rs.getInt("order_id"));
-				orderItem.setQuantitiy(rs.getInt("quantity"));
+				orderItem.setQuantity(rs.getInt("quantity"));
 				char[] chars=rs.getString("size").toCharArray();
 				orderItem.setSize(chars[0]);
 				
@@ -116,6 +117,12 @@ public class OrderRepository {
 		
 	};
 	
+	
+	private final RowMapper<Integer> MIN_ID_ROW_MAPPER=(rs,i)->{
+		 Integer minId=rs.getInt("minId");
+		 return minId;
+	};
+	
 	/** SQL実行用変数 */
 	@Autowired
 	private NamedParameterJdbcTemplate template;
@@ -131,21 +138,21 @@ public class OrderRepository {
 		String sql="insert into orders(user_id,status,total_price,order_date,"
 				+ "destination_name,destination_email,destination_zipcode,"
 				+ "destination_address,destination_tel,delivery_time,"
-				+ "payment_method)  values(:user_id,:status"
-				+ ":total_price,:order_date,:destination_name,:destination_email,"
-				+ ":destination_zipcode,:destination_address,:destination_tel,"
-				+ ":delivery_time,:payment_method);";
+				+ "payment_method) "
+				+ "values(:userId,:status,:totalPrice,:orderDate,:destinationName,"
+				+ ":destinationEmail,:destinationZipcode,:destinationAddress,"
+				+ ":destinationTell,:deliveryTime,:paymentMethod);";
 
 		template.update(sql, param);
 	}
 	
 	/**
-	 * ユーザーIDとステータス（0=注文前）から、注文情報を取得する.
+	 * ユーザーIDとステータスから、注文情報を取得する.
 	 * 
 	 * @param userId ユーザーID
 	 * @return　注文情報
 	 */
-	public Order findByUserIdAndStatus0(Integer userId) {
+	public Order findByUserIdAndStatus(Integer userId,Integer status) {
 		String sql="select o.id as o_id,user_id,status,total_price,order_date," 
 					+ "destination_name,destination_email,destination_zipcode,"  
 					+ "destination_address,destination_tel,delivery_time,payment_method,"
@@ -157,15 +164,27 @@ public class OrderRepository {
 					+ "t.price_m as t_price_m,t.price_l as t_price_l "
 					+ "from orders as o left join order_items as oi on o.id=oi.order_id "
 					+ "left join items as i on oi.item_id=i.id "
-					+ "left join order_toppings as ot on oi.id=ot.order_topping_id "
-					+ "left join toppings as t on t.id=ot.item_id"
-					+ "where user_id=:user_id and status=0;";
-		SqlParameterSource param = new MapSqlParameterSource("user_id",userId);
+					+ "left join order_toppings as ot on oi.id=ot.order_item_id "
+					+ "left join toppings as t on t.id=ot.topping_id "
+					+ "where user_id=:userId and status=:status;";
+		
+		SqlParameterSource param = new MapSqlParameterSource("userId",userId).addValue("status", status);
 		
 		Order order=template.query(sql, param, ORDER_RS_EXT);
 		
 		return order;
 		
+	}
+	
+	/**
+	 * 最小のユーザーIDを取得する.
+	 * 
+	 * @return 最小のユーザーID
+	 */
+	public Integer findMinUserId() {
+		String sql="select min(id) as minId from orders";
+		List<Integer> minIds=template.query(sql, MIN_ID_ROW_MAPPER);
+		return minIds.get(0);
 	}
 	
 }

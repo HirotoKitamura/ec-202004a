@@ -69,11 +69,11 @@ public class OrderItem {
 		this.orderId = orderId;
 	}
 
-	public Integer getQuantitiy() {
+	public Integer getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantitiy(Integer quantitiy) {
+	public void setQuantity(Integer quantitiy) {
 		this.quantity = quantitiy;
 	}
 
