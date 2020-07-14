@@ -34,8 +34,11 @@ public class ShowItemListController {
 	@RequestMapping("")
 	public String showItemList(String name, String order, Model model) {
 		List<Item> itemList = service.showItemList(name, order);
+		if (itemList.size() == 0) {
+			model.addAttribute("message", "該当する商品がありません");
+			itemList = service.showItemList("", order);
+		}
 		model.addAttribute("itemList", itemList);
-		System.out.println(itemList.size());
 		return "item_list_curry";
 	}
 }
