@@ -19,6 +19,11 @@ $(function() {
 	$($(".radio-inline")).on("change", function() {
 		printTotalPrice();
 	})
+	
+	$("#allcheck").on('change', function() {
+		$("input[type=checkbox]").prop('checked', this.checked);
+		printTotalPrice();
+	})
 
 	$("#topping-check input[type='checkbox']").on("click", function() {
 		printTotalPrice();
@@ -40,7 +45,6 @@ $(function() {
 		var toppingCount = $("#topping-check input[type='checkbox']:checked").length;
 		var count = Number($("#curry-count").val());
 		var totalToppingPrice = toppingPrice * toppingCount;
-		// addition doesn't work.
 		var totalPrice = (basePrice + totalToppingPrice) * count;
 		$("#total-price").text(totalPrice.toLocaleString());
 	}
