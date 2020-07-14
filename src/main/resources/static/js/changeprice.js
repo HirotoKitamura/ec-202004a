@@ -47,6 +47,7 @@ $(function() {
 		var totalToppingPrice = toppingPrice * toppingCount;
 		var totalPrice = (basePrice + totalToppingPrice) * count;
 		$("#total-price").text(totalPrice.toLocaleString());
+		$("#form-total-price").val(totalPrice);
 	}
 
 })
