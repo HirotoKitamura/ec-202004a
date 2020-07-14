@@ -28,11 +28,15 @@ public class OrderHistoryService {
 	public List<Order> searchOrdersOfLoginUser() {
 		User user = (User) session.getAttribute("user");
 		List<Order> orderList = repository.findOrdersByUser(user.getId());
-		for (int i = 0; i < orderList.size(); i++) {
-			if (orderList.get(i) == null) {
-				orderList.remove(i);
-			}
-		}
 		return orderList;
+	}
+
+	/**
+	 * ユーザーIDから注文情報を取得する.
+	 * 
+	 * @return 注文情報
+	 */
+	public Order searchOrdersByOrderId(Integer orderId) {
+		return repository.findByOrderId(orderId);
 	}
 }

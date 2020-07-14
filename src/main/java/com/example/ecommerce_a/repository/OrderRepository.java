@@ -221,6 +221,30 @@ public class OrderRepository {
 	}
 
 	/**
+	 * 注文IDから注文情報を取得.
+	 * 
+	 * @param orderId 注文ID
+	 * @return 注文情報
+	 */
+	public Order findByOrderId(Integer orderId) {
+		String sql = "select o.id as o_id,user_id,status,total_price,order_date,"
+				+ "destination_name,destination_email,destination_zipcode,"
+				+ "destination_address,destination_tel,delivery_time,payment_method,"
+				+ "oi.id as oi_id,item_id,order_id,quantity,size,"
+				+ "i.id as i_id,i.name as i_name,description,i.price_m as i_price_m,"
+				+ "i.price_l as i_price_l,image_path,deleted," + "ot.id as ot_id,topping_id,order_item_id,"
+				+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l "
+				+ "from orders as o left join order_items as oi on o.id=oi.order_id "
+				+ "left join items as i on oi.item_id=i.id "
+				+ "left join order_toppings as ot on oi.id=ot.order_item_id "
+				+ "left join toppings as t on t.id=ot.topping_id "
+				+ "where o.id = :orderId and status!=0 and status!=9;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("orderId", orderId);
+		return template.query(sql, param, ORDER_RS_EXT);
+
+	}
+
+	/**
 	 * 最小のユーザーIDを取得する.
 	 * 
 	 * @return 最小のユーザーID

@@ -38,14 +38,12 @@ public class OrderHistoryController {
 	/**
 	 * 注文履歴の詳細画面を表示する.
 	 * 
-	 * @param orderId 注文ID
-	 * @return 注文履歴の詳細画面
+	 * @param id 注文ID
+	 * @return 注文履歴の表示画面
 	 */
 	@RequestMapping("showHistoryDetail")
-	public String showHistoryDetail(Integer orderId, Model model) {
-		Order order = new Order();
-//		order.setTotalPrice(700);
-		model.addAttribute("order", order);
+	public String showHistoryDetail(Model model, Integer id) {
+		model.addAttribute("order", service.searchOrdersByOrderId(id));
 		return "history_detail";
 	}
 }
