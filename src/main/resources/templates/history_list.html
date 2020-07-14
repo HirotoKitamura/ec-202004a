@@ -49,7 +49,7 @@
 						<tr th:each="order:${orderList}">
 							<td>
 								<div class="text-center">
-									<a th:text="${order.orderDate}" th:href="@{'/showHistoryDetail?id='+${order.id}}" style="text-decoration: underline;">2020-07-04</a>
+									<a th:text="${order.orderDate==null?'未入力':order.orderDate}" th:href="@{'/showHistoryDetail?id='+${order.id}}" style="text-decoration: underline;">2020-07-04</a>
 								</div>
 							</td>
 							<td>
@@ -68,9 +68,10 @@
 								</div>
 							</td>
 							<td>
-								<div class="text-center" th:text="${order.status}">
-									入金済
-								</div>
+								<div class="text-center" th:if="${order.status==1}" th:text="未入金"></div>
+								<div class="text-center" th:if="${order.status==2}" th:text="入金済"></div>
+								<div class="text-center" th:if="${order.status==3}" th:text="発送済"></div>
+								<div class="text-center" th:if="${order.status==4}" th:text="発送完了"></div>
 							</td>
 						</tr>
 					</tbody>

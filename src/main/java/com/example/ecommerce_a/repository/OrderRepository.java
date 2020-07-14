@@ -195,7 +195,7 @@ public class OrderRepository {
 	public List<Order> findOrdersByUser(Integer userId) {
 		List<Order> result = new ArrayList<>();
 
-		String sql = "select id from orders where user_id=:userId;";
+		String sql = "select id from orders where user_id=:userId order by id;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
 		List<Integer> orderIdList = template.queryForList(sql, param, Integer.class);
 		String sql2 = "select o.id as o_id,user_id,status,total_price,order_date,"
