@@ -19,6 +19,11 @@ $(function() {
 	$($(".radio-inline")).on("change", function() {
 		printTotalPrice();
 	})
+	
+	$("#allcheck").on('change', function() {
+		$("input[type=checkbox]").prop('checked', this.checked);
+		printTotalPrice();
+	})
 
 	$("#topping-check input[type='checkbox']").on("click", function() {
 		printTotalPrice();
