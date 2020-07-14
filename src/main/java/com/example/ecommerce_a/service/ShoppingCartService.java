@@ -59,7 +59,7 @@ public class ShoppingCartService {
 	 * @param form 入力されたフォーム
 	 */
 	public void insertItemIntoShoppingCart(InsertItemInShoppingForm form) {
-		
+
 		User user = (User) session.getAttribute("user");
 		session.setAttribute("userId", user.getId());
 
@@ -70,23 +70,28 @@ public class ShoppingCartService {
 
 		int userId = Integer.parseInt("" + session.getAttribute("userId"));
 
+		Order order = orderRepository.findByUserIdAndStatus(userId, 0);
+
 		if (orderRepository.findByUserIdAndStatus(userId, 0) == null) {
-			Order order = new Order();
+			order = new Order();
 			order.setUserId(userId);
 			order.setStatus(0);
-			order.setTotalPrice(0);
-			orderRepository.insert(order);
+			order.setTotalPrice(0);// TODO 後で正しい値に修正
+			order = orderRepository.insert(order);
+
 		}
 
 		OrderItem orderItem = new OrderItem();
 		orderItem.setItemId(form.getItemId());
-		orderItem.setOrderId(orderRepository.findByUserIdAndStatus(userId, 0).getId());
+		orderItem.setOrderId(order.getId());
+		orderItem.setQuantity(form.getQuantity());
 		orderItem.setSize(form.getSize());
-		orderItemRepository.insert(orderItem);
+		orderItem = orderItemRepository.insert(orderItem);
 
 		for (Integer toppingId : form.getToppingIds()) {
 			OrderTopping orderTopping = new OrderTopping();
 			orderTopping.setToppingId(toppingId);
+			orderTopping.setOrderItemId(orderItem.getId());
 			orderToppingRepository.insert(orderTopping);
 		}
 

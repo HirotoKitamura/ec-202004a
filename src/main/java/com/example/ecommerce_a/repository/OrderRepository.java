@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.example.ecommerce_a.domain.Item;
@@ -132,7 +134,7 @@ public class OrderRepository {
 	 * 
 	 * @param order 注文内容
 	 */
-	public void insert(Order order) {
+	public Order insert(Order order) {
 		SqlParameterSource param = new BeanPropertySqlParameterSource(order);
 		
 		String sql="insert into orders(user_id,status,total_price,order_date,"
@@ -142,8 +144,14 @@ public class OrderRepository {
 				+ "values(:userId,:status,:totalPrice,:orderDate,:destinationName,"
 				+ ":destinationEmail,:destinationZipcode,:destinationAddress,"
 				+ ":destinationTell,:deliveryTime,:paymentMethod);";
-
-		template.update(sql, param);
+		
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		String[] keyColumnNames = {"id"};
+		template.update(sql, param,keyHolder,keyColumnNames);
+		
+		order.setId(keyHolder.getKey().intValue());
+		
+		return order;
 	}
 	
 	/**
