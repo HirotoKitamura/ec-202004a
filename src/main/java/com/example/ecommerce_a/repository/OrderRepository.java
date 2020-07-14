@@ -203,4 +203,17 @@ public class OrderRepository {
 		return minIds.get(0);
 	}
 	
+	/**
+	 * 注文時にordersテーブルの内容を更新する
+	 * 
+	 */
+	public void update(Integer userId, Integer status) {
+		String sql = "update orders set status= :status, order_date = :orderDate, "
+				   + "destination_name = :destinationName, destination_email= :destinationEmail, "
+				   + "destination_zipcode = :destinationZipcode, destination_address = :destinationAddress, "
+				   + "destination_tel = :destinationTel, delivery_time = :deliveryTime, payment_method = :paymentMethod "
+				   + "where user_id = :userId and status = :status;";
+		template.update(sql, param);
+    }
+	
 }
