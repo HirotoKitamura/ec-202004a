@@ -40,7 +40,6 @@ $(function() {
 		var toppingCount = $("#topping-check input[type='checkbox']:checked").length;
 		var count = Number($("#curry-count").val());
 		var totalToppingPrice = toppingPrice * toppingCount;
-		// addition doesn't work.
 		var totalPrice = (basePrice + totalToppingPrice) * count;
 		$("#total-price").text(totalPrice.toLocaleString());
 	}
