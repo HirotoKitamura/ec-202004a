@@ -83,7 +83,7 @@ public class ShoppingCartService {
 			order = new Order();
 			order.setUserId(userId);
 			order.setStatus(0);
-			order.setTotalPrice(0);// TODO 後で正しい値に修正
+			order.setTotalPrice(form.getTotalPrice());// TODO 後で正しい値に修正
 			order = orderRepository.insert(order);
 			List<OrderItem> orderItems=new ArrayList<>();
 			order.setOrderItemList(orderItems);
