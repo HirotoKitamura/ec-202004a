@@ -65,7 +65,7 @@ public class LoginLogoutController {
 		String from = (String) session.getAttribute("from");
 		session.removeAttribute("from");
 		if ("cart".equals(from)) {
-			return "redirect:/chuumonKakunin";
+			return "redirect:/showOrderConfirm";
 		} else {
 			return "redirect:/showItemList";
 		}
