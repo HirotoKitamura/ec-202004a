@@ -15,111 +15,11 @@
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 				<h3 class="text-center">注文履歴詳細</h3>
 				<h4 class="text-center" style="font-weight: bold;">
-					現在の状態:<span style="color: blue;" th:text="'ここにステータスが入る'+${order.status}">未入金</span>
+					現在の状態:<span class="text-center" th:if="${order.status==1}" th:text="未入金"></span>
+								<span class="text-center" th:if="${order.status==2}" th:text="入金済"></span>
+								<span class="text-center" th:if="${order.status==3}" th:text="発送済"></span>
+								<span class="text-center" th:if="${order.status==4}" th:text="発送完了"></span>
 				</h4>
-				<table class="table table-striped item-list-table">
-					<tbody>
-						<tr>
-							<th>
-								<div class="text-center">
-									商品名
-								</div>
-							</th>
-							<th>
-								<div class="text-center">
-									サイズ、価格(税抜)、数量
-								</div>
-							</th>
-							<th>
-								<div class="text-center">
-									トッピング、価格(税抜)
-								</div>
-							</th>
-							<th>
-								<div class="text-center">
-									小計
-								</div>
-							</th>
-						</tr>
-						<tr>
-							<td>
-								<div class="center">
-									<img src="../static/img_pizza/1.jpg"
-										class="img-responsive img-rounded item-img-center" width="100" height="300"><br>
-									じゃがバターベーコン
-								</div>
-							</td>
-							<td>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-								&nbsp;&nbsp;1個
-							</td>
-							<td>
-								<ul>
-									<li>ピーマン300円</li>
-									<li>オニオン300円</li>
-									<li>あらびきソーセージ300円</li>
-								</ul>
-							</td>
-							<td>
-								<div class="text-center">
-									3,280円
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div class="center">
-									<img src="../static/img_pizza/1.jpg"
-										class="img-responsive img-rounded item-img-center" width="100" height="300"><br>
-									じゃがバターベーコン
-								</div>
-							</td>
-							<td>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-								&nbsp;&nbsp;1個
-							</td>
-							<td>
-								<ul>
-									<li>ピーマン300円</li>
-									<li>オニオン300円</li>
-									<li>あらびきソーセージ300円</li>
-								</ul>
-							</td>
-							<td>
-								<div class="text-center">
-									3,280円
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div class="center">
-									<a th:href="@{/showItemDetail(itemId=1)}">
-									<img th:src="@{'/img_curry/1/jpg'}"
-										class="img-responsive img-rounded item-img-center" width="200" height="600">
-									</a><br>
-									<a th:href="@{/showItemDetail(itemId=1)}" th:text="じゃがバターベーコン"></a>
-								</div>
-							</td>
-							<td>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-								&nbsp;&nbsp;1個
-							</td>
-							<td>
-								<ul>
-									<li>ピーマン300円</li>
-									<li>オニオン300円</li>
-									<li>あらびきソーセージ300円</li>
-								</ul>
-							</td>
-							<td>
-								<div class="text-center">
-									3,280円
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
 				<table class="table table-striped item-list-table">
 					<tbody>
 						<tr>
@@ -151,17 +51,19 @@
 									<img th:src="@{'/img_curry/' + ${orderItem.item.imagePath}}"
 										class="img-responsive img-rounded item-img-center" width="200" height="600">
 									</a><br>
+								</div>
+								<div class="text-center">
 									<a th:href="@{/showItemDetail(itemId=${orderItem.item.id})}" th:text="${orderItem.item.name}"></a>
 								</div>
 							</td>
-							<td>
+							<td><div class="text-center">
 								<span class="price" th:text="'&nbsp;'+${orderItem.size}"></span>&nbsp;&nbsp;
 								<span th:text="${#numbers.formatInteger(orderItem.size=='M'?orderItem.item.priceM:orderItem.item.priceL,0,'COMMA')}"></span>円&nbsp;&nbsp;
 								<span th:text="${orderItem.quantity}"></span>個
-							</td>
+							</div></td>
 							<td>
 								<ul>
-									<li th:each="orderTopping:${orderItem.orderToppingList}" th:text="${orderTopping.topping.name}+${orderItem.size=='M'?orderTopping.topping.priceM:orderTopping.topping.priceL}">ピーマン300円</li>
+									<li th:each="orderTopping:${orderItem.orderToppingList}" th:text="${orderTopping.topping.name}+${orderItem.size=='M'?orderTopping.topping.priceM:orderTopping.topping.priceL}+'円'">ピーマン300円</li>
 								</ul>
 							</td>
 							<td>
