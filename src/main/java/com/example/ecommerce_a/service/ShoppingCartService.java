@@ -1,9 +1,13 @@
 package com.example.ecommerce_a.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.OrderItem;
@@ -21,6 +25,7 @@ import com.example.ecommerce_a.repository.OrderToppingRepository;
  *
  */
 @Service
+@Transactional
 public class ShoppingCartService {
 	/** リポジトリの参照を注入 */
 	@Autowired
@@ -45,7 +50,7 @@ public class ShoppingCartService {
 	 * @return 注文情報
 	 */
 	public Order findByuserIdAndStatus0() {
-
+		
 		if (session.getAttribute("userId") != null) {
 			Order order = orderRepository.findByUserIdAndStatus((int) session.getAttribute("userId"), 0);
 			return order;
@@ -61,11 +66,13 @@ public class ShoppingCartService {
 	public void insertItemIntoShoppingCart(InsertItemInShoppingForm form) {
 
 		User user = (User) session.getAttribute("user");
-		session.setAttribute("userId", user.getId());
 
-		if (session.getAttribute("userId") == null) {
+		if (user == null && session.getAttribute("userId") == null) {
 
 			session.setAttribute("userId", (orderRepository.findMinUserId() - 1));
+		}else if(session.getAttribute("userId") == null){
+		
+			session.setAttribute("userId", user.getId());
 		}
 
 		int userId = Integer.parseInt("" + session.getAttribute("userId"));
@@ -78,6 +85,8 @@ public class ShoppingCartService {
 			order.setStatus(0);
 			order.setTotalPrice(0);// TODO 後で正しい値に修正
 			order = orderRepository.insert(order);
+			List<OrderItem> orderItems=new ArrayList<>();
+			order.setOrderItemList(orderItems);
 
 		}
 
@@ -87,12 +96,19 @@ public class ShoppingCartService {
 		orderItem.setQuantity(form.getQuantity());
 		orderItem.setSize(form.getSize());
 		orderItem = orderItemRepository.insert(orderItem);
+		List<OrderTopping> orderToppings=new ArrayList<>();
+		orderItem.setOrderToppingList(orderToppings);
+		
+		order.getOrderItemList().add(orderItem);
+		//orderItems.add(orderItem);
 
 		for (Integer toppingId : form.getToppingIds()) {
 			OrderTopping orderTopping = new OrderTopping();
 			orderTopping.setToppingId(toppingId);
 			orderTopping.setOrderItemId(orderItem.getId());
 			orderToppingRepository.insert(orderTopping);
+			orderItem.getOrderToppingList().add(orderTopping);
+			
 		}
 
 	}

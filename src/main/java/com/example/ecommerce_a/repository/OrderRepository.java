@@ -42,32 +42,40 @@ public class OrderRepository {
 		Item item = null;
 		Topping topping = null;
 		
-		if(rs.next()) {
-		order=new Order();
-		order.setId(rs.getInt("o_id"));
-		order.setUserId(rs.getInt("user_id"));
-		order.setStatus(rs.getInt("status"));
-		order.setTotalPrice(rs.getInt("total_price"));
-		order.setOrderDate(rs.getDate("order_date"));
-		order.setDestinationName(rs.getString("destination_name"));
-		order.setDestinationEmail(rs.getString("destination_email"));
-		order.setDestinationZipcode(rs.getString("destination_zipcode"));
-		order.setDestinationAddress(rs.getString("destination_address"));
-		order.setDestinationTell(rs.getString("destination_tel"));
-		order.setDeliveryTime(rs.getTimestamp("delivery_time"));
-		order.setPaymentMethod(rs.getInt("payment_method"));
-		// TODO　正しい値をセットする（サービスでやるかも）
-		User user=null;
-		order.setUser(user);
-		}
+		boolean firstRs=true;
 		
 		int beforeOrderItemId = -1;
 		
 		while(rs.next()) {
+			if(firstRs) {
+				order=new Order();
+				order.setId(rs.getInt("o_id"));
+				order.setUserId(rs.getInt("user_id"));
+				order.setStatus(rs.getInt("status"));
+				order.setTotalPrice(rs.getInt("total_price"));
+				order.setOrderDate(rs.getDate("order_date"));
+				order.setDestinationName(rs.getString("destination_name"));
+				order.setDestinationEmail(rs.getString("destination_email"));
+				order.setDestinationZipcode(rs.getString("destination_zipcode"));
+				order.setDestinationAddress(rs.getString("destination_address"));
+				order.setDestinationTell(rs.getString("destination_tel"));
+				order.setDeliveryTime(rs.getTimestamp("delivery_time"));
+				order.setPaymentMethod(rs.getInt("payment_method"));
+				// TODO　正しい値をセットする（サービスでやるかも）
+				User user=null;
+				order.setUser(user);
+				order.setOrderItemList(orderItems);
+				
+				firstRs=false;
+			
+			}
+			
 			int nowOrderItemId=rs.getInt("oi_id");
 			
 			if(beforeOrderItemId != nowOrderItemId) {
 				orderItem=new OrderItem();
+				orderToppings=new ArrayList<>();
+				toppings = new ArrayList<>();
 				orderItem.setId(rs.getInt("oi_id"));
 				orderItem.setItemId(rs.getInt("item_id"));
 				orderItem.setOrderId(rs.getInt("order_id"));
