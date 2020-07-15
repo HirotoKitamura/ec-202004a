@@ -19,7 +19,10 @@
 	<div class="container">
 		<div th:include="fragment_header::frag_header"></div>
 
-		<div style="text-align: center;">メンテナンス中です</div>
+		<h3 style="text-align: center;">ログアウトされているか、不正な遷移が行われています</h3><br>
+		<h4 style="text-align: center;">商品一覧画面は<a th:href="@{/showItemList}">こちら</a></h4>
+		<h4 th:unless="${session.user}" style="text-align: center;">ログイン画面は<a th:href="@{/toLogin}">こちら</a></h4><br>
+		<h5 style="text-align: center;">他のページでもこの文章が表示される場合、メンテナンス中の可能性があります</h5>
 
 		<!-- end container -->
 	</div>
