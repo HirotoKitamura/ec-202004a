@@ -51,4 +51,11 @@ public class OrderHistoryController {
 		model.addAttribute("order", service.searchOrdersByOrderId(id));
 		return "history_detail";
 	}
+	
+	@RequestMapping("cancel")
+	public String cancel(Integer orderId) {
+		service.cancel(orderId);
+		return "redirect:/showOrderHistory";
+		
+	}
 }
