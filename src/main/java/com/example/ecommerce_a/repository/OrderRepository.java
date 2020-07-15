@@ -258,5 +258,17 @@ public class OrderRepository {
 		List<Integer> minIds = template.query(sql, MIN_ID_ROW_MAPPER);
 		return minIds.get(0);
 	}
+	
+	/**
+	 * ユーザーIDをログイン前のものからログイン後のものに更新する.
+	 * 
+	 * @param guestId ログイン前のID
+	 * @param userId　ログイン後のID
+	 */
+	public void updateUserId(Integer guestId, Integer userId) {
+		String sql="update orders set user_id=:userId where user_id=:guestId and status=0;";
+		SqlParameterSource param=new MapSqlParameterSource("userId",userId).addValue("guestId", guestId);
+		template.update(sql, param);
+	}
 
 }
