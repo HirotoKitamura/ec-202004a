@@ -17,12 +17,10 @@ public class InsertToppingForm {
 	/**
 	 * Mサイズの値段.
 	 */
-	@NotBlank(message = "価格を入力してください")
 	private Integer priceM;
 	/**
 	 * Lサイズの値段.
 	 */
-	@NotBlank(message = "価格を入力してください")
 	private Integer priceL;
 
 	public String getName() {
