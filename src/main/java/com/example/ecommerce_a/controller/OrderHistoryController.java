@@ -1,5 +1,7 @@
 package com.example.ecommerce_a.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,8 @@ import com.example.ecommerce_a.service.OrderHistoryService;
 public class OrderHistoryController {
 	@Autowired
 	OrderHistoryService service;
+	@Autowired
+	HttpSession session;
 
 	/**
 	 * 注文履歴の一覧画面を表示する.
@@ -27,7 +31,9 @@ public class OrderHistoryController {
 	 */
 	@RequestMapping("showOrderHistory")
 	public String showOrderHistory(Model model) {
-		System.out.println(service.searchOrdersOfLoginUser());
+		if (session.getAttribute("user") == null) {
+			return "redirect:/toLogin";
+		}
 		for (Order order : service.searchOrdersOfLoginUser()) {
 			System.out.println(order);
 		}
@@ -43,6 +49,9 @@ public class OrderHistoryController {
 	 */
 	@RequestMapping("showHistoryDetail")
 	public String showHistoryDetail(Model model, Integer id) {
+		if (session.getAttribute("user") == null) {
+			return "redirect:/toLogin";
+		}
 		model.addAttribute("order", service.searchOrdersByOrderId(id));
 		return "history_detail";
 	}
