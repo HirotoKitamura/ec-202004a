@@ -6,6 +6,7 @@ import java.util.Base64;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.ecommerce_a.domain.Item;
@@ -22,6 +23,7 @@ import com.example.ecommerce_a.repository.ToppingRepository;
  *
  */
 @Service
+@Transactional
 public class AdministerService {
 	@Autowired
 	private ItemRepository itemRepository;
@@ -52,12 +54,22 @@ public class AdministerService {
 	}
 
 	/**
-	 * 商品に削除フラグを立てる.
+	 * 商品を削除する.
 	 * 
 	 * @param id 商品ID
 	 */
 	public void deleteItem(Integer id) {
 		itemRepository.deleteItem(id);
+	}
+
+	/**
+	 * 商品の削除フラグを変更する.
+	 * 
+	 * @param id      商品ID
+	 * @param deleted 削除フラグ
+	 */
+	public void setDeleteFlag(Integer id, boolean deleted) {
+		itemRepository.setDeleteFlag(id, deleted);
 	}
 
 	/**

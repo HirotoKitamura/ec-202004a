@@ -139,7 +139,7 @@ public class OrderRepository {
 	/** SQL実行用変数 */
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-	
+
 	/** SQL実行用変数(パラメータなし） */
 	@Autowired
 	private JdbcTemplate noParamTemplate;
@@ -270,16 +270,21 @@ public class OrderRepository {
 	 */
 	public void update(Order order) {
 		String sql = "update orders set status= :status, total_price = :totalPrice, order_date = :orderDate, "
-				   + "destination_name = :destinationName, destination_email= :destinationEmail, "
-				   + "destination_zipcode = :destinationZipcode, destination_address = :destinationAddress, "
-				   + "destination_tel = :destinationTel, delivery_time = :deliveryTime, payment_method = :paymentMethod "
-				   + "where id = :id;";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("status", order.getStatus()).addValue("totalPrice", order.getTotalPrice()).addValue("orderDate", order.getOrderDate())
-				.addValue("destinationName", order.getDestinationName()).addValue("destinationEmail", order.getDestinationEmail()).addValue("destinationZipcode", order.getDestinationZipcode())
-				.addValue("destinationAddress", order.getDestinationAddress()).addValue("destinationTel", order.getDestinationTell())
-				.addValue("deliveryTime", order.getDeliveryTime()).addValue("paymentMethod", order.getPaymentMethod()).addValue("id", order.getId());
+				+ "destination_name = :destinationName, destination_email= :destinationEmail, "
+				+ "destination_zipcode = :destinationZipcode, destination_address = :destinationAddress, "
+				+ "destination_tel = :destinationTel, delivery_time = :deliveryTime, payment_method = :paymentMethod "
+				+ "where id = :id;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("status", order.getStatus())
+				.addValue("totalPrice", order.getTotalPrice()).addValue("orderDate", order.getOrderDate())
+				.addValue("destinationName", order.getDestinationName())
+				.addValue("destinationEmail", order.getDestinationEmail())
+				.addValue("destinationZipcode", order.getDestinationZipcode())
+				.addValue("destinationAddress", order.getDestinationAddress())
+				.addValue("destinationTel", order.getDestinationTel()).addValue("deliveryTime", order.getDeliveryTime())
+				.addValue("paymentMethod", order.getPaymentMethod()).addValue("id", order.getId());
 		template.update(sql, param);
-    }
+	}
+
 	/**
 	 * ユーザーIDをログイン前のものからログイン後のものに更新する.
 	 * 
@@ -291,18 +296,17 @@ public class OrderRepository {
 		SqlParameterSource param = new MapSqlParameterSource("userId", userId).addValue("guestId", guestId);
 		template.update(sql, param);
 	}
-	
+
 	/**
 	 * ログインしていないユーザーが発行したユーザーIDに関連する注文情報を削除する.
 	 *
 	 */
 	public void deleteNotLoginUsersOrder() {
-		
-		String sql="WITH deleted AS (DELETE FROM orders WHERE user_id < 0 RETURNING id)," 
-				+"deleted2 AS (DELETE FROM order_items" 
-				+"where order_id IN (SELECT id FROM deleted) RETURNING id)"
+
+		String sql = "WITH deleted AS (DELETE FROM orders WHERE user_id < 0 RETURNING id),"
+				+ "deleted2 AS (DELETE FROM order_items" + "where order_id IN (SELECT id FROM deleted) RETURNING id)"
 				+ "DELETE FROM order_toppings WHERE order_item_id IN (SELECT id FROM deleted2);";
-		
+
 		noParamTemplate.update(sql);
 	}
 
