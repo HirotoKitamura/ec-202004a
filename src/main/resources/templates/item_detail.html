@@ -18,7 +18,7 @@
 				<input type="hidden" th:value="${item.id}" name="itemId">
 				<div class="row">
 					<div class="col-xs-5">
-						<img th:src="@{'/img_curry/' + ${item.imagePath}}" class="img-responsive img-rounded item-img-center">
+						<img th:src="${#strings.endsWith(item.imagePath,'.jpg')}?@{'/img_curry/'+${item.imagePath}}:@{${item.imagePath}}" class="img-responsive img-rounded item-img-center">
 					</div>
 
 					<div class="col-xs-5">
