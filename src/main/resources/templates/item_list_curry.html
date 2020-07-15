@@ -50,9 +50,11 @@
 
 		並び替え <br />
 		<form th:action="@{/showItemList}" method="post">
-			<select name="order" id="">
-				<option value="asc">価格の安い順</option>
-				<option value="desc">価格の高い順</option>
+			<select name="order" id="" >
+				<option value="priceasc">価格の安い順</option>
+				<option value="pricedesc">価格の高い順</option>
+				<option value="iddesc">新着順</option>
+				<option value="idasc">古い順</option>
 			</select>
 			<button>並び替え</button>
 		</form>
