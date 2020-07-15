@@ -2,6 +2,7 @@ package com.example.ecommerce_a.service;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,5 +91,14 @@ public class AdministerService {
 	 */
 	public void deleteTopping(Integer id) {
 		toppingRepository.deleteTopping(id);
+	}
+
+	/**
+	 * トッピングを全件検索.
+	 * 
+	 * @return トッピングのリスト
+	 */
+	public List<Topping> searchAllToppings() {
+		return toppingRepository.findAll();
 	}
 }

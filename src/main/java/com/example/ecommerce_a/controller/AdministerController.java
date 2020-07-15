@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.ecommerce_a.domain.Item;
+import com.example.ecommerce_a.domain.Topping;
 import com.example.ecommerce_a.form.InsertItemForm;
 import com.example.ecommerce_a.form.InsertToppingForm;
 import com.example.ecommerce_a.service.AdministerService;
@@ -137,9 +138,42 @@ public class AdministerController {
 		return "delete_item";
 	}
 
+	/**
+	 * 商品を削除する.
+	 * 
+	 * @param id 商品ID
+	 * @return 商品削除画面
+	 */
 	@RequestMapping("deleteItem")
 	public String deleteItem(Integer id) {
 		adminService.deleteItem(id);
 		return "redirect:/administer/toDeleteItem";
+	}
+
+	/**
+	 * トッピング削除画面を表示する.
+	 * 
+	 * @return トッピング削除画面
+	 */
+	@RequestMapping("toDeleteTopping")
+	public String toDeleteTopping(Model model) {
+		List<Topping> toppingList = adminService.searchAllToppings();
+		model.addAttribute("toppingList", toppingList);
+		if (toppingList.size() == 0) {
+			model.addAttribute("message", "登録されているトッピングがありません");
+		}
+		return "delete_topping";
+	}
+
+	/**
+	 * トッピングを削除する.
+	 * 
+	 * @param id トッピングID
+	 * @return トッピング削除画面
+	 */
+	@RequestMapping("deleteTopping")
+	public String deleteTopping(Integer id) {
+		adminService.deleteTopping(id);
+		return "redirect:/administer/toDeleteTopping";
 	}
 }
