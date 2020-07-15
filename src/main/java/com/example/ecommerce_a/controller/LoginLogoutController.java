@@ -76,6 +76,11 @@ public class LoginLogoutController {
 		}
 	}
 
+	/**
+	 * ログアウトする.
+	 * 
+	 * @return 商品一覧画面
+	 */
 	@RequestMapping("logout")
 	public String logout() {
 		session.invalidate();

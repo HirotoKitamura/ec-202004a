@@ -35,7 +35,7 @@ public class Order {
 	/** 宛先住所 */
 	private String destinationAddress;
 	/** 宛先電話番号 */
-	private String destinationTell;
+	private String destinationTel;
 	/** 配達時間 */
 	private Timestamp deliveryTime;
 	/**
@@ -75,7 +75,7 @@ public class Order {
 		for (OrderItem orderItem : orderItemList) {
 			totalSub += orderItem.getSubTotal();
 		}
-		return totalSub+getTax();
+		return totalSub + getTax();
 	}
 
 	public Integer getId() {
@@ -103,7 +103,13 @@ public class Order {
 	}
 
 	public Integer getTotalPrice() {
-		return totalPrice;
+		int totalSub = 0;
+		if (orderItemList != null) {
+			for (OrderItem orderItem : orderItemList) {
+				totalSub += orderItem.getSubTotal();
+			}
+		}
+		return totalSub;
 	}
 
 	public void setTotalPrice(Integer totalPrice) {
@@ -150,12 +156,12 @@ public class Order {
 		this.destinationAddress = destinationAddress;
 	}
 
-	public String getDestinationTell() {
-		return destinationTell;
+	public String getDestinationTel() {
+		return destinationTel;
 	}
 
 	public void setDestinationTell(String destinationTell) {
-		this.destinationTell = destinationTell;
+		this.destinationTel = destinationTell;
 	}
 
 	public Timestamp getDeliveryTime() {
@@ -195,7 +201,7 @@ public class Order {
 		return "Order [id=" + id + ", userId=" + userId + ", status=" + status + ", totalPrice=" + totalPrice
 				+ ", orderDate=" + orderDate + ", destinationName=" + destinationName + ", destinationEmail="
 				+ destinationEmail + ", destinationZipcode=" + destinationZipcode + ", destinationAddress="
-				+ destinationAddress + ", destinationTell=" + destinationTell + ", deliveryTime=" + deliveryTime
+				+ destinationAddress + ", destinationTell=" + destinationTel + ", deliveryTime=" + deliveryTime
 				+ ", payment_method=" + paymentMethod + ", user=" + user + ", orderItemList=" + orderItemList + "]";
 	}
 

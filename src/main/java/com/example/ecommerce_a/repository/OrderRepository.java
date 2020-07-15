@@ -80,13 +80,13 @@ public class OrderRepository {
 				orderItem.setOrderId(rs.getInt("order_id"));
 				orderItem.setQuantity(rs.getInt("quantity"));
 
-				if(rs.getString("size")!=null) {
-					char[] chars=rs.getString("size").toCharArray();
+				if (rs.getString("size") != null) {
+					char[] chars = rs.getString("size").toCharArray();
 					orderItem.setSize(chars[0]);
-				}else {
+				} else {
 					orderItem.setSize(null);
 				}
-				item=new Item();
+				item = new Item();
 				item.setId(rs.getInt("i_id"));
 				item.setName(rs.getString("i_name"));
 				item.setDescription(rs.getString("description"));
@@ -152,7 +152,7 @@ public class OrderRepository {
 				+ "destination_address,destination_tel,delivery_time," + "payment_method) "
 				+ "values(:userId,:status,:totalPrice,:orderDate,:destinationName,"
 				+ ":destinationEmail,:destinationZipcode,:destinationAddress,"
-				+ ":destinationTell,:deliveryTime,:paymentMethod);";
+				+ ":destinationTel,:deliveryTime,:paymentMethod);";
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		String[] keyColumnNames = { "id" };
@@ -258,16 +258,16 @@ public class OrderRepository {
 		List<Integer> minIds = template.query(sql, MIN_ID_ROW_MAPPER);
 		return minIds.get(0);
 	}
-	
+
 	/**
 	 * ユーザーIDをログイン前のものからログイン後のものに更新する.
 	 * 
 	 * @param guestId ログイン前のID
-	 * @param userId　ログイン後のID
+	 * @param userId  ログイン後のID
 	 */
 	public void updateUserId(Integer guestId, Integer userId) {
-		String sql="update orders set user_id=:userId where user_id=:guestId and status=0;";
-		SqlParameterSource param=new MapSqlParameterSource("userId",userId).addValue("guestId", guestId);
+		String sql = "update orders set user_id=:userId where user_id=:guestId and status=0;";
+		SqlParameterSource param = new MapSqlParameterSource("userId", userId).addValue("guestId", guestId);
 		template.update(sql, param);
 	}
 
