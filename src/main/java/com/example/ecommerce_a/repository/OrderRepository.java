@@ -271,4 +271,28 @@ public class OrderRepository {
 		template.update(sql, param);
 	}
 
+	/**
+	 * 注文IDをログイン前の注文番号からログイン後の注文番号に更新する.
+	 * 
+	 * @param guestId ログイン前のID
+	 * @param userId  ログイン後のID
+	 */
+	public void updateOrderId(Integer guestId, Integer userId) {
+		String sql = "update order_items set order_id = (select id from orders where user_id = :userId and status = 0) "
+				+ "where order_id = (select id from orders where user_id = :guestId and status = 0)";
+		SqlParameterSource param = new MapSqlParameterSource("userId", userId).addValue("guestId", guestId);
+		template.update(sql, param);
+	}
+
+	/**
+	 * 指定されたユーザーIDの注文を削除する.
+	 * 
+	 * @param guestId ログイン前のID
+	 */
+	public void deleteOrder(Integer guestId) {
+		String sql = "delete from orders where user_id = :guestId and status = 0;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("guestId", guestId);
+		template.update(sql, param);
+	}
+
 }
