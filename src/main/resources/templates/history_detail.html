@@ -15,10 +15,17 @@
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 				<h3 class="text-center">注文履歴詳細</h3>
 				<h4 class="text-center" style="font-weight: bold;">
-					現在の状態:<span class="text-center" th:if="${order.status==1}" th:text="未入金"></span>
-								<span class="text-center" th:if="${order.status==2}" th:text="入金済"></span>
+					現在の状態:<span class="text-center" th:if="${order.status==1}">
+								<span th:text="未入金"></span><br>
+								<a th:href="@{/}"> キャンセルはこちら</a>
+								</span>
+								<span class="text-center" th:if="${order.status==2}">
+								<span th:text="入金済"></span><br>
+								<a th:href="@{/}"> キャンセルはこちら</a>
+								</span>
 								<span class="text-center" th:if="${order.status==3}" th:text="発送済"></span>
 								<span class="text-center" th:if="${order.status==4}" th:text="発送完了"></span>
+								<span class="text-center" th:if="${order.status==9}" th:text="キャンセル"></span>
 				</h4>
 				<table class="table table-striped item-list-table">
 					<tbody>
