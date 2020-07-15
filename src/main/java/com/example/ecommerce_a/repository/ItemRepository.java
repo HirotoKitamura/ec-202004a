@@ -50,12 +50,24 @@ public class ItemRepository {
 		String sql = "select id, name, description, price_m, price_l, image_path, deleted "
 				+ "from items where name like :name ";
 		name = "%" + name + "%";
-		if ("desc".equals(order)) {
+		if ("iddesc".equals(order)) {// 新着順--id降順desc
+			order = "order by id desc;";
+
+		} else if ("idasc".equals(order)) {// 古い順--id昇順asc
+			order = "order by id asc;";
+
+		} else if ("pricedesc".equals(order)) {// 価格の高い順
 			order = "order by price_m desc;";
-		} else {
+
+		} else if ("priceasc".equals(order)) {// 価格の安い順
+			order = "order by price_m asc;";
+
+		} else {// 初期動作
 			order = "order by price_m;";
 		}
+
 		sql += order;
+		
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", name).addValue("order", order);
 		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
 		return itemList;
