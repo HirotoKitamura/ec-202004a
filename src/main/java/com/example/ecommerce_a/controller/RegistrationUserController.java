@@ -96,13 +96,13 @@ public class RegistrationUserController {
 	}
 
 	/**
-	 * 電話番号XXXX-XXXX-XXXX形式との一致を確認し、エラーの発生を判定します．
+	 * 電話番号XXXX(2-4文字)-XXXX(2-4文字)-XXXX(4文字)形式との一致を確認し、エラーの発生を判定します．
 	 * 
 	 * @param matchval 電話番号
 	 * @return エラー時:true/正常時:false
 	 */
 	public boolean isErrorTelFormat(String matchval) {
-		Pattern p = Pattern.compile("^[0-9]{2,4}-[0-9]{4}-[0-9]{4}$");
+		Pattern p = Pattern.compile("^[0-9]{2,4}-[0-9]{2,4}-[0-9]{4}$");
 		Matcher m = p.matcher(matchval);
 		boolean b = m.matches();
 

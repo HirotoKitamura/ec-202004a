@@ -33,14 +33,17 @@ public class ShowItemListController {
 	 */
 	@RequestMapping("")
 	public String showItemList(String name, String order, Model model) {
-		List<Item> itemList = service.showItemList(name, order);
-		if (itemList.size() == 0) {
+		int itemhitSize = service.getItemHitSize(name);
+		List<List<Item>> itemList = service.show3colItemList(name, order);
+
+		if (itemhitSize == 0) {
 			model.addAttribute("message", "該当する商品がありません");
-			itemList = service.showItemList("", order);
+			itemList = service.show3colItemList("", order);
 		}
 		// オートコンプリート用にJavaScriptの配列の中身を文字列で作ってスコープへ格納
-		StringBuilder itemListForAutocomplete = service.getItemListForAutocomplete(itemList);
+		StringBuilder itemListForAutocomplete = service.getItemListForAutocomplete(service.showItemList(name, order));
 		model.addAttribute("itemListForAutocomplete", itemListForAutocomplete);
+
 		model.addAttribute("itemList", itemList);
 		return "item_list_curry";
 	}

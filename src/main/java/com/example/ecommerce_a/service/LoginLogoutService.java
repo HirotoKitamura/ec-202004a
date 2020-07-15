@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.ecommerce_a.domain.User;
+import com.example.ecommerce_a.repository.OrderRepository;
 import com.example.ecommerce_a.repository.UserRepository;
 
 /**
@@ -19,6 +20,9 @@ import com.example.ecommerce_a.repository.UserRepository;
 public class LoginLogoutService {
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private OrderRepository orderRepository;
 
 	@Autowired
 	private PasswordEncoder encoder;
@@ -37,5 +41,9 @@ public class LoginLogoutService {
 		} else {
 			return null;
 		}
+	}
+
+	public void updateUserId(Integer guestId, Integer id) {
+		orderRepository.updateUserId(guestId, id);
 	}
 }

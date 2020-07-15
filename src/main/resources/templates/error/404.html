@@ -19,7 +19,9 @@
 	<div class="container">
 		<div th:include="fragment_header::frag_header"></div>
 
-		<div style="text-align: center;">お探しのページは見つかりません</div>
+		<h3 style="text-align: center;">お探しのページは見つかりません</h3><br>
+		<h4 style="text-align: center;">商品一覧画面は<a th:href="@{/showItemList}">こちら</a></h4>
+		<h4 th:unless="${session.user}" style="text-align: center;">ログイン画面は<a th:href="@{/toLogin}">こちら</a></h4>
 
 		<!-- end container -->
 	</div>

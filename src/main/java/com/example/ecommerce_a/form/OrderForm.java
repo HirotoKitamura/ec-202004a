@@ -21,14 +21,13 @@ public class OrderForm {
 	@Email(message="メールアドレスの形式が不正です")
 	private String destinationEmail;
 	@NotBlank(message="郵便番号を入力してください")
-	@Pattern(regexp="^[0-9]{3}-[0-9] {4}$", message="郵便番号はxxx-xxxxの形で入力してください")
+	@Pattern(regexp="^[0-9]{3}-[0-9]{4}$", message="郵便番号はxxx-xxxxの形で入力してください")
 	private String destinationZipcode;
 	@NotBlank(message="住所を入力してください")
 	private String destinationAddress;
 	@NotBlank(message="電話番号を入力してください")
-	@Pattern(regexp="^[0-9]{2,4}^[0-9]{2,4}-[0-9]{4}$", message="- は必須です")
+	@Pattern(regexp="^[0-9]{2,4}-[0-9]{2,4}-[0-9]{4}$", message="- は必須です")
 	private String destinationTel;
-	//配達日時のバリデーション分からん
 	private Date deliveryDate;
 	private Integer deliveryTime;
 	private Integer paymentMethod;

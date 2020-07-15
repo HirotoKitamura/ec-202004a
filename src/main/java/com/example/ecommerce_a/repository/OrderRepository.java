@@ -79,10 +79,14 @@ public class OrderRepository {
 				orderItem.setItemId(rs.getInt("item_id"));
 				orderItem.setOrderId(rs.getInt("order_id"));
 				orderItem.setQuantity(rs.getInt("quantity"));
-				char[] chars = rs.getString("size").toCharArray();
-				orderItem.setSize(chars[0]);
 
-				item = new Item();
+				if(rs.getString("size")!=null) {
+					char[] chars=rs.getString("size").toCharArray();
+					orderItem.setSize(chars[0]);
+				}else {
+					orderItem.setSize(null);
+				}
+				item=new Item();
 				item.setId(rs.getInt("i_id"));
 				item.setName(rs.getString("i_name"));
 				item.setDescription(rs.getString("description"));
@@ -250,7 +254,7 @@ public class OrderRepository {
 	 * @return 最小のユーザーID
 	 */
 	public Integer findMinUserId() {
-		String sql = "select min(id) as minId from orders";
+		String sql = "select min(user_id) as minId from orders";
 		List<Integer> minIds = template.query(sql, MIN_ID_ROW_MAPPER);
 		return minIds.get(0);
 	}
@@ -260,15 +264,27 @@ public class OrderRepository {
 	 * 
 	 */
 	public void update(Order order) {
-		String sql = "update orders set status= :status, order_date = :orderDate, "
+		String sql = "update orders set status= :status, total_price = :totalPrice, order_date = :orderDate, "
 				   + "destination_name = :destinationName, destination_email= :destinationEmail, "
 				   + "destination_zipcode = :destinationZipcode, destination_address = :destinationAddress, "
 				   + "destination_tel = :destinationTel, delivery_time = :deliveryTime, payment_method = :paymentMethod "
 				   + "where id = :id;";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("status", order.getStatus()).addValue("order_date", order.getOrderDate())
-				.addValue("destination_name", order.getDestinationName()).addValue("destination_email", order.getDestinationEmail()).addValue("destination_zipcode", order.getDestinationZipcode())
-				.addValue("destination_address", order.getDestinationAddress()).addValue("destination_tel", order.getDestinationTell())
-				.addValue("delivery_time", order.getDeliveryTime()).addValue("payment_method", order.getPaymentMethod());
+		SqlParameterSource param = new MapSqlParameterSource().addValue("status", order.getStatus()).addValue("totalPrice", order.getTotalPrice()).addValue("orderDate", order.getOrderDate())
+				.addValue("destinationName", order.getDestinationName()).addValue("destinationEmail", order.getDestinationEmail()).addValue("destinationZipcode", order.getDestinationZipcode())
+				.addValue("destinationAddress", order.getDestinationAddress()).addValue("destinationTel", order.getDestinationTell())
+				.addValue("deliveryTime", order.getDeliveryTime()).addValue("paymentMethod", order.getPaymentMethod()).addValue("id", order.getId());
 		template.update(sql, param);
     }
+	/**
+	 * ユーザーIDをログイン前のものからログイン後のものに更新する.
+	 * 
+	 * @param guestId ログイン前のID
+	 * @param userId　ログイン後のID
+	 */
+	public void updateUserId(Integer guestId, Integer userId) {
+		String sql="update orders set user_id=:userId where user_id=:guestId and status=0;";
+		SqlParameterSource param=new MapSqlParameterSource("userId",userId).addValue("guestId", guestId);
+		template.update(sql, param);
+	}
+
 }
