@@ -110,9 +110,20 @@ public class ItemRepository {
 			newId = 1;
 		}
 		item.setId(newId);
-		String sql2 = "insert into items values (:id,:name,:description,:priceM,:priceL,:imagePath,false)";
+		String sql2 = "insert into items values (:id,:name,:description,:priceM,:priceL,:imagePath,:deleted)";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(item);
 		template.update(sql2, param);
+	}
+
+	/**
+	 * 商品を削除する.
+	 * 
+	 * @param id 商品ID
+	 */
+	public void deleteItem(Integer id) {
+		String sql = "delete from items where id=:id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		template.update(sql, param);
 	}
 
 	/**
@@ -120,7 +131,7 @@ public class ItemRepository {
 	 * 
 	 * @param id 商品ID
 	 */
-	public void deleteItem(Integer id) {
+	public void setDeleteFlagToTrue(Integer id) {
 		String sql = "update items set deleted=true where id=:id";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
 		template.update(sql, param);

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.service.OrderHistoryService;
 
 /**
@@ -33,9 +32,6 @@ public class OrderHistoryController {
 	public String showOrderHistory(Model model) {
 		if (session.getAttribute("user") == null) {
 			return "redirect:/toLogin";
-		}
-		for (Order order : service.searchOrdersOfLoginUser()) {
-			System.out.println(order);
 		}
 		model.addAttribute("orderList", service.searchOrdersOfLoginUser());
 		return "history_list";
