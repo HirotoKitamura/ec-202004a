@@ -31,17 +31,24 @@ public class OrderItem {
 	 */
 	public Integer getSubTotal() {
 		int subTotal = 0;
-		if (size == 'M') {
-			subTotal += item.getPriceM() * quantity;
-			for (OrderTopping topping : orderToppingList) {
-				subTotal += topping.getTopping().getPriceM();
-			}
-		} else {
-			subTotal += item.getPriceL() * quantity;
-			for (OrderTopping topping : orderToppingList) {
-				subTotal += topping.getTopping().getPriceL();
-			}
+		
+		int priceM=0;
+		int priceL=0;
+		
+		if(orderToppingList.size()!=0) {
+			priceM=orderToppingList.get(0).getTopping().getPriceM();
+			priceL=orderToppingList.get(0).getTopping().getPriceL();
 		}
+		
+		
+		if (size == 'M') {
+			subTotal = (item.getPriceM()+(orderToppingList.size()*priceM)) * quantity;
+			
+		} else {
+			subTotal = (item.getPriceL()+(orderToppingList.size()*priceL)) * quantity;
+	
+		}
+		
 		return subTotal;
 	}
 

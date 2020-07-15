@@ -18,11 +18,12 @@
 	<div class="container">
 		<div th:include="fragment_header::frag_header"></div>
 		<!-- table -->
+				<h3 class="text-center">ショッピングカート</h3>
+		<div th:if="${enptyCart} == null">
 		<div class="row">
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
-				<h3 class="text-center">ショッピングカート</h3>
-				<table class="table table-striped item-list-table">
+				<table class="table table-striped item-list-table" >
 					<tbody>
 						<tr>
 							<th>
@@ -58,12 +59,16 @@
 							</td>
 							<td>
 								<span class="price" th:text="'&nbsp;'+${orderItem.size}"></span>&nbsp;&nbsp;
-								<span th:text="${#numbers.formatInteger(orderItem.size=='M'?orderItem.item.priceM:orderItem.item.priceL,0,'COMMA')}"></span>円&nbsp;&nbsp;
+								<span th:if="${orderItem.size} == 'M'" th:text="${#numbers.formatInteger(orderItem.item.priceM,0,'COMMA')}"></span>
+								<span th:if="${orderItem.size} == 'L'" th:text="${#numbers.formatInteger(orderItem.item.priceL,0,'COMMA')}"></span>円&nbsp;&nbsp;
 								<span th:text="${orderItem.quantity}"></span>個
 							</td>
 							<td>
 								<ul>
-									<li th:each="orderTopping:${orderItem.orderToppingList}" th:text="${orderTopping.topping.name}+${orderItem.size=='M'?orderTopping.topping.priceM:orderTopping.topping.priceL}">ピーマン300円</li>
+									<li th:each="orderTopping:${orderItem.orderToppingList}">
+									<span th:if="${orderItem.size}=='M'" th:text="${orderTopping.topping.name}+${orderTopping.topping.priceM}">ピーマン300</span>
+									<span th:if="${orderItem.size}=='L'" th:text="${orderTopping.topping.name}+${orderTopping.topping.priceL}">ピーマン300</span>
+									円</li>
 								</ul>
 							</td>
 							<td>
@@ -101,7 +106,9 @@
 				</div>
 			</div>
 		</div>
+		</div>
 	</div>
+	<h4 th:if="${enptyCart} != null" th:text="${enptyCart}" class="text-center"></h4>
 	<!-- end container -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

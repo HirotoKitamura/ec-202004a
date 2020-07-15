@@ -50,7 +50,7 @@ public class ShoppingCartService {
 	 * @return 注文情報
 	 */
 	public Order findByuserIdAndStatus0() {
-		
+
 		if (session.getAttribute("userId") != null) {
 			Order order = orderRepository.findByUserIdAndStatus((int) session.getAttribute("userId"), 0);
 			return order;
@@ -68,10 +68,13 @@ public class ShoppingCartService {
 		User user = (User) session.getAttribute("user");
 
 		if (user == null && session.getAttribute("userId") == null) {
+			int guestId=(orderRepository.findMinUserId() - 1);
+			if(guestId>=0) {
+				guestId=-1;
+			}
+			session.setAttribute("userId", guestId);
+		} else if (session.getAttribute("userId") == null) {
 
-			session.setAttribute("userId", (orderRepository.findMinUserId() - 1));
-		}else if(session.getAttribute("userId") == null){
-		
 			session.setAttribute("userId", user.getId());
 		}
 
@@ -82,10 +85,11 @@ public class ShoppingCartService {
 		if (orderRepository.findByUserIdAndStatus(userId, 0) == null) {
 			order = new Order();
 			order.setUserId(userId);
+			order.setUser(user);
 			order.setStatus(0);
-			order.setTotalPrice(form.getTotalPrice());// TODO 後で正しい値に修正
+			order.setTotalPrice(0);
 			order = orderRepository.insert(order);
-			List<OrderItem> orderItems=new ArrayList<>();
+			List<OrderItem> orderItems = new ArrayList<>();
 			order.setOrderItemList(orderItems);
 
 		}
@@ -96,19 +100,20 @@ public class ShoppingCartService {
 		orderItem.setQuantity(form.getQuantity());
 		orderItem.setSize(form.getSize());
 		orderItem = orderItemRepository.insert(orderItem);
-		List<OrderTopping> orderToppings=new ArrayList<>();
+		List<OrderTopping> orderToppings = new ArrayList<>();
 		orderItem.setOrderToppingList(orderToppings);
-		
-		order.getOrderItemList().add(orderItem);
-		//orderItems.add(orderItem);
 
-		for (Integer toppingId : form.getToppingIds()) {
-			OrderTopping orderTopping = new OrderTopping();
-			orderTopping.setToppingId(toppingId);
-			orderTopping.setOrderItemId(orderItem.getId());
-			orderToppingRepository.insert(orderTopping);
-			orderItem.getOrderToppingList().add(orderTopping);
-			
+		order.getOrderItemList().add(orderItem);
+		// orderItems.add(orderItem);
+		if (form.getToppingIds() != null) {
+			for (Integer toppingId : form.getToppingIds()) {
+				OrderTopping orderTopping = new OrderTopping();
+				orderTopping.setToppingId(toppingId);
+				orderTopping.setOrderItemId(orderItem.getId());
+				orderToppingRepository.insert(orderTopping);
+				orderItem.getOrderToppingList().add(orderTopping);
+
+			}
 		}
 
 	}
@@ -121,6 +126,7 @@ public class ShoppingCartService {
 	public void deleteItemFromShoppingCart(Integer orderItemId) {
 		orderItemRepository.deleteById(orderItemId);
 		orderToppingRepository.deleteByOrderItemId(orderItemId);
+		
 
 	}
 
