@@ -8,11 +8,11 @@
 </head>
 <body>
 	<div class="container">
-		<div th:include="fragment_header::frag_header">
-		</div>
-		<form action="cart_list.html" th:action="@{/cartList/addShoppingCart}" th:object="${insertItemInShoppingCartForm}">
-		<div class="row">
-			<div class="col-xs-offset-2 col-xs-8">
+		<div th:include="fragment_header::frag_header"></div>
+		<form action="cart_list.html" th:action="@{/cartList/addShoppingCart}"
+			th:object="${insertItemInShoppingCartForm}">
+			<div class="row">
+				<div class="col-xs-offset-2 col-xs-8">
 
 				<h3 class="text-center">商品詳細</h3>
 				<input type="hidden" th:value="${item.id}" name="itemId">
@@ -21,104 +21,125 @@
 						<img th:src="${#strings.endsWith(item.imagePath,'.jpg')}?@{'/img_curry/'+${item.imagePath}}:@{${item.imagePath}}" class="img-responsive img-rounded item-img-center">
 					</div>
 
-					<div class="col-xs-5">
-						<div class="bs-component">
-							<h4 th:text="${item.name}"></h4> <br>
-							<br>
-							<p th:text="${item.description}">マイルドな味付けのカレーに大きくカットしたポテトをのせた、バターとチーズの風味が食欲をそそるお子様でも楽しめる商品です。</p>
-						</div>
-					</div>
-				</div><br>
-				<div class="row">
-					<div class="col-xs-offset-2 col-xs-8">
-						<div class="form-group">
-							<div class="row">
-								<div class="col-sm-12">
-									<label for="inputResponsibleCompany">サイズ</label>
-								</div>
-								<div class="col-sm-12">
-									<label class="radio-inline"><input type="radio" name="size" class="base-price" checked="checked" th:value="M"><span class="price">&nbsp;М&nbsp;</span><span id="price-m" th:text="${#numbers.formatInteger(item.priceM, 3, 'COMMA')}"></span>円(税抜)</label>
-									<label class="radio-inline">
-										<input type="radio"
-											name="size" class="base-price" th:value="L">
-										<span class="price">&nbsp;Ｌ</span><span id="price-l" th:text="${#numbers.formatInteger(item.priceL, 3, 'COMMA')}"></span>円(税抜)
-									</label>
-								</div>
+						<div class="col-xs-5">
+							<div class="bs-component">
+								<h4 th:text="${item.name}"></h4>
+								<br> <br>
+								<p th:text="${item.description}">マイルドな味付けのカレーに大きくカットしたポテトをのせた、バターとチーズの風味が食欲をそそるお子様でも楽しめる商品です。</p>
 							</div>
 						</div>
 					</div>
-				</div><br>
-				<div class="row">
-					<div class="col-xs-offset-2 col-xs-8">
-						<div class="form-group">
-							<div class="row">
+					<br>
+					<div class="row">
+						<div class="row">
+							<div class="col-xs-offset-2 col-xs-10">
 								<div class="col-sm-12">
-									<label for="inputResponsibleCompany">
-										トッピング：&nbsp;1つにつき
-										<span>&nbsp;М&nbsp;</span>&nbsp;&nbsp;200円(税抜)
-										<span>&nbsp;Ｌ</span>&nbsp;&nbsp;300円(税抜)
-									</label>
+									<label for="inputResponsibleCompany">サイズ</label>
 								</div>
-								<div class="col-sm-12" >
-								<input type="checkbox" id="allcheck">全てチェックする
-									<div th:each="topping : ${item.toppingList}">
-									  <label class="checkbox-inline" id="topping-check">
-									    <input type="checkbox" th:value="${topping.id}" th:text="${topping.name}" name="toppingIds">
-									  </label>
+								<div class="col-xs-offset-1 col-xs-10">
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-12">
+												<label class="radio-inline"><input type="radio"
+													name="size" class="base-price" checked="checked"
+													th:value="M"><span class="price">&nbsp;М&nbsp;</span><span
+													id="price-m"
+													th:text="${#numbers.formatInteger(item.priceM, 3, 'COMMA')}"></span>円(税抜)</label>
+												<label class="radio-inline"> <input type="radio"
+													name="size" class="base-price" th:value="L"> <span
+													class="price">&nbsp;Ｌ</span><span id="price-l"
+													th:text="${#numbers.formatInteger(item.priceL, 3, 'COMMA')}"></span>円(税抜)
+												</label>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-offset-2 col-xs-8">
-						<div class="form-group">
-							<div class="row">
-								<div class="col-xs-5 col-sm-5">
-									<label for="">数量:</label>
-									<label class="control-label"
-										style="color: red" for="inputError">数量を選択してください</label> <select
-										name="quantity" class="form-control" id="curry-count">
-										<option th:value="1">1</option>
-										<option th:value="2">2</option>
-										<option th:value="3">3</option>
-										<option th:value="4">4</option>
-										<option th:value="5">5</option>
-										<option th:value="6">6</option>
-										<option th:value="7">7</option>
-										<option th:value="8">8</option>
-										<option th:value="9">9</option>
-										<option th:value="10">10</option>
-										<option th:value="11">11</option>
-										<option th:value="12">12</option>
-									</select>
+					<br>
+					<div class="row">
+						<div class="col-xs-offset-2 col-xs-10">
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-12">
+										<label for="inputResponsibleCompany">
+											トッピング：&nbsp;1つにつき <span>&nbsp;М&nbsp;</span>&nbsp;&nbsp;200円(税抜)
+											<span>&nbsp;Ｌ</span>&nbsp;&nbsp;300円(税抜)
+										</label>
+									</div>
+									<div>
+										<div class="col-sm-12">
+											<input type="checkbox" id="allcheck">全てチェックする
+										</div>
+
+										<div class="col-md-offset-1 col-md-12">
+											<div th:each="topping : ${item.toppingList}" class="col-sm-6">
+												<label class="checkbox-inline" id="topping-check"> <input
+													type="checkbox" th:value="${topping.id}"
+													th:text="${topping.name}" name="toppingIds">
+												</label>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<br>
-				<div class="row">
-					<div class="col-xs-offset-2 col-xs-10">
-						<div class="form-group">
-						<span>この商品金額:</span> <br />
-							<span id="total-price"></span> <span>円(税抜)</span>
+					<div class="row">
+						<div class="col-xs-offset-2 col-xs-8">
+							<div class="form-group">
+								<div class="row">
+									<div class="col-sm-12">
+										<label for="inputResponsibleCompany"> 数量: </label>
+									</div>
+									<div class="col-xs-offset-1">
+										<label class="control-label" style="color: red"
+											for="inputError">数量を選択してください</label> <select name="quantity"
+											class="form-control" id="curry-count">
+											<option th:value="1">1</option>
+											<option th:value="2">2</option>
+											<option th:value="3">3</option>
+											<option th:value="4">4</option>
+											<option th:value="5">5</option>
+											<option th:value="6">6</option>
+											<option th:value="7">7</option>
+											<option th:value="8">8</option>
+											<option th:value="9">9</option>
+											<option th:value="10">10</option>
+											<option th:value="11">11</option>
+											<option th:value="12">12</option>
+										</select>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
-					<div class="col-xs-offset-2 col-xs-3">
-						<div class="form-group">
-							<p>
-								<input class="form-control btn btn-warning btn-block"
-									type="submit" value="カートに入れる">
-							</p>
+					<br>
+					<div class="row">
+						<div class="col-xs-offset-3">
+							<div class="center-block">
+								<div class="form-group">
+									<span>この商品金額:</span> <br />
+									<div class="col-xs-offset-2">
+										<span id="total-price"></span> <span>円(税抜)</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-offset-3 col-xs-6">
+							<div class="form-group">
+								<p>
+									<input class="form-control btn btn-warning btn-block"
+										type="submit" value="カートに入れる">
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 		</form>
 
 	</div>
