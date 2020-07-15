@@ -128,8 +128,13 @@ public class ShoppingCartService {
 	public void deleteItemFromShoppingCart(Integer orderItemId) {
 		orderItemRepository.deleteById(orderItemId);
 		orderToppingRepository.deleteByOrderItemId(orderItemId);
-		
-
 	}
-
+	
+	/**
+	 * ログインしていないユーザーの注文情報をすべて削除する.
+	 * 
+	 */
+	public void deleteNotLoginUsersOrder() {
+		orderRepository.deleteNotLoginUsersOrder();
+	}
 }

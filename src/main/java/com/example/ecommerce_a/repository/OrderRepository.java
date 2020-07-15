@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -138,6 +139,10 @@ public class OrderRepository {
 	/** SQL実行用変数 */
 	@Autowired
 	private NamedParameterJdbcTemplate template;
+	
+	/** SQL実行用変数(パラメータなし） */
+	@Autowired
+	private JdbcTemplate noParamTemplate;
 
 	/**
 	 * 注文情報を挿入する.
@@ -269,6 +274,20 @@ public class OrderRepository {
 		String sql = "update orders set user_id=:userId where user_id=:guestId and status=0;";
 		SqlParameterSource param = new MapSqlParameterSource("userId", userId).addValue("guestId", guestId);
 		template.update(sql, param);
+	}
+	
+	/**
+	 * ログインしていないユーザーが発行したユーザーIDに関連する注文情報を削除する.
+	 *
+	 */
+	public void deleteNotLoginUsersOrder() {
+		
+		String sql="WITH deleted AS (DELETE FROM orders WHERE user_id < 0 RETURNING id)," 
+				+"deleted2 AS (DELETE FROM order_items" 
+				+"where order_id IN (SELECT id FROM deleted) RETURNING id)"
+				+ "DELETE FROM order_toppings WHERE order_item_id IN (SELECT id FROM deleted2);";
+		
+		noParamTemplate.update(sql);
 	}
 
 	/**
