@@ -259,12 +259,16 @@ public class OrderRepository {
 	 * 注文時にordersテーブルの内容を更新する
 	 * 
 	 */
-	public void update(Integer userId, Integer status) {
+	public void update(Order order) {
 		String sql = "update orders set status= :status, order_date = :orderDate, "
 				   + "destination_name = :destinationName, destination_email= :destinationEmail, "
 				   + "destination_zipcode = :destinationZipcode, destination_address = :destinationAddress, "
 				   + "destination_tel = :destinationTel, delivery_time = :deliveryTime, payment_method = :paymentMethod "
-				   + "where user_id = :userId and status = :status;";
+				   + "where id = :id;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("status", order.getStatus()).addValue("order_date", order.getOrderDate())
+				.addValue("destination_name", order.getDestinationName()).addValue("destination_email", order.getDestinationEmail()).addValue("destination_zipcode", order.getDestinationZipcode())
+				.addValue("destination_address", order.getDestinationAddress()).addValue("destination_tel", order.getDestinationTell())
+				.addValue("delivery_time", order.getDeliveryTime()).addValue("payment_method", order.getPaymentMethod());
 		template.update(sql, param);
     }
 }

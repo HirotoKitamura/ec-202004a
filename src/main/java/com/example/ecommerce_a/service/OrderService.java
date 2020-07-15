@@ -1,8 +1,11 @@
 package com.example.ecommerce_a.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.ecommerce_a.domain.Order;
+import com.example.ecommerce_a.form.OrderForm;
 import com.example.ecommerce_a.repository.OrderRepository;
 
 /**
@@ -18,6 +21,17 @@ public class OrderService {
 	
 	private OrderRepository repository;
 	
+	/**
+	 * 注文情報を取得する.
+	 * 
+	 * @param userId ログイン中のユーザーid
+ 	 * @param status 0
+	 * @return
+	 */
+	public Order findByUserIdAndStatus(Integer userId, Integer status) {
+		return repository.findByUserIdAndStatus(userId, status);
+	}
+	
 	
 	/**
 	 * 注文処理を行う.
@@ -25,7 +39,7 @@ public class OrderService {
 	 * @param userId ログイン中のユーザーid
 	 * @param status 注文前のオーダーを取得するための引数
 	 */
-	public void order(Integer userId, Integer status) {
-		repository.update(userId, status);
+	public void order(Order order) {
+		repository.update(order);
 	}
 }
