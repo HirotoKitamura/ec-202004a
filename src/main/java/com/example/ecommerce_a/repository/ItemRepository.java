@@ -38,7 +38,7 @@ public class ItemRepository {
 	/**
 	 * 商品一覧を表示する.
 	 * 
-	 * @param name 検索名
+	 * @param name  検索名
 	 * @param order 並び順(デフォルトではasc=安い順)
 	 * @return 条件に合致する商品一覧
 	 */
@@ -47,7 +47,7 @@ public class ItemRepository {
 			name = "";
 		}
 		String sql = "select id, name, description, price_m, price_l, image_path, deleted "
-				+    "from items where name like :name ";
+				+ "from items where name like :name ";
 		name = "%" + name + "%";
 		if ("desc".equals(order)) {
 			order = "order by price_m desc;";
@@ -59,11 +59,11 @@ public class ItemRepository {
 		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
 		return itemList;
 	}
-	
+
 	/**
 	 * 受け取ったidで商品を検索.
 	 * 
-	 * @param id 商品id 
+	 * @param id 商品id
 	 * @return 表示する商品
 	 */
 	public Item load(Integer itemId) {
@@ -73,5 +73,25 @@ public class ItemRepository {
 		Item item = template.queryForObject(sql, param, ITEM_ROW_MAPPER);
 		System.out.println(item.getId());
 		return item;
+	}
+
+	/**
+	 * 検索に該当するカレーの数を取得する．
+	 * 
+	 * @param name 検索する名前（空文字:　全件検索）
+	 * @return 検索hit数
+	 */
+	public int itemHitSizeByFuzzyName(String name) {
+		if (name == null) {
+			name = "";
+		}
+		String sql = "select count(*) " + "from items where name like :name";
+
+		name = "%" + name + "%";
+
+		SqlParameterSource param = new MapSqlParameterSource().addValue("name", name);
+		int itemsize = template.queryForObject(sql, param, Integer.class);
+
+		return itemsize;
 	}
 };

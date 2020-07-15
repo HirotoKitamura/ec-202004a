@@ -23,7 +23,7 @@ public class CreditCardService {
 	 * 
 	 * ※IPアドレスは自分のVMのアドレスにすること
 	 */
-	public static final String URL = "http://192.168.30.124:8080/sample-credit-card-web-api/credit-card/payment";
+	public static final String URL = "http://192.168.30.126:8080/sample-credit-card-web-api/credit-card/payment";
 
 	/**
 	 * APIにクレジットカードの認証を問い合わせる.

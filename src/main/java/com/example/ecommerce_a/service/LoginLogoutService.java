@@ -43,6 +43,12 @@ public class LoginLogoutService {
 		}
 	}
 
+	/**
+	 * ログイン前のカートの内容をログイン後にも継承する.
+	 * 
+	 * @param guestId ログイン前のID
+	 * @param id      ログイン後のID
+	 */
 	public void updateUserId(Integer guestId, Integer id) {
 		orderRepository.updateUserId(guestId, id);
 	}
