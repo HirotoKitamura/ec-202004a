@@ -58,7 +58,8 @@ public class OrderHistoryController {
 	
 	@RequestMapping("cancel")
 	public String cancel(Integer orderId) {
-		return null;
+		service.cancel(orderId);
+		return "redirect:/showOrderHistory";
 		
 	}
 }

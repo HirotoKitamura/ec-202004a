@@ -72,6 +72,7 @@
 								<div class="text-center" th:if="${order.status==2}" th:text="入金済"></div>
 								<div class="text-center" th:if="${order.status==3}" th:text="発送済"></div>
 								<div class="text-center" th:if="${order.status==4}" th:text="発送完了"></div>
+								<div class="text-center" th:if="${order.status==9}" th:text="キャンセル"></div>
 							</td>
 						</tr>
 					</tbody>
