@@ -1,15 +1,16 @@
 package com.example.ecommerce_a.repository;
 
-import org.springframework.jdbc.core.RowMapper;
-import com.example.ecommerce_a.domain.Item;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+
+import com.example.ecommerce_a.domain.Item;
 
 /**
  * 商品情報を扱うリポジトリクラス.
@@ -78,7 +79,7 @@ public class ItemRepository {
 	/**
 	 * 検索に該当するカレーの数を取得する．
 	 * 
-	 * @param name 検索する名前（空文字:　全件検索）
+	 * @param name 検索する名前（空文字: 全件検索）
 	 * @return 検索hit数
 	 */
 	public int itemHitSizeByFuzzyName(String name) {
@@ -93,5 +94,35 @@ public class ItemRepository {
 		int itemsize = template.queryForObject(sql, param, Integer.class);
 
 		return itemsize;
+	}
+
+	/**
+	 * 新しい商品を挿入する.
+	 * 
+	 * @param item 商品
+	 */
+	public void insertItem(Item item) {
+		String sql1 = "select max(id)+1 from items";
+		Integer newId;
+		try {
+			newId = template.queryForObject(sql1, new MapSqlParameterSource(), Integer.class);
+		} catch (Exception e) {
+			newId = 1;
+		}
+		item.setId(newId);
+		String sql2 = "insert into items values (:id,:name,:description,:priceM,:priceL,:imagePath,false)";
+		SqlParameterSource param = new BeanPropertySqlParameterSource(item);
+		template.update(sql2, param);
+	}
+
+	/**
+	 * 商品に削除フラグを立てる.
+	 * 
+	 * @param id 商品ID
+	 */
+	public void deleteItem(Integer id) {
+		String sql = "update items set deleted=true where id=:id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+		template.update(sql, param);
 	}
 };
