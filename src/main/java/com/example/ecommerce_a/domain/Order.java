@@ -56,11 +56,13 @@ public class Order {
 	 * @return 消費税
 	 */
 	public Integer getTax() {
-		try {
-			return (int) (totalPrice * 0.08);
-		} catch (Exception e) {
-			return null;
+
+		int totalSub = 0;
+		for (OrderItem orderItem : orderItemList) {
+			totalSub += orderItem.getSubTotal();
 		}
+		return (int) (totalSub * 0.08);
+
 	};
 
 	/**
@@ -69,11 +71,11 @@ public class Order {
 	 * @return 税込価格
 	 */
 	public Integer getCalcTotalPrice() {
-		try {
-			return (int) (totalPrice + getTax());
-		} catch (Exception e) {
-			return null;
+		int totalSub = 0;
+		for (OrderItem orderItem : orderItemList) {
+			totalSub += orderItem.getSubTotal();
 		}
+		return totalSub+getTax();
 	}
 
 	public Integer getId() {

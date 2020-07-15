@@ -79,10 +79,14 @@ public class OrderRepository {
 				orderItem.setItemId(rs.getInt("item_id"));
 				orderItem.setOrderId(rs.getInt("order_id"));
 				orderItem.setQuantity(rs.getInt("quantity"));
-				char[] chars = rs.getString("size").toCharArray();
-				orderItem.setSize(chars[0]);
 
-				item = new Item();
+				if(rs.getString("size")!=null) {
+					char[] chars=rs.getString("size").toCharArray();
+					orderItem.setSize(chars[0]);
+				}else {
+					orderItem.setSize(null);
+				}
+				item=new Item();
 				item.setId(rs.getInt("i_id"));
 				item.setName(rs.getString("i_name"));
 				item.setDescription(rs.getString("description"));

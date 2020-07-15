@@ -39,7 +39,9 @@ public class ShoppingCartController {
 	@RequestMapping("")
 	public String index(Model model) {
 		Order order=service.findByuserIdAndStatus0();
-		if(order==null) {
+		
+		
+		if(order.getOrderItemList().get(0)==null || order.getOrderItemList().get(0).getId() == 0) {
 			model.addAttribute("enptyCart", "カートは空です。");
 		}else {
 			model.addAttribute("order", order);
