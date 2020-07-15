@@ -72,4 +72,5 @@ public class ShoppingCartController {
 		service.deleteItemFromShoppingCart(orderItemId);
 		return "redirect:/cartList/";
 	}
+	
 }

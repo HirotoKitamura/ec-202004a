@@ -1,6 +1,7 @@
 package com.example.ecommerce_a.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -44,6 +45,9 @@ public class OrderItemRepository {
 	/** SQL実行用変数 */
 	@Autowired
 	private NamedParameterJdbcTemplate template;
+	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 	/**
 	 * 注文商品情報を挿入する.
@@ -76,6 +80,7 @@ public class OrderItemRepository {
 		template.update(sql, param);
 	}
 
+	
 //	/**
 //	 * 注文IDから、注文商品一覧を取得する.
 //	 * 
