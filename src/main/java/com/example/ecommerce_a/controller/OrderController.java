@@ -3,6 +3,7 @@ package com.example.ecommerce_a.controller;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.form.OrderForm;
+import com.example.ecommerce_a.service.MailService;
 import com.example.ecommerce_a.service.OrderService;
 
 @Controller
@@ -33,6 +35,9 @@ public class OrderController {
 	@Autowired
 	private HttpSession session;
 	
+	@Autowired
+	private MailService mailService;
+	
 	@ModelAttribute
 	public OrderForm setUpForm() {
 		return new OrderForm();
@@ -40,10 +45,19 @@ public class OrderController {
 
 	@RequestMapping("")
 	public String order(@Validated OrderForm form, BindingResult result, Model model) {
-		//配達日と現在の日付が同じで、かつ配達時間が現在の時間の3時間後よりも前のときにエラー
+		//配達時間が現在の時間の3時間後よりも前のときにエラー
+		
+		//日付を取得
 		Date deliveryDate = form.getDeliveryDate();
-		LocalDateTime inputDeliveryTime = LocalDateTime.now().withHour(form.getDeliveryTime());
-		if (deliveryDate == null || inputDeliveryTime == null ||deliveryDate.equals(LocalDate.now()) && inputDeliveryTime.isBefore(LocalDateTime.now().plusHours(3))) {
+		
+		System.out.println(form.getDeliveryDate());
+		System.out.println(form.getDeliveryTime());
+		
+		//ユーザーが入力した希望配達日時を時間を含めて取得
+		
+		LocalDateTime deliveryTime = deliveryDate.toLocalDate().atTime(form.getDeliveryTime(), 0);
+		System.out.println(deliveryTime);
+		if (deliveryDate == null || deliveryTime == null ||deliveryTime.isBefore(LocalDateTime.now().plusHours(3))) {
 			FieldError deliveryTimeError = new FieldError(result.getObjectName(),"deliveryTime", "3時間後以降の日時を指定してください");
 			result.addError(deliveryTimeError);
 		}
@@ -56,13 +70,13 @@ public class OrderController {
 		}
 		//orderを取得
 		Order order = service.findByUserIdAndStatus((Integer)session.getAttribute("userId"), 0);
-		//注文した日時をセット
-		order.setOrderDate(Date.valueOf(LocalDate.now()));
 		//配達日時をセット
-		order.setDeliveryTime(java.sql.Timestamp.valueOf(inputDeliveryTime));
+		order.setDeliveryTime(java.sql.Timestamp.valueOf(deliveryTime));
 		
 		//フォームからコピーできる値をorderオブジェクトにコピー
 		BeanUtils.copyProperties(form, order);
+		//電話番号がなぜかコピーできないのでひとまずセット
+		//order.setDestinationTel(form.getDestinationTel());
 		//決済手段によって、注文後のステータスを変更
 		if (order.getPaymentMethod().equals(1)) {
 			order.setStatus(1);
@@ -71,7 +85,10 @@ public class OrderController {
 		}
 		//合計金額をセットする。
 		order.setTotalPrice(order.getCalcTotalPrice());
+		//注文した日時をセット
+		order.setOrderDate(Date.valueOf(LocalDate.now()));
 		service.order(order);
+		mailService.sendMail(order);
 		return "order_finished.html";
 	}
 }

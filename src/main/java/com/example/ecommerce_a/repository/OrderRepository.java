@@ -58,7 +58,7 @@ public class OrderRepository {
 				order.setDestinationEmail(rs.getString("destination_email"));
 				order.setDestinationZipcode(rs.getString("destination_zipcode"));
 				order.setDestinationAddress(rs.getString("destination_address"));
-				order.setDestinationTell(rs.getString("destination_tel"));
+				order.setDestinationTel(rs.getString("destination_tel"));
 				order.setDeliveryTime(rs.getTimestamp("delivery_time"));
 				order.setPaymentMethod(rs.getInt("payment_method"));
 				// TODO 正しい値をセットする（サービスでやるかも）
@@ -274,9 +274,9 @@ public class OrderRepository {
 				   + "destination_zipcode = :destinationZipcode, destination_address = :destinationAddress, "
 				   + "destination_tel = :destinationTel, delivery_time = :deliveryTime, payment_method = :paymentMethod "
 				   + "where id = :id;";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("status", order.getStatus()).addValue("totalPrice", order.getTotalPrice()).addValue("orderDate", order.getOrderDate())
+		SqlParameterSource param = new MapSqlParameterSource().addValue("status", order.getStatus()).addValue("totalPrice", order.getCalcTotalPrice()).addValue("orderDate", order.getOrderDate())
 				.addValue("destinationName", order.getDestinationName()).addValue("destinationEmail", order.getDestinationEmail()).addValue("destinationZipcode", order.getDestinationZipcode())
-				.addValue("destinationAddress", order.getDestinationAddress()).addValue("destinationTel", order.getDestinationTell())
+				.addValue("destinationAddress", order.getDestinationAddress()).addValue("destinationTel", order.getDestinationTel())
 				.addValue("deliveryTime", order.getDeliveryTime()).addValue("paymentMethod", order.getPaymentMethod()).addValue("id", order.getId());
 		template.update(sql, param);
     }
