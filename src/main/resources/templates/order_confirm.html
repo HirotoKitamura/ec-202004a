@@ -37,8 +37,6 @@
 									小計
 								</div>
 							</th>
-							<th>
-							</th>
 						</tr>
 						<tr th:each="orderItem:${order.orderItemList}">
 							<td>
@@ -50,7 +48,8 @@
 							</td>
 							<td>
 								<span class="price" th:text="'&nbsp;'+${orderItem.size}"></span>&nbsp;&nbsp;
-								<span th:text="${#numbers.formatInteger(orderItem.size=='M'?orderItem.item.priceM:orderItem.item.priceL,0,'COMMA')}"></span>円&nbsp;&nbsp;
+								<span th:if="${orderItem.size} == 'M'" th:text="${#numbers.formatInteger(orderItem.item.priceM,0,'COMMA')}"></span>
+								<span th:if="${orderItem.size} == 'L'" th:text="${#numbers.formatInteger(orderItem.item.priceL,0,'COMMA')}"></span>円&nbsp;&nbsp;
 								<span th:text="${orderItem.quantity}"></span>個
 							</td>
 							<td>

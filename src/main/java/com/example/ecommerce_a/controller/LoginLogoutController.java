@@ -70,7 +70,7 @@ public class LoginLogoutController {
 		String from = (String) session.getAttribute("from");
 		session.removeAttribute("from");
 		if ("cart".equals(from)) {
-			return "redirect:/showOrderConfirm";
+			return "redirect:/confirmOrder";
 		} else {
 			return "redirect:/showItemList";
 		}
