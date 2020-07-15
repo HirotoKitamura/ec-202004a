@@ -254,7 +254,7 @@ public class OrderRepository {
 	 * @return 最小のユーザーID
 	 */
 	public Integer findMinUserId() {
-		String sql = "select min(id) as minId from orders";
+		String sql = "select min(user_id) as minId from orders";
 		List<Integer> minIds = template.query(sql, MIN_ID_ROW_MAPPER);
 		return minIds.get(0);
 	}

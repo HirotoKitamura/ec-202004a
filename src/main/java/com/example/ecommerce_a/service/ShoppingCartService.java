@@ -77,12 +77,14 @@ public class ShoppingCartService {
 
 			session.setAttribute("userId", user.getId());
 		}
+		
+		System.out.println("userID="+session.getAttribute("userId"));
 
 		int userId = Integer.parseInt("" + session.getAttribute("userId"));
 
 		Order order = orderRepository.findByUserIdAndStatus(userId, 0);
 
-		if (orderRepository.findByUserIdAndStatus(userId, 0) == null) {
+		if (order == null) {
 			order = new Order();
 			order.setUserId(userId);
 			order.setUser(user);
