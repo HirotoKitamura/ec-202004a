@@ -61,6 +61,11 @@ public class LoginLogoutController {
 		if (result.hasErrors()) {
 			return "login";
 		}
+		Integer guestId = (Integer) session.getAttribute("userId");
+		if (guestId != null) {
+			loginLogoutService.updateUserId(guestId, user.getId());
+		}
+		session.setAttribute("userId", user.getId());
 		session.setAttribute("user", user);
 		String from = (String) session.getAttribute("from");
 		session.removeAttribute("from");
