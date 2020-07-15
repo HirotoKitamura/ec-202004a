@@ -139,13 +139,14 @@ public class ItemRepository {
 	}
 
 	/**
-	 * 商品に削除フラグを立てる.
+	 * 商品の削除フラグを変更する.
 	 * 
-	 * @param id 商品ID
+	 * @param id      商品ID
+	 * @param deleted 削除フラグ
 	 */
-	public void setDeleteFlagToTrue(Integer id) {
-		String sql = "update items set deleted=true where id=:id";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+	public void setDeleteFlag(Integer id, boolean deleted) {
+		String sql = "update items set deleted=:deleted where id=:id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id).addValue("deleted", deleted);
 		template.update(sql, param);
 	}
 };

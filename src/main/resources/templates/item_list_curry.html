@@ -73,7 +73,7 @@
 							<td th:each="item,count:${itemlist}">
 							<a th:href="@{/showItemDetail(itemId=${item.id})}"> 
 							<img
-									th:src="@{'/img_curry/' + ${item.imagePath}}"
+									th:src="${#strings.endsWith(item.imagePath,'.jpg')}?@{'/img_curry/'+${item.imagePath}}:@{${item.imagePath}}"
 									class="img-responsive img-rounded item-img-center" width="200"
 									height="600">
 							</a><br> <a th:href="@{/showItemDetail(itemId=${item.id})}"

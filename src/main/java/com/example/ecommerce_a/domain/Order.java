@@ -160,8 +160,8 @@ public class Order {
 		return destinationTel;
 	}
 
-	public void setDestinationTell(String destinationTell) {
-		this.destinationTel = destinationTell;
+	public void setDestinationTel(String destinationTel) {
+		this.destinationTel = destinationTel;
 	}
 
 	public Timestamp getDeliveryTime() {
