@@ -17,6 +17,8 @@ public class InsertItemInShoppingForm {
 	private Character size;
 	/** トッピングId一覧（セレクトボックス） */
 	private List<Integer> toppingIds;
+	/** 合計金額 */
+	private Integer totalPrice;
 
 	public Integer getItemId() {
 		return itemId;
@@ -48,6 +50,17 @@ public class InsertItemInShoppingForm {
 
 	public void setToppingIds(List<Integer> toppingIds) {
 		this.toppingIds = toppingIds;
+	
+	}
+	
+	
+
+	public Integer getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(Integer totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
 	@Override
