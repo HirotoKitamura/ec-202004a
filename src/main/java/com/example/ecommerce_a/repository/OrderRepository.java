@@ -265,6 +265,22 @@ public class OrderRepository {
 	}
 
 	/**
+	 * 注文時にordersテーブルの内容を更新する
+	 * 
+	 */
+	public void update(Order order) {
+		String sql = "update orders set status= :status, total_price = :totalPrice, order_date = :orderDate, "
+				   + "destination_name = :destinationName, destination_email= :destinationEmail, "
+				   + "destination_zipcode = :destinationZipcode, destination_address = :destinationAddress, "
+				   + "destination_tel = :destinationTel, delivery_time = :deliveryTime, payment_method = :paymentMethod "
+				   + "where id = :id;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("status", order.getStatus()).addValue("totalPrice", order.getTotalPrice()).addValue("orderDate", order.getOrderDate())
+				.addValue("destinationName", order.getDestinationName()).addValue("destinationEmail", order.getDestinationEmail()).addValue("destinationZipcode", order.getDestinationZipcode())
+				.addValue("destinationAddress", order.getDestinationAddress()).addValue("destinationTel", order.getDestinationTell())
+				.addValue("deliveryTime", order.getDeliveryTime()).addValue("paymentMethod", order.getPaymentMethod()).addValue("id", order.getId());
+		template.update(sql, param);
+    }
+	/**
 	 * ユーザーIDをログイン前のものからログイン後のものに更新する.
 	 * 
 	 * @param guestId ログイン前のID
@@ -290,5 +306,29 @@ public class OrderRepository {
 		noParamTemplate.update(sql);
 	}
 	
+
+	/**
+	 * 注文IDをログイン前の注文番号からログイン後の注文番号に更新する.
+	 * 
+	 * @param guestId ログイン前のID
+	 * @param userId  ログイン後のID
+	 */
+	public void updateOrderId(Integer guestId, Integer userId) {
+		String sql = "update order_items set order_id = (select id from orders where user_id = :userId and status = 0) "
+				+ "where order_id = (select id from orders where user_id = :guestId and status = 0)";
+		SqlParameterSource param = new MapSqlParameterSource("userId", userId).addValue("guestId", guestId);
+		template.update(sql, param);
+	}
+
+	/**
+	 * 指定されたユーザーIDの注文を削除する.
+	 * 
+	 * @param guestId ログイン前のID
+	 */
+	public void deleteOrder(Integer guestId) {
+		String sql = "delete from orders where user_id = :guestId and status = 0;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("guestId", guestId);
+		template.update(sql, param);
+	}
 
 }

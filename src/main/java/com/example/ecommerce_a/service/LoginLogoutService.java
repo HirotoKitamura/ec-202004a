@@ -49,7 +49,13 @@ public class LoginLogoutService {
 	 * @param guestId ログイン前のID
 	 * @param id      ログイン後のID
 	 */
-	public void updateUserId(Integer guestId, Integer id) {
-		orderRepository.updateUserId(guestId, id);
+	public void inheritCart(Integer guestId, Integer id) {
+		if (orderRepository.findByUserIdAndStatus(id, 0) == null) {
+			System.out.println("おはよう");
+			orderRepository.updateUserId(guestId, id);
+		} else {
+			orderRepository.updateOrderId(guestId, id);
+			orderRepository.deleteOrder(guestId);
+		}
 	}
 }

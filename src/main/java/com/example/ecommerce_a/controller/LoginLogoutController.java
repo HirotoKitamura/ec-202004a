@@ -63,7 +63,7 @@ public class LoginLogoutController {
 		}
 		Integer guestId = (Integer) session.getAttribute("userId");
 		if (guestId != null) {
-			loginLogoutService.updateUserId(guestId, user.getId());
+			loginLogoutService.inheritCart(guestId, user.getId());
 		}
 		session.setAttribute("userId", user.getId());
 		session.setAttribute("user", user);
