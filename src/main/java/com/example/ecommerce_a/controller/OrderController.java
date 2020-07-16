@@ -68,7 +68,6 @@ public class OrderController {
 		// エラーがあった場合、エラーがあったという情報をconfirmOrderコントローラに渡す
 		if (result.hasErrors()) {
 			return controller.showOrderConfirm(model, true);
-
 		}
 		// orderを取得
 		Order order = service.findByUserIdAndStatus((Integer) session.getAttribute("userId"), 0);

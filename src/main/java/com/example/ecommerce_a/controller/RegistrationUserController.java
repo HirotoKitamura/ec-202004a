@@ -68,31 +68,37 @@ public class RegistrationUserController {
 
 			if (pass.length() < 8 || 16 < pass.length()) {// 8以上16以下判定＆エラー
 				result.rejectValue("password", "", "パスワードは８文字以上１６文字以内で設定してください");
+			}else if(isErrorPasswordFormat(pass)) {//形式チェック
+				result.rejectValue("password", "", "英大文字、英小文字、数字すべてを使用してください");
 			}
 		}
 
-		if (!"".equals(result.getFieldValue("checkpassword"))) {// 確認パスワードnotnull
-			if ("".equals(result.getFieldValue("password"))) {// パスワードnull
-				result.rejectValue("checkpassword", "", "パスワードが空欄です");
-			
-			} else if (!form.getPassword().equals(form.getCheckpassword())) {// パスワード不一致
-				result.rejectValue("checkpassword", "", "パスワードと確認用パスワードが不一致です");
+	if(!"".equals(result.getFieldValue("checkpassword")))
 
-			}
+	{// 確認パスワードnotnull
+		if ("".equals(result.getFieldValue("password"))) {// パスワードnull
+			result.rejectValue("checkpassword", "", "パスワードが空欄です");
+
+		} else if (!form.getPassword().equals(form.getCheckpassword())) {// パスワード不一致
+			result.rejectValue("checkpassword", "", "パスワードと確認用パスワードが不一致です");
+
 		}
+	}
 
-		if (registrationuserService.isExistEmail(form.getEmail())) {// 既存ユーザ
-			result.rejectValue("email", "", "そのメールアドレスはすでに使われています");
-		}
+	if(registrationuserService.isExistEmail(form.getEmail()))
+	{// 既存ユーザ
+		result.rejectValue("email", "", "そのメールアドレスはすでに使われています");
+	}
 
-		if (result.hasErrors()) {// 他バリデーション
-			return index();
-		}
+	if(result.hasErrors())
+	{// 他バリデーション
+		return index();
+	}
 
-		// insert
-		registrationuserService.insertUser(form);
+	// insert
+	registrationuserService.insertUser(form);
 
-		return "redirect:/toLogin";
+	return"redirect:/toLogin";
 	}
 
 	/**
@@ -122,5 +128,20 @@ public class RegistrationUserController {
 
 		return !b;
 	}
+
+	/**
+	 * パスワードが英大文字、小文字、数字全てを使用しているか確認し、エラーの発生を判定します．
+	 * 
+	 * @param matchval パスワード
+	 * @return
+	 */
+	public boolean isErrorPasswordFormat(String matchval) {
+		Pattern p = Pattern.compile("^[a-zA-Z0-9]{8,16}$");
+		Matcher m = p.matcher(matchval);
+		boolean b = m.matches();
+		
+		return !b;
+	}
+		
 
 }
