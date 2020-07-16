@@ -1,6 +1,7 @@
 package com.example.ecommerce_a.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.example.ecommerce_a.domain.Item;
 import com.example.ecommerce_a.domain.Topping;
 import com.example.ecommerce_a.form.InsertItemForm;
 import com.example.ecommerce_a.form.InsertToppingForm;
+import com.example.ecommerce_a.form.OrderSelectForm;
 import com.example.ecommerce_a.service.AdministerService;
 import com.example.ecommerce_a.service.ShowItemListService;
 
@@ -41,6 +43,11 @@ public class AdministerController {
 	@ModelAttribute
 	private InsertToppingForm setUpToppingForm() {
 		return new InsertToppingForm();
+	}
+
+	@ModelAttribute
+	private OrderSelectForm setUpSelectForm() {
+		return new OrderSelectForm();
 	}
 
 	/**
@@ -116,26 +123,45 @@ public class AdministerController {
 	}
 
 	/**
-	 * 商品削除画面を表示する.
+	 * 検索ワードから商品を検索して商品削除画面を表示する.
 	 * 
+	 * @param name  検索ワード
+	 * @param order 表示順(デフォルトでは価格の安い順になるように設定)
+	 * @param model リクエストスコープに値を格納するためのオブジェクト
 	 * @return 商品削除画面
 	 */
 	@RequestMapping("toDeleteItem")
-	public String toDeleteItem(String name, String order, Model model) {
-		int itemhitSize = itemService.getItemHitSize(name);
-		List<List<Item>> itemList = itemService.show3colItemList(name, order);
-
-		if (itemhitSize == 0) {
-			model.addAttribute("message", "該当する商品がありません");
-			itemList = itemService.show3colItemList("", order);
+	public String showItemList(String name, OrderSelectForm orderform, Model model) {
+		String order = orderform.getOrder();
+		List<List<List<Item>>> itemListList = new ArrayList<>();
+		String[] messageList = new String[3];
+		for (int i = 0; i < 3; i++) {
+			itemListList.add(adminService.show3colItemList(name, order, i));
+			if (itemListList.get(i).size() == 0) {
+				messageList[i] = "該当する商品がありません";
+			}
 		}
+		model.addAttribute("message", messageList);
 		// オートコンプリート用にJavaScriptの配列の中身を文字列で作ってスコープへ格納
-		StringBuilder itemListForAutocomplete = itemService
-				.getItemListForAutocomplete(itemService.showItemList(name, order));
+		List<Item> showItemList = itemService.showItemList(name, order);
+		StringBuilder itemListForAutocomplete = itemService.getItemListForAutocomplete(showItemList);
 		model.addAttribute("itemListForAutocomplete", itemListForAutocomplete);
 
-		model.addAttribute("itemList", itemList);
+		model.addAttribute("itemListList", itemListList);
 		return "delete_item";
+	}
+
+	/**
+	 * 商品の販売状況を変更する.
+	 * 
+	 * @param id     商品ID
+	 * @param status 販売状況
+	 * @return 商品削除画面
+	 */
+	@RequestMapping("deleteItem")
+	public String deleteItem(Integer id, Integer status) {
+		adminService.setStatus(id, status);
+		return "redirect:/administer/toDeleteItem";
 	}
 
 	/**
