@@ -16,8 +16,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.ecommerce_a.domain.CreditCardRequest;
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.form.OrderForm;
+import com.example.ecommerce_a.service.CreditCardService;
 import com.example.ecommerce_a.service.MailService;
 import com.example.ecommerce_a.service.OrderService;
 
@@ -35,6 +37,9 @@ public class OrderController {
 
 	@Autowired
 	private MailService mailService;
+
+	@Autowired
+	private CreditCardService cardService;
 
 	@ModelAttribute
 	public OrderForm setUpForm() {
@@ -65,6 +70,14 @@ public class OrderController {
 				result.addError(deliveryTimeError);
 			}
 		}
+		CreditCardRequest request = new CreditCardRequest();
+		BeanUtils.copyProperties(form, request);
+		System.out.println(form);
+		System.out.println(request);
+		if (form.getPaymentMethod() == 2 && !cardService.isAuthenticated(request)) {
+			result.rejectValue("card_cvv", null, "カード情報が不正です");
+		}
+
 		// エラーがあった場合、エラーがあったという情報をconfirmOrderコントローラに渡す
 		if (result.hasErrors()) {
 			return controller.showOrderConfirm(model, true);
