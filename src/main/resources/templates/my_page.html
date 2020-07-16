@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>マイページ</title>
+<link rel="stylesheet" th:href="@{/css/piza.css}">
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+	<div class="container">
+		<div th:include="fragment_header::frag_header">
+		</div>
+				<div class="row">
+			<div
+				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+				<h3 class="text-center">ユーザー情報</h3>
+			
+				<table class="table table-bordered">
+					<tbody>
+						<tr class="active">
+						<th class="info text-center">名前</th>
+						<td><span th:text="${session.user.name}"></span></td>
+						</tr>
+						<tr class="active">
+						<th class="info text-center">Eメール</th>
+						<td><span th:text="${session.user.email}"></span></td>
+						</tr>
+						<tr class="active">
+						<th class="info text-center">郵便番号</th>
+						<td><span th:text="${session.user.zipcode}"></span></td>
+						</tr>
+						<tr class="active">
+						<th class="info text-center">住所</th>
+						<td><span th:text="${session.user.address}"></span></td>
+						</tr>
+						<tr class="active">
+						<th class="info text-center">電話番号</th>
+						<td><span th:text="${session.user.telephone}"></span></td>
+						</tr>
+						<tr class="active">
+						<th class="info text-center">パスワード</th>
+						<td><span>セキュリティのため表示しません</span></td>
+						</tr>
+						<tr>
+						<td colspan="2" class="text-center">
+						<a th:href="@{/myPage/showUpdateUser}">情報変更</a> ／ 
+						<a href="">退会する</a>
+						</td>
+						</tr>
+					</tbody>
+				</table>
+				
+				
+				</div>
+			</div>
+		</div>
+	<!-- end container -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+</html>
