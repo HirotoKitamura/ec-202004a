@@ -19,7 +19,7 @@ import com.example.ecommerce_a.service.ShowItemListService;
  *
  */
 @Controller
-@RequestMapping("showItemList")
+@RequestMapping({"showItemList",""})
 public class ShowItemListController {
 
 	@Autowired
