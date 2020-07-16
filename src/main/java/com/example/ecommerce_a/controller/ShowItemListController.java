@@ -19,7 +19,7 @@ import com.example.ecommerce_a.service.ShowItemListService;
  *
  */
 @Controller
-@RequestMapping("showItemList")
+@RequestMapping({"showItemList",""})
 public class ShowItemListController {
 
 	@Autowired
@@ -39,7 +39,7 @@ public class ShowItemListController {
 	 * @return 商品一覧ページ
 	 */
 	@RequestMapping("")
-	public String showItemList(String name,OrderSelectForm orderform, Model model) {
+	public String showItemList(String name,OrderSelectForm orderform ,Model model) {
 		String order = orderform.getOrder();
 		int itemhitSize = service.getItemHitSize(name);
 		List<List<Item>> itemList = service.show3colItemList(name, order);
