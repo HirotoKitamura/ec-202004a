@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.ecommerce_a.domain.Order;
+import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.OrderForm;
 import com.example.ecommerce_a.service.ShoppingCartService;
 
@@ -40,12 +41,26 @@ public class ConfirmOrderController {
 	 * @return
 	 */
 	@RequestMapping("")
-	public String showOrderConfirm(Model model) {
+	public String showOrderConfirm(Model model, boolean hasErrors) {
 		if (session.getAttribute("user") == null) {
 			return "redirect:/toLogin?from=cart";
 		}
 		Order order = service.findByuserIdAndStatus0();
 		model.addAttribute("order", order);
+		
+		//お届け先情報を入力する際に、デフォルト値にログイン者情報をセットする。
+		//バリデーションチェックでエラーがあった場合にif文の中身が実行されないようにした
+		if (!hasErrors) {
+			OrderForm orderForm = new OrderForm();
+			User user = (User)session.getAttribute("user");
+			orderForm.setDestinationName(user.getName());
+			orderForm.setDestinationEmail(user.getEmail());
+			orderForm.setDestinationZipcode(user.getZipcode());
+			orderForm.setDestinationAddress(user.getAddress());
+			orderForm.setDestinationTel(user.getTelephone());
+			model.addAttribute("orderForm", orderForm);
+			System.out.println(orderForm.getDestinationName());
+		}
 		return "order_confirm";
 	}
 }

@@ -63,7 +63,7 @@ public class OrderController {
 		}
 		if (result.hasErrors()) {
 			System.out.println("foobar");
-			return controller.showOrderConfirm(model);
+			return controller.showOrderConfirm(model, true);
 		}
 		//orderを取得
 		Order order = service.findByUserIdAndStatus((Integer)session.getAttribute("userId"), 0);
