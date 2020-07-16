@@ -33,6 +33,9 @@
 						<a href="order_history.html" th:href="@{/showOrderHistory}" class="navbar-link" >注文履歴</a>&nbsp;&nbsp;
 						<a href="order_history.html" th:href="@{/myPage}" class="navbar-link" >ユーザー情報</a>&nbsp;&nbsp;
 						<a href="item_list_pizza.html" th:href="@{/logout}" class="navbar-link">ログアウト</a>&nbsp;&nbsp;
+						<span th:if="${session.user.id==0}">
+						<a href="order_history.html" th:href="@{/administer}" class="navbar-link" >管理者機能</a>&nbsp;&nbsp;
+						</span>
 						</span>
 						<span th:unless="${session.user}">
 						<a href="login.html" th:href="@{/toLogin}" class="navbar-link">ログイン</a>&nbsp;&nbsp;
