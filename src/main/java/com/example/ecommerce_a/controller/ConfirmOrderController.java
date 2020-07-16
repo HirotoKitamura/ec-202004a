@@ -1,5 +1,7 @@
 package com.example.ecommerce_a.controller;
 
+import java.time.LocalDate;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +69,7 @@ public class ConfirmOrderController {
 			orderForm.setDestinationZipcode(user.getZipcode());
 			orderForm.setDestinationAddress(user.getAddress());
 			orderForm.setDestinationTel(user.getTelephone());
+			orderForm.setDeliveryDate(java.sql.Date.valueOf(LocalDate.now()));
 			model.addAttribute("orderForm", orderForm);
 			System.out.println(orderForm.getDestinationName());
 		}
