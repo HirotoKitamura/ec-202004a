@@ -136,7 +136,7 @@ public class RegistrationUserController {
 	 * @return
 	 */
 	public boolean isErrorPasswordFormat(String matchval) {
-		Pattern p = Pattern.compile("^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]))$");
+		Pattern p = Pattern.compile("^[a-zA-Z0-9]{8,16}$");
 		Matcher m = p.matcher(matchval);
 		boolean b = m.matches();
 		
