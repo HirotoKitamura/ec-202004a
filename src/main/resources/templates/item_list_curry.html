@@ -51,18 +51,18 @@
 		<div class="row">
 			<div class="col-xs-offset-9 col-sm-offset-8 col-md-offset-10">
 				並び替え <br />
-					<form th:action="@{/showItemList}" method="post"
-						th:object="${orderSelectForm}" class="form-horizontal">
-						<select name="order" id="order" th:field="*{order}"
-							onChange="submit(this.form)">
-							<option value="priceasc">価格の安い順</option>
-							<option value="pricedesc">価格の高い順</option>
-							<option value="iddesc">新着順</option>
-							<option value="idasc">古い順</option>
-						</select>
-					</form>
-				</div>
+				<form th:action="@{/showItemList}" method="post"
+					th:object="${orderSelectForm}">
+					<select name="order" id="order" th:field="*{order}"
+						onChange="submit(this.form)" class="form-control">
+						<option value="priceasc">価格の安い順</option>
+						<option value="pricedesc">価格の高い順</option>
+						<option value="iddesc">新着順</option>
+						<option value="idasc">古い順</option>
+					</select>
+				</form>
 			</div>
+		</div>
 
 		<span th:if="${message} != null" th:text="${message}"></span> <br />
 		<!-- table -->
