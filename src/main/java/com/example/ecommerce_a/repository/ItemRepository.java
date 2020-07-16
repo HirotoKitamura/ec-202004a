@@ -51,19 +51,19 @@ public class ItemRepository {
 				+ "from items where name ilike :name and status != 2";
 		name = "%" + name + "%";
 		if ("iddesc".equals(order)) {// 新着順--id降順desc
-			order = "order by id desc;";
+			order = "order by status, id desc;";
 
 		} else if ("idasc".equals(order)) {// 古い順--id昇順asc
-			order = "order by id asc;";
+			order = "order by status, id asc;";
 
 		} else if ("pricedesc".equals(order)) {// 価格の高い順
-			order = "order by price_m desc, id desc;";
+			order = "order by status, price_m desc, id desc;";
 
 		} else if ("priceasc".equals(order)) {// 価格の安い順
-			order = "order by price_m asc, id asc;";
+			order = "order by status, price_m asc, id asc;";
 
 		} else {// 初期動作
-			order = "order by price_m asc, id asc;";
+			order = "order by status, price_m asc, id asc;";
 		}
 
 		sql += order;
@@ -88,19 +88,19 @@ public class ItemRepository {
 				+ "from items where name ilike :name where status = 2";
 		name = "%" + name + "%";
 		if ("iddesc".equals(order)) {// 新着順--id降順desc
-			order = "order by id desc;";
+			order = "order by status, id desc;";
 
 		} else if ("idasc".equals(order)) {// 古い順--id昇順asc
-			order = "order by id asc;";
+			order = "order by status, id asc;";
 
 		} else if ("pricedesc".equals(order)) {// 価格の高い順
-			order = "order by price_m desc;";
+			order = "order by status, price_m desc, id desc;";
 
 		} else if ("priceasc".equals(order)) {// 価格の安い順
-			order = "order by price_m asc;";
+			order = "order by status, price_m asc, id asc;";
 
 		} else {// 初期動作
-			order = "order by price_m;";
+			order = "order by status, price_m asc, id asc;";
 		}
 
 		sql += order;
@@ -165,10 +165,10 @@ public class ItemRepository {
 	}
 
 	/**
-	 * 商品の削除フラグを変更する.
+	 * 商品の販売状況を変更する.
 	 * 
 	 * @param id      商品ID
-	 * @param deleted 削除フラグ
+	 * @param deleted 販売状況
 	 */
 	public void setDeleteFlag(Integer id, Integer status) {
 		String sql = "update items set status=:status where id=:id";
