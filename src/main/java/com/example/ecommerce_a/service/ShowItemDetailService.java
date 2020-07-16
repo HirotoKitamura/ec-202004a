@@ -31,7 +31,7 @@ public class ShowItemDetailService {
 	 */
 	public Item showItemDetail(Integer itemId) {
 		Item item = itemRepository.load(itemId);
-		item.setToppingList(toppingRepository.findAll());
+		item.setToppingList(toppingRepository.findOnSale());
 		return item;
 	}
 }

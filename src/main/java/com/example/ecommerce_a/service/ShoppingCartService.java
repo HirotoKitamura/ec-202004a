@@ -68,17 +68,17 @@ public class ShoppingCartService {
 		User user = (User) session.getAttribute("user");
 
 		if (user == null && session.getAttribute("userId") == null) {
-			int guestId=(orderRepository.findMinUserId() - 1);
-			if(guestId>=0) {
-				guestId=-1;
+			int guestId = (orderRepository.findMinUserId() - 1);
+			if (guestId >= 0) {
+				guestId = -1;
 			}
 			session.setAttribute("userId", guestId);
 		} else if (session.getAttribute("userId") == null) {
 
 			session.setAttribute("userId", user.getId());
 		}
-		
-		System.out.println("userID="+session.getAttribute("userId"));
+
+		System.out.println("userID=" + session.getAttribute("userId"));
 
 		int userId = Integer.parseInt("" + session.getAttribute("userId"));
 
@@ -129,7 +129,17 @@ public class ShoppingCartService {
 		orderItemRepository.deleteById(orderItemId);
 		orderToppingRepository.deleteByOrderItemId(orderItemId);
 	}
-	
+
+	/**
+	 * 販売停止中の注文商品とトッピングを削除する.
+	 * 
+	 * @return 削除された行の数
+	 */
+	public Integer deleteSuspended() {
+		User user = (User) session.getAttribute("user");
+		return orderRepository.deleteSuspended(user.getId());
+	}
+
 	/**
 	 * ログインしていないユーザーの注文情報をすべて削除する.
 	 * 

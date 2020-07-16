@@ -116,6 +116,7 @@ public class OrderRepository {
 				topping.setName(rs.getString("t_name"));
 				topping.setPriceM(rs.getInt("t_price_m"));
 				topping.setPriceL(rs.getInt("t_price_L"));
+				topping.setDeleted(rs.getBoolean("deleted"));
 
 				orderTopping.setTopping(topping);
 
@@ -182,7 +183,7 @@ public class OrderRepository {
 				+ "oi.id as oi_id,item_id,order_id,quantity,size,"
 				+ "i.id as i_id,i.name as i_name,description,i.price_m as i_price_m,"
 				+ "i.price_l as i_price_l,image_path,i.status as i_status," + "ot.id as ot_id,topping_id,order_item_id,"
-				+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l "
+				+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l,deleted "
 				+ "from orders as o left join order_items as oi on o.id=oi.order_id "
 				+ "left join items as i on oi.item_id=i.id "
 				+ "left join order_toppings as ot on oi.id=ot.order_item_id "
@@ -214,7 +215,7 @@ public class OrderRepository {
 				+ "oi.id as oi_id,item_id,order_id,quantity,size,"
 				+ "i.id as i_id,i.name as i_name,description,i.price_m as i_price_m,"
 				+ "i.price_l as i_price_l,image_path,i.status as i_status," + "ot.id as ot_id,topping_id,order_item_id,"
-				+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l "
+				+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l,deleted "
 				+ "from orders as o left join order_items as oi on o.id=oi.order_id "
 				+ "left join items as i on oi.item_id=i.id "
 				+ "left join order_toppings as ot on oi.id=ot.order_item_id "
@@ -242,7 +243,7 @@ public class OrderRepository {
 				+ "oi.id as oi_id,item_id,order_id,quantity,size,"
 				+ "i.id as i_id,i.name as i_name,description,i.price_m as i_price_m,"
 				+ "i.price_l as i_price_l,image_path,i.status as i_status," + "ot.id as ot_id,topping_id,order_item_id,"
-				+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l "
+				+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l,deleted "
 				+ "from orders as o left join order_items as oi on o.id=oi.order_id "
 				+ "left join items as i on oi.item_id=i.id "
 				+ "left join order_toppings as ot on oi.id=ot.order_item_id "
@@ -343,6 +344,22 @@ public class OrderRepository {
 		SqlParameterSource param = new MapSqlParameterSource("orderId", orderId);
 		template.update(sql, param);
 
+	}
+
+	/**
+	 * 販売停止中の商品を未注文の注文情報から削除する.
+	 * 
+	 * @return 操作された行の数
+	 * @param userId ユーザーID
+	 */
+	public Integer deleteSuspended(Integer userId) {
+		String sql1 = "delete from order_toppings where order_item_id in (select id from order_items where order_id in (select id from orders where user_id = :userId and status = 0)) and topping_id in (select id from toppings where deleted = true);";
+		String sql2 = "delete from order_items where order_id in (select id from orders where user_id = :userId and status = 0) and item_id in (select id from items where status != 0);";
+		SqlParameterSource param = new MapSqlParameterSource("userId", userId);
+		int updated = 0;
+		updated += template.update(sql1, param);
+		updated += template.update(sql2, param);
+		return updated;
 	}
 
 }

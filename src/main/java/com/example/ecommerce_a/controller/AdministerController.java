@@ -139,18 +139,6 @@ public class AdministerController {
 	}
 
 	/**
-	 * 商品を削除する.
-	 * 
-	 * @param id 商品ID
-	 * @return 商品削除画面
-	 */
-	@RequestMapping("deleteItem")
-	public String deleteItem(Integer id) {
-		adminService.deleteItem(id);
-		return "redirect:/administer/toDeleteItem";
-	}
-
-	/**
 	 * トッピング削除画面を表示する.
 	 * 
 	 * @return トッピング削除画面
@@ -165,15 +153,4 @@ public class AdministerController {
 		return "delete_topping";
 	}
 
-	/**
-	 * トッピングを削除する.
-	 * 
-	 * @param id トッピングID
-	 * @return トッピング削除画面
-	 */
-	@RequestMapping("deleteTopping")
-	public String deleteTopping(Integer id) {
-		adminService.deleteTopping(id);
-		return "redirect:/administer/toDeleteTopping";
-	}
 }

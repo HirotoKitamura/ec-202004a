@@ -21,19 +21,18 @@ import com.example.ecommerce_a.service.ShoppingCartService;
 @Controller
 @RequestMapping("/confirmOrder")
 public class ConfirmOrderController {
-	
+
 	@Autowired
 	private ShoppingCartService service;
-	
+
 	@Autowired
 	private HttpSession session;
-	
+
 	@ModelAttribute
 	public OrderForm setUpForm() {
 		return new OrderForm();
 	}
-	
-	
+
 	/**
 	 * 
 	 * @param model
@@ -44,7 +43,15 @@ public class ConfirmOrderController {
 		if (session.getAttribute("user") == null) {
 			return "redirect:/toLogin?from=cart";
 		}
+		int updated = service.deleteSuspended();
+		if (updated != 0) {
+			model.addAttribute("alert", "販売終了や売り切れによりカートから削除された商品があります カートの中身をご確認ください");
+		}
 		Order order = service.findByuserIdAndStatus0();
+		if (order == null || order.getOrderItemList() == null || order.getOrderItemList().size() == 0
+				|| order.getOrderItemList().get(0).getId() == 0) {
+			model.addAttribute("nullorder", "カートに何も入っていません");
+		}
 		model.addAttribute("order", order);
 		return "order_confirm";
 	}

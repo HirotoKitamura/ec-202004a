@@ -55,9 +55,6 @@ public class ShowItemListService {
 
 		}
 
-		System.out.println(list.size());
-		System.out.println(listInlist.size());
-
 		return listInlist;
 	}
 
