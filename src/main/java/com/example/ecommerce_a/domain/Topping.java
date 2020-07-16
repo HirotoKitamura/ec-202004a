@@ -15,6 +15,8 @@ public class Topping {
 	private Integer priceM;
 	/** Lサイズの価格 */
 	private Integer priceL;
+	/** 削除フラグ */
+	private Boolean deleted;
 
 	public Integer getId() {
 		return id;
@@ -48,9 +50,18 @@ public class Topping {
 		this.priceL = priceL;
 	}
 
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
+
 	@Override
 	public String toString() {
-		return "Topping [id=" + id + ", name=" + name + ", priceM=" + priceM + ", priceL=" + priceL + "]";
+		return "Topping [id=" + id + ", name=" + name + ", priceM=" + priceM + ", priceL=" + priceL + ", deleted="
+				+ deleted + "]";
 	}
 
 }

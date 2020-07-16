@@ -29,7 +29,7 @@ public class ItemRepository {
 		item.setPriceM(rs.getInt("price_m"));
 		item.setPriceL(rs.getInt("price_l"));
 		item.setImagePath(rs.getString("image_path"));
-		item.setDeleted(rs.getBoolean("deleted"));
+		item.setStatus(rs.getInt("status"));
 		return item;
 	};
 
@@ -37,7 +37,7 @@ public class ItemRepository {
 	private NamedParameterJdbcTemplate template;
 
 	/**
-	 * 商品一覧を表示する.
+	 * 販売されている商品一覧を表示する.
 	 * 
 	 * @param name  検索名
 	 * @param order 並び順(デフォルトではasc=安い順)
@@ -47,8 +47,8 @@ public class ItemRepository {
 		if (name == null) {
 			name = "";
 		}
-		String sql = "select id, name, description, price_m, price_l, image_path, deleted "
-				+ "from items where name like :name ";
+		String sql = "select id, name, description, price_m, price_l, image_path, status "
+				+ "from items where name ilike :name and status != 2";
 		name = "%" + name + "%";
 		if ("iddesc".equals(order)) {// 新着順--id降順desc
 			order = "order by id desc;";
@@ -67,7 +67,44 @@ public class ItemRepository {
 		}
 
 		sql += order;
-		
+
+		SqlParameterSource param = new MapSqlParameterSource().addValue("name", name).addValue("order", order);
+		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
+		return itemList;
+	}
+
+	/**
+	 * 販売停止中の商品一覧を表示する.
+	 * 
+	 * @param name  検索名
+	 * @param order 並び順(デフォルトではasc=安い順)
+	 * @return 条件に合致する商品一覧
+	 */
+	public List<Item> findSuspendedByFuzzyName(String name, String order) {
+		if (name == null) {
+			name = "";
+		}
+		String sql = "select id, name, description, price_m, price_l, image_path, status "
+				+ "from items where name ilike :name where status = 2";
+		name = "%" + name + "%";
+		if ("iddesc".equals(order)) {// 新着順--id降順desc
+			order = "order by id desc;";
+
+		} else if ("idasc".equals(order)) {// 古い順--id昇順asc
+			order = "order by id asc;";
+
+		} else if ("pricedesc".equals(order)) {// 価格の高い順
+			order = "order by price_m desc;";
+
+		} else if ("priceasc".equals(order)) {// 価格の安い順
+			order = "order by price_m asc;";
+
+		} else {// 初期動作
+			order = "order by price_m;";
+		}
+
+		sql += order;
+
 		SqlParameterSource param = new MapSqlParameterSource().addValue("name", name).addValue("order", order);
 		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
 		return itemList;
@@ -81,7 +118,7 @@ public class ItemRepository {
 	 */
 	public Item load(Integer itemId) {
 		System.out.println(itemId);
-		String sql = "select id, name, description, price_m, price_l, image_path, deleted from items where id = :id;";
+		String sql = "select id, name, description, price_m, price_l, image_path, status from items where id = :id;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", itemId);
 		Item item = template.queryForObject(sql, param, ITEM_ROW_MAPPER);
 		System.out.println(item.getId());
@@ -122,20 +159,9 @@ public class ItemRepository {
 			newId = 1;
 		}
 		item.setId(newId);
-		String sql2 = "insert into items values (:id,:name,:description,:priceM,:priceL,:imagePath,:deleted)";
+		String sql2 = "insert into items values (:id,:name,:description,:priceM,:priceL,:imagePath,:status)";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(item);
 		template.update(sql2, param);
-	}
-
-	/**
-	 * 商品を削除する.
-	 * 
-	 * @param id 商品ID
-	 */
-	public void deleteItem(Integer id) {
-		String sql = "delete from items where id=:id";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
-		template.update(sql, param);
 	}
 
 	/**
@@ -144,9 +170,9 @@ public class ItemRepository {
 	 * @param id      商品ID
 	 * @param deleted 削除フラグ
 	 */
-	public void setDeleteFlag(Integer id, boolean deleted) {
-		String sql = "update items set deleted=:deleted where id=:id";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id).addValue("deleted", deleted);
+	public void setDeleteFlag(Integer id, Integer status) {
+		String sql = "update items set status=:status where id=:id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id).addValue("status", status);
 		template.update(sql, param);
 	}
 };

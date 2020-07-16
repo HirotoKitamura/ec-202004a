@@ -21,8 +21,12 @@ public class Item {
 	private Integer priceL;
 	/** 商品画像 */
 	private String imagePath;
-	/** 削除フラグ */
-	private Boolean deleted;
+	/**
+	 * 販売状況
+	 * 
+	 * 0:販売中 1:売り切れなど一時的に停止中 2:販売終了
+	 */
+	private Integer status;
 	/** トッピングリスト */
 	private List<Topping> toppingList;
 
@@ -74,12 +78,12 @@ public class Item {
 		this.imagePath = imagePath;
 	}
 
-	public Boolean getDeleted() {
-		return deleted;
+	public Integer getStatus() {
+		return status;
 	}
 
-	public void setDeleted(Boolean deleted) {
-		this.deleted = deleted;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	public List<Topping> getToppingList() {
@@ -93,7 +97,7 @@ public class Item {
 	@Override
 	public String toString() {
 		return "Item [id=" + id + ", name=" + name + ", description=" + description + ", priceM=" + priceM + ", priceL="
-				+ priceL + ", imagePath=" + imagePath + ", deleted=" + deleted + ", toppingList=" + toppingList + "]";
+				+ priceL + ", imagePath=" + imagePath + ", status=" + status + ", toppingList=" + toppingList + "]";
 	}
 
 }

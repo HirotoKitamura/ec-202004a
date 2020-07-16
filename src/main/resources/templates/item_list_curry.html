@@ -75,8 +75,10 @@
 
 					<tbody th:each="itemlist: ${itemList}">
 						<tr>
-							<td th:each="item,count:${itemlist}"><a
-								th:href="@{/showItemDetail(itemId=${item.id})}"> <img
+							<td th:each="item,count:${itemlist}">
+							<div th:if="${item.status==0}">
+							<a th:href="@{/showItemDetail(itemId=${item.id})}"> 
+							<img
 									th:src="${#strings.endsWith(item.imagePath,'.jpg')}?@{'/img_curry/'+${item.imagePath}}:@{${item.imagePath}}"
 									class="img-responsive img-rounded item-img-center" width="200"
 									height="600">
@@ -86,6 +88,15 @@
 								th:text="${#numbers.formatInteger(item.priceM, 3, 'COMMA')} + '円(税抜)' "></span><br>
 								<span class="price">&nbsp;Ｌ</span> <span
 								th:text="${#numbers.formatInteger(item.priceL, 3, 'COMMA')} + '円(税抜)' "></span><br>
+							</div>
+							<div th:if="${item.status==1}">
+							<img
+									th:src="${#strings.endsWith(item.imagePath,'.jpg')}?@{'/img_curry/'+${item.imagePath}}:@{${item.imagePath}}"
+									class="img-responsive img-rounded item-img-center" width="200"
+									height="600">
+								<br> <span th:href="@{/showItemDetail(itemId=${item.id})}" th:text="${item.name}"></span>
+								<span style="color: red">売り切れ中です</span><br><br>
+							</div>
 							</td>
 						</tr>
 					</tbody>

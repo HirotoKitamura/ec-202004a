@@ -49,7 +49,8 @@ public class ShowItemListController {
 			itemList = service.show3colItemList("", order);
 		}
 		// オートコンプリート用にJavaScriptの配列の中身を文字列で作ってスコープへ格納
-		StringBuilder itemListForAutocomplete = service.getItemListForAutocomplete(service.showItemList(name, order));
+		List<Item> showItemList = service.showItemList(name, order);
+		StringBuilder itemListForAutocomplete = service.getItemListForAutocomplete(showItemList);
 		model.addAttribute("itemListForAutocomplete", itemListForAutocomplete);
 
 		model.addAttribute("itemList", itemList);

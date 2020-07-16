@@ -27,6 +27,7 @@ public class ToppingRepository {
 		topping.setName(rs.getString("name"));
 		topping.setPriceM(rs.getInt("price_m"));
 		topping.setPriceL(rs.getInt("price_l"));
+		topping.setDeleted(rs.getBoolean("deleted"));
 		return topping;
 	};
 
@@ -34,12 +35,22 @@ public class ToppingRepository {
 	private NamedParameterJdbcTemplate template;
 
 	/**
-	 * トッピングを全件取得する.
+	 * 販売中のトッピングを全件取得する.
 	 * 
 	 * @return トッピングのリスト
 	 */
-	public List<Topping> findAll() {
-		String sql = "select id, name, price_m, price_l from toppings;";
+	public List<Topping> findOnSale() {
+		String sql = "select id, name, price_m, price_l, deleted from toppings where deleted=false order by id;";
+		return template.query(sql, TOPPING_ROW_MAPPER);
+	}
+
+	/**
+	 * 販売停止中のトッピングを全件取得する.
+	 * 
+	 * @return トッピングのリスト
+	 */
+	public List<Topping> findSuspended() {
+		String sql = "select id, name, price_m, price_l, deleted from toppings where deleted=false order by id;";
 		return template.query(sql, TOPPING_ROW_MAPPER);
 	}
 
@@ -57,7 +68,7 @@ public class ToppingRepository {
 			newId = 1;
 		}
 		topping.setId(newId);
-		String sql2 = "insert into toppings values (:id,:name,:priceM,:priceL)";
+		String sql2 = "insert into toppings values (:id,:name,:priceM,:priceL,:deleted)";
 		SqlParameterSource param = new BeanPropertySqlParameterSource(topping);
 		template.update(sql2, param);
 	}

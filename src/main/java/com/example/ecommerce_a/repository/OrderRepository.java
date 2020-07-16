@@ -51,7 +51,7 @@ public class OrderRepository {
 				order = new Order();
 				order.setId(rs.getInt("o_id"));
 				order.setUserId(rs.getInt("user_id"));
-				order.setStatus(rs.getInt("status"));
+				order.setStatus(rs.getInt("o_status"));
 				order.setTotalPrice(rs.getInt("total_price"));
 				order.setOrderDate(rs.getDate("order_date"));
 				order.setDestinationName(rs.getString("destination_name"));
@@ -96,6 +96,7 @@ public class OrderRepository {
 				item.setImagePath(rs.getString("image_path"));
 				topping = new Topping();
 				item.setToppingList(toppings);
+				item.setStatus(rs.getInt("i_status"));
 				orderItem.setItem(item);
 
 				orderItem.setOrderToppingList(orderToppings);
@@ -115,6 +116,7 @@ public class OrderRepository {
 				topping.setName(rs.getString("t_name"));
 				topping.setPriceM(rs.getInt("t_price_m"));
 				topping.setPriceL(rs.getInt("t_price_L"));
+				topping.setDeleted(rs.getBoolean("deleted"));
 
 				orderTopping.setTopping(topping);
 
@@ -175,17 +177,17 @@ public class OrderRepository {
 	 * @return 注文情報
 	 */
 	public Order findByUserIdAndStatus(Integer userId, Integer status) {
-		String sql = "select o.id as o_id,user_id,status,total_price,order_date,"
+		String sql = "select o.id as o_id,user_id,o.status as o_status,total_price,order_date,"
 				+ "destination_name,destination_email,destination_zipcode,"
 				+ "destination_address,destination_tel,delivery_time,payment_method,"
 				+ "oi.id as oi_id,item_id,order_id,quantity,size,"
 				+ "i.id as i_id,i.name as i_name,description,i.price_m as i_price_m,"
-				+ "i.price_l as i_price_l,image_path,deleted," + "ot.id as ot_id,topping_id,order_item_id,"
-				+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l "
+				+ "i.price_l as i_price_l,image_path,i.status as i_status," + "ot.id as ot_id,topping_id,order_item_id,"
+				+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l,deleted "
 				+ "from orders as o left join order_items as oi on o.id=oi.order_id "
 				+ "left join items as i on oi.item_id=i.id "
 				+ "left join order_toppings as ot on oi.id=ot.order_item_id "
-				+ "left join toppings as t on t.id=ot.topping_id " + "where user_id=:userId and status=:status;";
+				+ "left join toppings as t on t.id=ot.topping_id " + "where user_id=:userId and o.status=:status;";
 
 		SqlParameterSource param = new MapSqlParameterSource("userId", userId).addValue("status", status);
 
@@ -207,18 +209,17 @@ public class OrderRepository {
 		String sql = "select id from orders where user_id=:userId order by id;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
 		List<Integer> orderIdList = template.queryForList(sql, param, Integer.class);
-		String sql2 = "select o.id as o_id,user_id,status,total_price,order_date,"
+		String sql2 = "select o.id as o_id,user_id,o.status as o_status,total_price,order_date,"
 				+ "destination_name,destination_email,destination_zipcode,"
 				+ "destination_address,destination_tel,delivery_time,payment_method,"
 				+ "oi.id as oi_id,item_id,order_id,quantity,size,"
 				+ "i.id as i_id,i.name as i_name,description,i.price_m as i_price_m,"
-				+ "i.price_l as i_price_l,image_path,deleted," + "ot.id as ot_id,topping_id,order_item_id,"
-				+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l "
+				+ "i.price_l as i_price_l,image_path,i.status as i_status," + "ot.id as ot_id,topping_id,order_item_id,"
+				+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l,deleted "
 				+ "from orders as o left join order_items as oi on o.id=oi.order_id "
 				+ "left join items as i on oi.item_id=i.id "
 				+ "left join order_toppings as ot on oi.id=ot.order_item_id "
-				+ "left join toppings as t on t.id=ot.topping_id "
-				+ "where o.id = :orderId and status!=0;";
+				+ "left join toppings as t on t.id=ot.topping_id " + "where o.id = :orderId and o.status!=0;";
 		for (int orderId : orderIdList) {
 			SqlParameterSource param2 = new MapSqlParameterSource().addValue("orderId", orderId);
 			Order order = template.query(sql2, param2, ORDER_RS_EXT);
@@ -236,18 +237,17 @@ public class OrderRepository {
 	 * @return 注文情報
 	 */
 	public Order findByOrderId(Integer orderId) {
-		String sql = "select o.id as o_id,user_id,status,total_price,order_date,"
+		String sql = "select o.id as o_id,user_id,o.status as o_status,total_price,order_date,"
 				+ "destination_name,destination_email,destination_zipcode,"
 				+ "destination_address,destination_tel,delivery_time,payment_method,"
 				+ "oi.id as oi_id,item_id,order_id,quantity,size,"
 				+ "i.id as i_id,i.name as i_name,description,i.price_m as i_price_m,"
-				+ "i.price_l as i_price_l,image_path,deleted," + "ot.id as ot_id,topping_id,order_item_id,"
-				+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l "
+				+ "i.price_l as i_price_l,image_path,i.status as i_status," + "ot.id as ot_id,topping_id,order_item_id,"
+				+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l,deleted "
 				+ "from orders as o left join order_items as oi on o.id=oi.order_id "
 				+ "left join items as i on oi.item_id=i.id "
 				+ "left join order_toppings as ot on oi.id=ot.order_item_id "
-				+ "left join toppings as t on t.id=ot.topping_id "
-				+ "where o.id = :orderId and status!=0;";
+				+ "left join toppings as t on t.id=ot.topping_id " + "where o.id = :orderId and o.status!=0;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("orderId", orderId);
 		return template.query(sql, param, ORDER_RS_EXT);
 
@@ -265,8 +265,8 @@ public class OrderRepository {
 	}
 
 	/**
-	 * 注文時にordersテーブルの内容を更新する
-	 * 
+	 * 注文情報を更新する
+	 * @param order 注文情報
 	 */
 	public void update(Order order) {
 		String sql = "update orders set status= :status, total_price = :totalPrice, order_date = :orderDate, "
@@ -274,10 +274,14 @@ public class OrderRepository {
 				+ "destination_zipcode = :destinationZipcode, destination_address = :destinationAddress, "
 				+ "destination_tel = :destinationTel, delivery_time = :deliveryTime, payment_method = :paymentMethod "
 				+ "where id = :id;";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("status", order.getStatus()).addValue("totalPrice", order.getCalcTotalPrice()).addValue("orderDate", order.getOrderDate())
-				.addValue("destinationName", order.getDestinationName()).addValue("destinationEmail", order.getDestinationEmail()).addValue("destinationZipcode", order.getDestinationZipcode())
-				.addValue("destinationAddress", order.getDestinationAddress()).addValue("destinationTel", order.getDestinationTel())
-				.addValue("deliveryTime", order.getDeliveryTime()).addValue("paymentMethod", order.getPaymentMethod()).addValue("id", order.getId());
+		SqlParameterSource param = new MapSqlParameterSource().addValue("status", order.getStatus())
+				.addValue("totalPrice", order.getCalcTotalPrice()).addValue("orderDate", order.getOrderDate())
+				.addValue("destinationName", order.getDestinationName())
+				.addValue("destinationEmail", order.getDestinationEmail())
+				.addValue("destinationZipcode", order.getDestinationZipcode())
+				.addValue("destinationAddress", order.getDestinationAddress())
+				.addValue("destinationTel", order.getDestinationTel()).addValue("deliveryTime", order.getDeliveryTime())
+				.addValue("paymentMethod", order.getPaymentMethod()).addValue("id", order.getId());
 		template.update(sql, param);
 	}
 
@@ -305,7 +309,6 @@ public class OrderRepository {
 
 		noParamTemplate.update(sql);
 	}
-	
 
 	/**
 	 * 注文IDをログイン前の注文番号からログイン後の注文番号に更新する.
@@ -330,17 +333,33 @@ public class OrderRepository {
 		SqlParameterSource param = new MapSqlParameterSource().addValue("guestId", guestId);
 		template.update(sql, param);
 	}
-	
+
 	/**
 	 * 指定の注文IDのステータスを9（キャンセル）にする.
 	 * 
 	 * @param orderId 注文ID
 	 */
 	public void updateStatus9(Integer orderId) {
-		String sql="update orders set status=9 where id=:orderId";
-		SqlParameterSource param=new MapSqlParameterSource("orderId",orderId);
+		String sql = "update orders set status=9 where id=:orderId";
+		SqlParameterSource param = new MapSqlParameterSource("orderId", orderId);
 		template.update(sql, param);
-		
+
+	}
+
+	/**
+	 * 販売停止中の商品を未注文の注文情報から削除する.
+	 * 
+	 * @return 操作された行の数
+	 * @param userId ユーザーID
+	 */
+	public Integer deleteSuspended(Integer userId) {
+		String sql1 = "delete from order_toppings where order_item_id in (select id from order_items where order_id in (select id from orders where user_id = :userId and status = 0)) and topping_id in (select id from toppings where deleted = true);";
+		String sql2 = "delete from order_items where order_id in (select id from orders where user_id = :userId and status = 0) and item_id in (select id from items where status != 0);";
+		SqlParameterSource param = new MapSqlParameterSource("userId", userId);
+		int updated = 0;
+		updated += template.update(sql1, param);
+		updated += template.update(sql2, param);
+		return updated;
 	}
 
 }

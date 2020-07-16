@@ -14,6 +14,9 @@
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 				<h3 class="text-center">注文内容確認</h3>
+				<h4 class="text-center" style="color: red;" th:text="${alert}"></h4>
+				<h4 class="text-center" th:text="${nullorder}"></h4>
+				<div th:unless="${nullorder}">
 				<table class="table table-striped item-list-table">
 					<tbody>
 						<tr>
@@ -65,8 +68,10 @@
 						</tr>
 					</tbody>
 				</table>
+				</div>
 			</div>
 		</div>
+		<div th:unless="${nullorder}">
 		<div class="row">
 			<div class="col-xs-offset-2 col-xs-8">
 				<div class="form-group text-center">
@@ -90,7 +95,7 @@
 								</td>
 								<td>
 								<div th:errors="*{destinationName}" style="color:red"></div>
-									<input type="text" name="destinationName">
+									<input type="text" name="destinationName"th:field="*{destinationName}">
 								</td>
 							</tr>
 							<tr>
@@ -101,7 +106,7 @@
 								</td>
 								<td>
 								<div th:errors="*{destinationEmail}" style="color:red"></div>
-									<input type="text" name="destinationEmail">
+									<input type="text" name="destinationEmail"th:field="*{destinationEmail}">
 								</td>
 							</tr>
 							<tr>
@@ -112,7 +117,7 @@
 								</td>
 								<td>
 								<div th:errors="*{destinationZipcode}" style="color:red"></div>
-									<input id="inputZipcode" type="text" name="destinationZipcode">&nbsp;&nbsp;<input type="button" id="buttonZipcode" value="住所検索">
+									<input id="inputZipcode" type="text" name="destinationZipcode"th:field="*{destinationZipcode}">&nbsp;&nbsp;<input type="button" id="buttonZipcode" value="住所検索">
 								</td>
 							</tr>
 							<tr>
@@ -123,7 +128,7 @@
 								</td>
 								<td>
 								<div th:errors="*{destinationAddress}" style="color:red"></div>
-									<input id="inputAddress" type="text" name="destinationAddress">
+									<input id="inputAddress" type="text" name="destinationAddress"th:field="*{destinationAddress}">
 								</td>
 							</tr>
 							<tr>
@@ -134,7 +139,7 @@
 								</td>
 								<td>
 								<div th:errors="*{destinationTel}" style="color:red"></div>
-									<input type="text" name="destinationTel">
+									<input type="text" name="destinationTel"th:field="*{destinationTel}">
 								</td>
 							</tr>
 							<tr>
@@ -266,6 +271,7 @@
 				</div>
 			</div>
 		</form>
+		</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>

@@ -54,24 +54,15 @@ public class AdministerService {
 		itemRepository.insertItem(item);
 	}
 
-	/**
-	 * 商品を削除する.
-	 * 
-	 * @param id 商品ID
-	 */
-	public void deleteItem(Integer id) {
-		itemRepository.deleteItem(id);
-	}
-
-	/**
-	 * 商品の削除フラグを変更する.
-	 * 
-	 * @param id      商品ID
-	 * @param deleted 削除フラグ
-	 */
-	public void setDeleteFlag(Integer id, boolean deleted) {
-		itemRepository.setDeleteFlag(id, deleted);
-	}
+//	/**
+//	 * 商品の削除フラグを変更する.
+//	 * 
+//	 * @param id      商品ID
+//	 * @param deleted 削除フラグ
+//	 */
+//	public void setDeleteFlag(Integer id, boolean deleted) {
+//		itemRepository.setDeleteFlag(id, deleted);
+//	}
 
 	/**
 	 * トッピングを追加.
@@ -85,20 +76,11 @@ public class AdministerService {
 	}
 
 	/**
-	 * トッピングを削除.
-	 * 
-	 * @param id トッピングID
-	 */
-	public void deleteTopping(Integer id) {
-		toppingRepository.deleteTopping(id);
-	}
-
-	/**
 	 * トッピングを全件検索.
 	 * 
 	 * @return トッピングのリスト
 	 */
 	public List<Topping> searchAllToppings() {
-		return toppingRepository.findAll();
+		return toppingRepository.findOnSale();
 	}
 }
