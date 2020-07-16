@@ -173,12 +173,31 @@ public class AdministerController {
 	 */
 	@RequestMapping("toDeleteTopping")
 	public String toDeleteTopping(Model model) {
-		List<Topping> toppingList = adminService.searchAllToppings();
-		model.addAttribute("toppingList", toppingList);
-		if (toppingList.size() == 0) {
-			model.addAttribute("message", "登録されているトッピングがありません");
+		List<List<Topping>> toppingListList = adminService.searchAllToppings();
+		String[] messageList = new String[2];
+		for (int i = 0; i < 2; i++) {
+			if (toppingListList.get(i).size() == 0) {
+				messageList[i] = "該当するトッピングがありません";
+			}
 		}
+		String[] statusList = { "販売中のトッピング", "販売停止中のトッピング" };
+		model.addAttribute("statusList", statusList);
+		model.addAttribute("message", messageList);
+		model.addAttribute("toppingListList", toppingListList);
 		return "delete_topping";
+	}
+
+	/**
+	 * トッピングの削除フラグを変更する.
+	 * 
+	 * @param id      トッピングID
+	 * @param deleted 削除フラグ
+	 * @return トッピング削除画面
+	 */
+	@RequestMapping("deleteTopping")
+	public String deleteTopping(Integer id, Boolean deleted) {
+		adminService.setDeleted(id, deleted);
+		return "redirect:/administer/toDeleteTopping";
 	}
 
 }

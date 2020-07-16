@@ -22,6 +22,10 @@ public class InsertToppingForm {
 	 * Lサイズの値段.
 	 */
 	private Integer priceL;
+	/**
+	 * 削除フラグ.
+	 */
+	private Boolean deleted;
 
 	public String getName() {
 		return name;
@@ -47,9 +51,18 @@ public class InsertToppingForm {
 		this.priceL = priceL == null ? 0 : priceL;
 	}
 
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
+
 	@Override
 	public String toString() {
-		return "InsertToppingForm [name=" + name + ", priceM=" + priceM + ", priceL=" + priceL + "]";
+		return "InsertToppingForm [name=" + name + ", priceM=" + priceM + ", priceL=" + priceL + ", deleted=" + deleted
+				+ "]";
 	}
 
 }

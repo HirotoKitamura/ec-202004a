@@ -106,9 +106,22 @@ public class AdministerService {
 	/**
 	 * トッピングを全件検索.
 	 * 
-	 * @return トッピングのリスト
+	 * @return トッピングのリストを販売状態別に集めたリスト.
 	 */
-	public List<Topping> searchAllToppings() {
-		return toppingRepository.findOnSale();
+	public List<List<Topping>> searchAllToppings() {
+		List<List<Topping>> toppingListList = new ArrayList<>();
+		toppingListList.add(toppingRepository.findOnSale());
+		toppingListList.add(toppingRepository.findSuspended());
+		return toppingListList;
+	}
+
+	/**
+	 * トッピングの削除フラグを変更する.
+	 * 
+	 * @param id      トッピングID
+	 * @param deleted 削除フラグ
+	 */
+	public void setDeleted(Integer id, Boolean deleted) {
+		toppingRepository.setDeleted(id, deleted);
 	}
 }

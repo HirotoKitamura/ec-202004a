@@ -46,6 +46,11 @@
 									placeholder="PriceL" th:field="*{priceL}"th:errorclass="fieldError" />
 							</div>
 							<div class="form-group">
+								<label for="inputDeleted">販売停止状態で追加する:</label> 
+								<input type="checkbox" id="inputDeleted"
+									 th:field="*{deleted}" th:value="true" th:errorclass="fieldError" />
+							</div>
+							<div class="form-group">
 								<button type="submit" class="btn btn-primary">登録</button>
 								<button type="reset" class="btn btn-primary">クリア</button>
 							</div>
