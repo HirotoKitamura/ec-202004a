@@ -70,7 +70,7 @@
 									class="control-label" style="color: red" for="inputError"
 									th:if="${#fields.hasErrors('password')}"
 									th:errors="*{password}">パスワードを入力してください</label> <input
-									type="text" id="inputPassword" class="form-control"
+									type="password" id="inputPassword" class="form-control"
 									placeholder="Password" th:field="*{password}"th:errorclass="fieldError" />
 							</div>
 							<div class="form-group">
@@ -78,7 +78,7 @@
 									class="control-label" style="color: red" for="inputError"
 									th:if="${#fields.hasErrors('checkpassword')}"
 									th:errors="*{checkpassword}">確認用パスワードを入力してください</label> <input
-									type="text" id="inputConfirmationPassword" class="form-control"
+									type="password" id="inputConfirmationPassword" class="form-control"
 									placeholder="Confirmation Password" th:field="*{checkpassword}"
 									th:errorclass="fieldError" />
 							</div>

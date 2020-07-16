@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.ecommerce_a.domain.Order;
+import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.OrderForm;
 import com.example.ecommerce_a.service.ShoppingCartService;
 
@@ -34,12 +35,14 @@ public class ConfirmOrderController {
 	}
 
 	/**
+	 * 注文確認画面を表示する.
 	 * 
-	 * @param model
-	 * @return
+	 * @param model リクエストスコープに値を渡すためのオブジェクト
+	 * @param hasErrors エラーの有無を判定する
+	 * @return 注文確認画面
 	 */
 	@RequestMapping("")
-	public String showOrderConfirm(Model model) {
+	public String showOrderConfirm(Model model, boolean hasErrors) {
 		if (session.getAttribute("user") == null) {
 			return "redirect:/toLogin?from=cart";
 		}
@@ -53,6 +56,20 @@ public class ConfirmOrderController {
 			model.addAttribute("nullorder", "カートに何も入っていません");
 		}
 		model.addAttribute("order", order);
+		
+		//お届け先情報を入力する際に、デフォルト値にログイン者情報をセットする。
+		//バリデーションチェックでエラーがあった場合にif文の中身が実行されないようにした
+		if (!hasErrors) {
+			OrderForm orderForm = new OrderForm();
+			User user = (User)session.getAttribute("user");
+			orderForm.setDestinationName(user.getName());
+			orderForm.setDestinationEmail(user.getEmail());
+			orderForm.setDestinationZipcode(user.getZipcode());
+			orderForm.setDestinationAddress(user.getAddress());
+			orderForm.setDestinationTel(user.getTelephone());
+			model.addAttribute("orderForm", orderForm);
+			System.out.println(orderForm.getDestinationName());
+		}
 		return "order_confirm";
 	}
 }

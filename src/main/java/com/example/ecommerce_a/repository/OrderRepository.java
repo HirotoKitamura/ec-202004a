@@ -265,8 +265,8 @@ public class OrderRepository {
 	}
 
 	/**
-	 * 注文時にordersテーブルの内容を更新する
-	 * 
+	 * 注文情報を更新する
+	 * @param order 注文情報
 	 */
 	public void update(Order order) {
 		String sql = "update orders set status= :status, total_price = :totalPrice, order_date = :orderDate, "
