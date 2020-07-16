@@ -1,7 +1,9 @@
 package com.example.ecommerce_a.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.repository.OrderRepository;
@@ -13,6 +15,7 @@ import com.example.ecommerce_a.repository.OrderRepository;
  *
  */
 @Service
+@Transactional
 public class OrderService {
 	
 	@Autowired
