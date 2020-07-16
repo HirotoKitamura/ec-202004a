@@ -53,9 +53,6 @@ public class OrderController {
 	 */
 	@RequestMapping("")
 	public String order(@Validated OrderForm form, BindingResult result, Model model) {
-		//日付を取得
-		Date deliveryDate = form.getDeliveryDate();
-		
 		//日付を指定していない場合、エラーメッセージを生成する。
 		if (form.getDeliveryDate() == null) {
 			FieldError deliveryTimeError = new FieldError(result.getObjectName(),"deliveryTime", "日時を指定してください");
@@ -63,7 +60,7 @@ public class OrderController {
 		}
 		
 		if (form.getDeliveryDate() != null) {
-			LocalDateTime deliveryTime = deliveryDate.toLocalDate().atTime(form.getDeliveryTime(), 0);
+			LocalDateTime deliveryTime = form.getDeliveryDate().toLocalDate().atTime(form.getDeliveryTime(), 0);
 			if (deliveryTime.isBefore(LocalDateTime.now().plusHours(3))) {
 				FieldError deliveryTimeError = new FieldError(result.getObjectName(),"deliveryTime", "3時間後以降の日時を指定してください");
 				result.addError(deliveryTimeError);
@@ -71,8 +68,16 @@ public class OrderController {
 		}
 		//エラーがあった場合、エラーがあったという情報をconfirmOrderコントローラに渡す
 		if (result.hasErrors()) {
+<<<<<<< HEAD
 			System.out.println("foobar");
 			return controller.showOrderConfirm(model, true);
+=======
+
+			//ここで他クラスのメソッドに引数を渡す方法は？
+//			return "/confirmOrder";
+//			return "forward:/confirmOrder";
+			return controller.showOrderConfirm(model);
+>>>>>>> f/admin
 		}
 		//orderを取得
 		Order order = service.findByUserIdAndStatus((Integer)session.getAttribute("userId"), 0);
@@ -93,7 +98,7 @@ public class OrderController {
 		order.setOrderDate(Date.valueOf(LocalDate.now()));
 		
 		//配達日時をセット
-		LocalDateTime deliveryTime = deliveryDate.toLocalDate().atTime(form.getDeliveryTime(), 0);
+		LocalDateTime deliveryTime = form.getDeliveryDate().toLocalDate().atTime(form.getDeliveryTime(), 0);
 		order.setDeliveryTime(java.sql.Timestamp.valueOf(deliveryTime));
 		service.order(order);
 		mailService.sendMail(order);

@@ -51,7 +51,6 @@ public class LoginLogoutService {
 	 */
 	public void inheritCart(Integer guestId, Integer id) {
 		if (orderRepository.findByUserIdAndStatus(id, 0) == null) {
-			System.out.println("おはよう");
 			orderRepository.updateUserId(guestId, id);
 		} else {
 			orderRepository.updateOrderId(guestId, id);

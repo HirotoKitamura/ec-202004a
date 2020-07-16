@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ネットでピザ注文</title>
+<title>ユーザー情報変更</title>
 <link rel="stylesheet" th:href="@{/css/bootstrap.css}"
 	href="../static/css/bootstrap.css">
 <link rel="stylesheet" th:href="@{/css/inputError.css}"
@@ -24,26 +24,26 @@
 				class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-10 col-xs-12">
 				<div class="well">
 					<form method="post" action="item_list_pizza.html"
-						th:action="@{/registration-user/insert-user}"
-						th:object="${registrationUserForm}">
+						th:action="@{/myPage/updateUser}"
+						th:object="${updateUserForm}">
 						<fieldset>
-							<legend>ユーザ登録</legend>
+							<legend>ユーザ情報変更</legend>
 							<div class="form-group">
-								<label for="inputName">名前(必須):</label><label class="control-label"
+								<label for="inputName">名前:</label><label class="control-label"
 									style="color: red" for="inputError"
 									th:if="${#fields.hasErrors('name')}" th:errors="*{name}">名前を入力してください</label>
 								<input type="text" id="inputName" class="form-control"
-									placeholder="Name" th:field="*{name}"th:errorclass="fieldError" />
+									placeholder="Name" th:field="*{name}"th:errorclass="fieldError"  />
 							</div>
 							<div class="form-group">
-								<label for="inputEmail">メールアドレス(必須):</label><label
+								<label for="inputEmail">メールアドレス:</label><label
 									class="control-label" style="color: red" for="inputError"
 									th:if="${#fields.hasErrors('email')}" th:errors="*{email}">メールアドレスを入力してください</label>
 								<input type="text" id="inputEmail" class="form-control"
-									placeholder="Email" th:field="*{email}"th:errorclass="fieldError" />
+									placeholder="Email" th:field="*{email}"th:errorclass="fieldError"  />
 							</div>
 							<div class="form-group">
-								<label for="inputZipcode">郵便番号(必須, -あり):</label> <label
+								<label for="inputZipcode">郵便番号:</label> <label
 									class="control-label" style="color: red" for="inputError"
 									th:if="${#fields.hasErrors('zipcode')}" th:errors="*{zipcode}">郵便番号を入力してください</label>
 								<input type="button" id="buttonZipcode" value="住所検索"> <input
@@ -51,39 +51,47 @@
 									placeholder="Zipcode" th:field="*{zipcode}"th:errorclass="fieldError" />
 							</div>
 							<div class="form-group">
-								<label for="inputAddress">住所(必須):</label> <label
+								<label for="inputAddress">住所:</label> <label
 									class="control-label" style="color: red" for="inputError"
 									th:if="${#fields.hasErrors('address')}" th:errors="*{address}">住所を入力してください</label>
 								<input type="text" id="inputAddress" class="form-control"
-									placeholder="Address" th:field="*{address}"th:errorclass="fieldError" />
+									placeholder="Address" th:field="*{address}"th:errorclass="fieldError"  />
 							</div>
 							<div class="form-group">
-								<label for="inputTel">電話番号(必須, -あり):</label> <label class="control-label"
+								<label for="inputTel">電話番号:</label> <label class="control-label"
 									style="color: red" for="inputError"
 									th:if="${#fields.hasErrors('telephone')}"
 									th:errors="*{telephone}">電話番号を入力してください</label> <input
 									type="text" id="inputTel" class="form-control"
-									placeholder="Tel" th:field="*{telephone}"th:errorclass="fieldError" />
+									placeholder="Tel" th:field="*{telephone}"th:errorclass="fieldError"/>
 							</div>
 							<div class="form-group">
-								<label for="inputPassword">パスワード(必須, 8文字以上16文字以下):</label> <label
+								<label for="inputPassword">変更後のパスワード:<strong style="color: red">（変更がある場合のみ入力してください）</strong></label> <label
 									class="control-label" style="color: red" for="inputError"
 									th:if="${#fields.hasErrors('password')}"
-									th:errors="*{password}">パスワードを入力してください</label> <input
-									type="password" id="inputPassword" class="form-control"
+									th:errors="*{password}">変更後のパスワードを入力してください</label> <input
+									type="text" id="inputPassword" class="form-control"
 									placeholder="Password" th:field="*{password}"th:errorclass="fieldError" />
 							</div>
 							<div class="form-group">
-								<label for="inputConfirmationPassword">確認用パスワード(必須):</label> <label
+								<label for="inputConfirmationPassword">変更後のパスワード再入力:<strong style="color: red">（変更がある場合のみ入力してください）</strong></label> <label
 									class="control-label" style="color: red" for="inputError"
 									th:if="${#fields.hasErrors('checkpassword')}"
 									th:errors="*{checkpassword}">確認用パスワードを入力してください</label> <input
-									type="password" id="inputConfirmationPassword" class="form-control"
+									type="text" id="inputConfirmationPassword" class="form-control"
 									placeholder="Confirmation Password" th:field="*{checkpassword}"
 									th:errorclass="fieldError" />
 							</div>
 							<div class="form-group">
-								<button type="submit" class="btn btn-primary">登録</button>
+								<label for="oldPassword">変更前のパスワード:<strong style="color: red"></strong></label> <label
+									class="control-label" style="color: red" for="inputError"
+									th:if="${#fields.hasErrors('oldPassword')}"
+									th:errors="*{oldPassword}">変更前(現在)のパスワードを入力してください</label> <input
+									type="text" id="oldPassword" class="form-control"
+									placeholder="Now Password" th:field="*{oldPassword}"th:errorclass="fieldError" />
+							</div>
+							<div class="form-group">
+								<button type="submit" class="btn btn-primary">変更</button>
 								<button type="reset" class="btn btn-primary">クリア</button>
 							</div>
 						</fieldset>
