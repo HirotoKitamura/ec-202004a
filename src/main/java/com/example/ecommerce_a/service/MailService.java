@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ public class MailService {
 	@Autowired
 	private HttpSession session;
 
+	@Async
 	public void sendMail(Order order) {
 		SimpleMailMessage msg = new SimpleMailMessage();
 		msg.setFrom("sapec.tsukuba.ac.jp@gmail.com");
