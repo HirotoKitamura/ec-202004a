@@ -33,6 +33,7 @@ public class UpdateUserForm {
 	private String checkpassword;
 	
 	/** 変更前パスワード． */
+	@NotBlank(message = "変更前（現在）のパスワードを入力してください")
 	private String oldPassword;
 
 	public String getName() {

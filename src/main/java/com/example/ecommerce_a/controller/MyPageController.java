@@ -2,7 +2,6 @@ package com.example.ecommerce_a.controller;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +15,6 @@ import com.example.ecommerce_a.form.UpdateUserForm;
 import com.example.ecommerce_a.service.LoginLogoutService;
 import com.example.ecommerce_a.service.MyPageService;
 import com.example.ecommerce_a.service.RegistrationUserService;
-
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
 
 @Controller
 @RequestMapping("myPage")
