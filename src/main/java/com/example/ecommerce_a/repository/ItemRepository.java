@@ -48,8 +48,8 @@ public class ItemRepository {
 			name = "";
 		}
 		String sql = "select id, name, description, price_m, price_l, image_path, deleted "
-				+ "from items where name like :name ";
-		name = "%" + name + "%";
+				+ "from items where name ilike :name ";
+		name = '%' + name + '%';
 		if ("iddesc".equals(order)) {// 新着順--id降順desc
 			order = "order by id desc;";
 
