@@ -78,7 +78,6 @@ public class ShoppingCartService {
 			session.setAttribute("userId", user.getId());
 		}
 		
-		System.out.println("userID="+session.getAttribute("userId"));
 
 		int userId = Integer.parseInt("" + session.getAttribute("userId"));
 

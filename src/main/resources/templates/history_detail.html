@@ -37,13 +37,17 @@
 				<h4 class="text-center" style="font-weight: bold;">
 					現在の状態:<span class="text-center" th:if="${order.status==1}">
 								<span th:text="未入金"></span><br>
-								
+								<br>
 								<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#cancelModal">
 										キャンセルはこちら
 								</button>
 								</span>
 								<span class="text-center" th:if="${order.status==2}">
 								<span th:text="入金済"></span><br>
+								<br>
+								<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#cancelModal">
+										キャンセルはこちら
+								</button>
 								</span>
 								<span class="text-center" th:if="${order.status==3}" th:text="発送済"></span>
 								<span class="text-center" th:if="${order.status==4}" th:text="発送完了"></span>

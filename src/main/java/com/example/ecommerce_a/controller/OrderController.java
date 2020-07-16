@@ -50,13 +50,9 @@ public class OrderController {
 		//日付を取得
 		Date deliveryDate = form.getDeliveryDate();
 		
-		System.out.println(form.getDeliveryDate());
-		System.out.println(form.getDeliveryTime());
-		
 		//ユーザーが入力した希望配達日時を時間を含めて取得
 		
 		LocalDateTime deliveryTime = deliveryDate.toLocalDate().atTime(form.getDeliveryTime(), 0);
-		System.out.println(deliveryTime);
 		if (deliveryDate == null || deliveryTime == null ||deliveryTime.isBefore(LocalDateTime.now().plusHours(3))) {
 			FieldError deliveryTimeError = new FieldError(result.getObjectName(),"deliveryTime", "3時間後以降の日時を指定してください");
 			result.addError(deliveryTimeError);
@@ -64,7 +60,6 @@ public class OrderController {
 		if (result.hasErrors()) {
 			//ここで他クラスのメソッドに引数を渡す方法は？
 //			return "/confirmOrder";
-			System.out.println("foobar");
 //			return "forward:/confirmOrder";
 			return controller.showOrderConfirm(model);
 		}
