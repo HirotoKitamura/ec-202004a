@@ -45,19 +45,21 @@ public class OrderController {
 
 	@RequestMapping("")
 	public String order(@Validated OrderForm form, BindingResult result, Model model) {
-		//配達時間が現在の時間の3時間後よりも前のときにエラー
-		
-		//日付を取得
-		Date deliveryDate = form.getDeliveryDate();
-		
-		//ユーザーが入力した希望配達日時を時間を含めて取得
-		
-		LocalDateTime deliveryTime = deliveryDate.toLocalDate().atTime(form.getDeliveryTime(), 0);
-		if (deliveryDate == null || deliveryTime == null ||deliveryTime.isBefore(LocalDateTime.now().plusHours(3))) {
-			FieldError deliveryTimeError = new FieldError(result.getObjectName(),"deliveryTime", "3時間後以降の日時を指定してください");
+		//日付を指定していない場合、エラーメッセージを生成する。
+		if (form.getDeliveryDate() == null) {
+			FieldError deliveryTimeError = new FieldError(result.getObjectName(),"deliveryTime", "日時を指定してください");
 			result.addError(deliveryTimeError);
 		}
+		
+		if (form.getDeliveryDate() != null) {
+			LocalDateTime deliveryTime = form.getDeliveryDate().toLocalDate().atTime(form.getDeliveryTime(), 0);
+			if (deliveryTime.isBefore(LocalDateTime.now().plusHours(3))) {
+				FieldError deliveryTimeError = new FieldError(result.getObjectName(),"deliveryTime", "3時間後以降の日時を指定してください");
+				result.addError(deliveryTimeError);
+			} 
+		}
 		if (result.hasErrors()) {
+
 			//ここで他クラスのメソッドに引数を渡す方法は？
 //			return "/confirmOrder";
 //			return "forward:/confirmOrder";
@@ -65,8 +67,6 @@ public class OrderController {
 		}
 		//orderを取得
 		Order order = service.findByUserIdAndStatus((Integer)session.getAttribute("userId"), 0);
-		//配達日時をセット
-		order.setDeliveryTime(java.sql.Timestamp.valueOf(deliveryTime));
 		
 		//フォームからコピーできる値をorderオブジェクトにコピー
 		BeanUtils.copyProperties(form, order);
@@ -82,6 +82,10 @@ public class OrderController {
 		order.setTotalPrice(order.getCalcTotalPrice());
 		//注文した日時をセット
 		order.setOrderDate(Date.valueOf(LocalDate.now()));
+		
+		//配達日時をセット
+		LocalDateTime deliveryTime = form.getDeliveryDate().toLocalDate().atTime(form.getDeliveryTime(), 0);
+		order.setDeliveryTime(java.sql.Timestamp.valueOf(deliveryTime));
 		service.order(order);
 		mailService.sendMail(order);
 		return "order_finished.html";

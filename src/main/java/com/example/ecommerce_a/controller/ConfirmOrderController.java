@@ -41,8 +41,8 @@ public class ConfirmOrderController {
 	 */
 	@RequestMapping("")
 	public String showOrderConfirm(Model model) {
-		if (session.getAttribute("userId") == null) {
-			return "redirect:/toLogin?from='cart'";
+		if (session.getAttribute("user") == null) {
+			return "redirect:/toLogin?from=cart";
 		}
 		Order order = service.findByuserIdAndStatus0();
 		model.addAttribute("order", order);

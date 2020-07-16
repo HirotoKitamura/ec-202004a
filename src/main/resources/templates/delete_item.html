@@ -21,7 +21,8 @@
 
 		<!-- search form -->
 		<div class="row">
-
+		<h5><a th:href="@{/administer}">←管理者トップに戻る</a></h5>
+		<h3 class="text-center">商品削除</h3>
 			<div
 				class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-10 col-xs-12">
 				<div class="panel panel-default">
@@ -29,7 +30,7 @@
 						<div class="panel-title">商品を検索する</div>
 					</div>
 					<div class="panel-body">
-						<form method="post" th:action="@{/showItemList}"
+						<form method="post" th:action="@{/administer/toDeleteItem}"
 							class="form-horizontal">
 							<div class="form-group">
 								<label for="code" class="control-label col-sm-2">商品名</label>
@@ -49,8 +50,8 @@
 		</div>
 
 		並び替え <br />
-		<form th:action="@{/showItemList}" method="post" th:object="${orderSelectForm}">
-			<select name="order" id="" th:field="*{order}">
+		<form th:action="@{/administer/toDeleteItem}" method="post">
+			<select name="order" id="" >
 				<option value="priceasc">価格の安い順</option>
 				<option value="pricedesc">価格の高い順</option>
 				<option value="iddesc">新着順</option>
@@ -71,17 +72,17 @@
 					<tbody th:each="itemlist: ${itemList}">
 						<tr>
 							<td th:each="item,count:${itemlist}">
-							<a th:href="@{/showItemDetail(itemId=${item.id})}"> 
 							<img
 									th:src="${#strings.endsWith(item.imagePath,'.jpg')}?@{'/img_curry/'+${item.imagePath}}:@{${item.imagePath}}"
 									class="img-responsive img-rounded item-img-center" width="200"
 									height="600">
-							</a><br> <a th:href="@{/showItemDetail(itemId=${item.id})}"
-								th:text="${item.name}"></a><br> <span class="price">&nbsp;М&nbsp;</span>
+							<br>
+								<span th:text="${item.name}"></span><br> <span class="price">&nbsp;М&nbsp;</span>
 								<span
 								th:text="${#numbers.formatInteger(item.priceM, 3, 'COMMA')} + '円(税抜)' "></span><br>
 								<span class="price">&nbsp;Ｌ</span> <span
 								th:text="${#numbers.formatInteger(item.priceL, 3, 'COMMA')} + '円(税抜)' "></span><br>
+								<a class="btn btn-primary" th:href="@{'/administer/deleteItem?id='+${item.id}}">削除</a>
 							</td>
 						</tr>
 					</tbody>
@@ -111,7 +112,7 @@
 	<script>
 	$(document).ready(function() {
 		$(".table").paginate({
-			rows: 3
+			rows: 9
 		});
 	});
 	</script>
