@@ -68,16 +68,9 @@ public class OrderController {
 		}
 		//エラーがあった場合、エラーがあったという情報をconfirmOrderコントローラに渡す
 		if (result.hasErrors()) {
-<<<<<<< HEAD
-			System.out.println("foobar");
-			return controller.showOrderConfirm(model, true);
-=======
 
-			//ここで他クラスのメソッドに引数を渡す方法は？
-//			return "/confirmOrder";
-//			return "forward:/confirmOrder";
-			return controller.showOrderConfirm(model);
->>>>>>> f/admin
+			return controller.showOrderConfirm(model, true);
+
 		}
 		//orderを取得
 		Order order = service.findByUserIdAndStatus((Integer)session.getAttribute("userId"), 0);
