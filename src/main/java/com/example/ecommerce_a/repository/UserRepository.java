@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -60,6 +61,36 @@ public class UserRepository {
 				.addValue("zipcode", user.getZipcode()).addValue("address", user.getAddress())
 				.addValue("telephone", user.getTelephone());
 
+		template.update(sql, param);
+	}
+	
+	/**
+	 * ユーザー情報を更新する.
+	 * 
+	 * @param user　ユーザー情報
+	 */
+	public void updateUser(User user) {
+		
+		String sql="update users set name=:name,email=:email,password=:password,"
+				+ "zipcode=:zipcode,address=:address,telephone=:telephone where id=:id";
+		
+		SqlParameterSource param = new MapSqlParameterSource("id",user.getId()).addValue("name", user.getName())
+				.addValue("email", user.getEmail()).addValue("password", encoder.encode(user.getPassword()))
+				.addValue("zipcode", user.getZipcode()).addValue("address", user.getAddress())
+				.addValue("telephone", user.getTelephone());
+		
+		template.update(sql, param);
+		
+	}
+	
+	/**
+	 * ユーザー情報を削除する.
+	 *  
+	 * @param userId ユーザーID
+	 */
+	public void deleteUser(Integer userId) {
+		String sql="delete from users where id=:userId";
+		SqlParameterSource param =new MapSqlParameterSource("userId",userId);
 		template.update(sql, param);
 	}
 }

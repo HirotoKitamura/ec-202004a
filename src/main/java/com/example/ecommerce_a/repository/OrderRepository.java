@@ -31,7 +31,7 @@ import com.example.ecommerce_a.domain.User;
 @Repository
 public class OrderRepository {
 
-	/** 値セット用RowMapper */
+	/** 値セット用ResultSetExtractor */
 	private final ResultSetExtractor<Order> ORDER_RS_EXT = (rs) -> {
 		List<OrderItem> orderItems = new ArrayList();
 		List<OrderTopping> orderToppings = new ArrayList();

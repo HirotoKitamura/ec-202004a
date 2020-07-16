@@ -117,11 +117,9 @@ public class ItemRepository {
 	 * @return 表示する商品
 	 */
 	public Item load(Integer itemId) {
-		System.out.println(itemId);
 		String sql = "select id, name, description, price_m, price_l, image_path, status from items where id = :id;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", itemId);
 		Item item = template.queryForObject(sql, param, ITEM_ROW_MAPPER);
-		System.out.println(item.getId());
 		return item;
 	}
 
