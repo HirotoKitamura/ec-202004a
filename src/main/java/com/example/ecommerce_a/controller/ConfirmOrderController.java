@@ -71,7 +71,6 @@ public class ConfirmOrderController {
 			orderForm.setDestinationTel(user.getTelephone());
 			orderForm.setDeliveryDate(java.sql.Date.valueOf(LocalDate.now()));
 			model.addAttribute("orderForm", orderForm);
-			System.out.println(orderForm.getDestinationName());
 		}
 		return "order_confirm";
 	}
