@@ -34,9 +34,11 @@ public class InsertItemForm {
 	 */
 	private MultipartFile image;
 	/**
-	 * 削除フラグ.
+	 * 販売状態.
+	 * 
+	 * 0:販売中 1:売り切れ 2:販売停止中
 	 */
-	private boolean deleted;
+	private Integer status;
 
 	public String getName() {
 		return name;
@@ -78,18 +80,18 @@ public class InsertItemForm {
 		this.image = image;
 	}
 
-	public boolean isDeleted() {
-		return deleted;
+	public Integer getStatus() {
+		return status;
 	}
 
-	public void setDeleted(boolean deleted) {
-		this.deleted = deleted;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	@Override
 	public String toString() {
 		return "InsertItemForm [name=" + name + ", description=" + description + ", priceM=" + priceM + ", priceL="
-				+ priceL + ", image=" + image + ", deleted=" + deleted + "]";
+				+ priceL + ", image=" + image + ", status=" + status + "]";
 	}
 
 }

@@ -57,13 +57,13 @@ public class ItemRepository {
 			order = "order by id asc;";
 
 		} else if ("pricedesc".equals(order)) {// 価格の高い順
-			order = "order by price_m desc;";
+			order = "order by price_m desc, id desc;";
 
 		} else if ("priceasc".equals(order)) {// 価格の安い順
-			order = "order by price_m asc;";
+			order = "order by price_m asc, id asc;";
 
 		} else {// 初期動作
-			order = "order by price_m;";
+			order = "order by price_m asc, id asc;";
 		}
 
 		sql += order;
