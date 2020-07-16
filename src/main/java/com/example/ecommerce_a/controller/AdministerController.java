@@ -141,6 +141,8 @@ public class AdministerController {
 				messageList[i] = "該当する商品がありません";
 			}
 		}
+		String[] statusList = { "販売中の商品", "売り切れ中の商品", "販売停止中の商品" };
+		model.addAttribute("statusList", statusList);
 		model.addAttribute("message", messageList);
 		// オートコンプリート用にJavaScriptの配列の中身を文字列で作ってスコープへ格納
 		List<Item> showItemList = itemService.showItemList(name, order);
