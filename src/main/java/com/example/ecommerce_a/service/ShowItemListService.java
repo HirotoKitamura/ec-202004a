@@ -31,35 +31,36 @@ public class ShowItemListService {
 	public List<Item> showItemList(String name, String order) {
 		return itemRepository.findByFuzzyName(name, order);
 	}
-	
+
 	/**
 	 * 検索処理を行い、表示する商品情報を３列になるよう加工する．
 	 * 
-	 * @param name 検索ワード（一覧表示時: 空文字）
+	 * @param name  検索ワード（一覧表示時: 空文字）
 	 * @param order 表示順（デフォルト: 価格安い順）
 	 * @return 条件に合致する商品リスト
 	 */
-	public List<List<Item>> show3colItemList(String name,String order){
+	public List<List<Item>> show3colItemList(String name, String order) {
 		List<Item> list = showItemList(name, order);
-		List<Item> listIn3items = new ArrayList<>(); 
+		List<Item> listIn3items = new ArrayList<>();
 		List<List<Item>> listInlist = new ArrayList<>();
-		
-		for(int i=0;i<list.size();i++) {
-			listIn3items.add(list.get(i));
-			
-			if(i%3 == 2) {//item3個目
-				listInlist.add(listIn3items);
+
+		for (int i = 0; i < list.size(); i++) {
+			if (i % 3 == 0) {
 				listIn3items = new ArrayList<Item>();
-			}		
+				listIn3items.add(list.get(i));
+				listInlist.add(listIn3items);
+			} else {
+				listIn3items.add(list.get(i));
+			}
+
 		}
-		
-		if(list.size()%3 !=2) {
-			listInlist.add(listIn3items);
-		}
-		
+
+		System.out.println(list.size());
+		System.out.println(listInlist.size());
+
 		return listInlist;
 	}
-	
+
 	public int getItemHitSize(String name) {
 		return itemRepository.itemHitSizeByFuzzyName(name);
 	}

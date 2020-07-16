@@ -63,15 +63,15 @@ public class AdministerService {
 		itemRepository.deleteItem(id);
 	}
 
-	/**
-	 * 商品の削除フラグを変更する.
-	 * 
-	 * @param id      商品ID
-	 * @param deleted 削除フラグ
-	 */
-	public void setDeleteFlag(Integer id, boolean deleted) {
-		itemRepository.setDeleteFlag(id, deleted);
-	}
+//	/**
+//	 * 商品の削除フラグを変更する.
+//	 * 
+//	 * @param id      商品ID
+//	 * @param deleted 削除フラグ
+//	 */
+//	public void setDeleteFlag(Integer id, boolean deleted) {
+//		itemRepository.setDeleteFlag(id, deleted);
+//	}
 
 	/**
 	 * トッピングを追加.
