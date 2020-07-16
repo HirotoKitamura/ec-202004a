@@ -27,7 +27,6 @@ public class RegistrationUserService {
 	public void insertUser(RegistrationUserForm form) {
 		User user = new User();
 		BeanUtils.copyProperties(form, user);
-		user.setZipcode(form.getZipcode().replace("-", ""));
 		
 		userRepository.insertUser(user);
 	}
