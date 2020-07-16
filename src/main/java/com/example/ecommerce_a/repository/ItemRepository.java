@@ -74,18 +74,19 @@ public class ItemRepository {
 	}
 
 	/**
-	 * 販売停止中の商品一覧を表示する.
+	 * 指定された販売状況の商品一覧を表示する.
 	 * 
-	 * @param name  検索名
-	 * @param order 並び順(デフォルトではasc=安い順)
+	 * @param name   検索名
+	 * @param order  並び順(デフォルトではasc=安い順)
+	 * @param status 販売状況
 	 * @return 条件に合致する商品一覧
 	 */
-	public List<Item> findSuspendedByFuzzyName(String name, String order) {
+	public List<Item> findByFuzzyNameAndStatus(String name, String order, Integer status) {
 		if (name == null) {
 			name = "";
 		}
 		String sql = "select id, name, description, price_m, price_l, image_path, status "
-				+ "from items where name ilike :name where status = 2";
+				+ "from items where name ilike :name and status = :status ";
 		name = "%" + name + "%";
 		if ("iddesc".equals(order)) {// 新着順--id降順desc
 			order = "order by status, id desc;";
@@ -105,7 +106,8 @@ public class ItemRepository {
 
 		sql += order;
 
-		SqlParameterSource param = new MapSqlParameterSource().addValue("name", name).addValue("order", order);
+		SqlParameterSource param = new MapSqlParameterSource().addValue("name", name).addValue("order", order)
+				.addValue("status", status);
 		List<Item> itemList = template.query(sql, param, ITEM_ROW_MAPPER);
 		return itemList;
 	}
@@ -168,9 +170,9 @@ public class ItemRepository {
 	 * 商品の販売状況を変更する.
 	 * 
 	 * @param id      商品ID
-	 * @param deleted 販売状況
+	 * @param status 販売状況
 	 */
-	public void setDeleteFlag(Integer id, Integer status) {
+	public void updateStatus(Integer id, Integer status) {
 		String sql = "update items set status=:status where id=:id";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id).addValue("status", status);
 		template.update(sql, param);
