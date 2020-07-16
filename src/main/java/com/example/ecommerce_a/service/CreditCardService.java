@@ -33,7 +33,7 @@ public class CreditCardService {
 	 */
 	public Boolean isAuthenticated(CreditCardRequest request) {
 		CreditCardResponse response = restTemplate.postForObject(URL, request, CreditCardResponse.class);
-		System.out.println(response);
+		//System.out.println(response);
 		return "success".equals(response.getStatus());
 	}
 

@@ -51,7 +51,7 @@ public class Test {
 	public String creca() {
 		CreditCardRequest request = new CreditCardRequest(null, null, null, "1234123412341234", "2022", "12",
 				"HINATA KINOSHITA", "123");
-		System.out.println(service.isAuthenticated(request));
+		//System.out.println(service.isAuthenticated(request));
 		return "redirect:/toLogin";
 	}
 }
