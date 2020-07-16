@@ -48,16 +48,21 @@
 			</div>
 		</div>
 
-		並び替え <br />
-		<form th:action="@{/showItemList}" method="post" th:object="${orderSelectForm}">
-			<select name="order" id="" th:field="*{order}">
-				<option value="priceasc">価格の安い順</option>
-				<option value="pricedesc">価格の高い順</option>
-				<option value="iddesc">新着順</option>
-				<option value="idasc">古い順</option>
-			</select>
-			<button>並び替え</button>
-		</form>
+		<div class="row">
+			<div class="col-xs-offset-8 col-xs-4 col-sm-offset-7 col-sm-3 col-md-offset-9 col-md-2">
+				並び替え <br />
+				<form th:action="@{/showItemList}" method="post"
+					th:object="${orderSelectForm}">
+					<select name="order" id="order" th:field="*{order}"
+						onChange="submit(this.form)" class="form-control">
+						<option value="priceasc">価格の安い順</option>
+						<option value="pricedesc">価格の高い順</option>
+						<option value="iddesc">新着順</option>
+						<option value="idasc">古い順</option>
+					</select>
+				</form>
+			</div>
+		</div>
 
 		<span th:if="${message} != null" th:text="${message}"></span> <br />
 		<!-- table -->
@@ -71,6 +76,7 @@
 					<tbody th:each="itemlist: ${itemList}">
 						<tr>
 							<td th:each="item,count:${itemlist}">
+							<div th:if="${item.status==0}">
 							<a th:href="@{/showItemDetail(itemId=${item.id})}"> 
 							<img
 									th:src="${#strings.endsWith(item.imagePath,'.jpg')}?@{'/img_curry/'+${item.imagePath}}:@{${item.imagePath}}"
@@ -82,6 +88,15 @@
 								th:text="${#numbers.formatInteger(item.priceM, 3, 'COMMA')} + '円(税抜)' "></span><br>
 								<span class="price">&nbsp;Ｌ</span> <span
 								th:text="${#numbers.formatInteger(item.priceL, 3, 'COMMA')} + '円(税抜)' "></span><br>
+							</div>
+							<div th:if="${item.status==1}">
+							<img
+									th:src="${#strings.endsWith(item.imagePath,'.jpg')}?@{'/img_curry/'+${item.imagePath}}:@{${item.imagePath}}"
+									class="img-responsive img-rounded item-img-center" width="200"
+									height="600">
+								<br> <span th:href="@{/showItemDetail(itemId=${item.id})}" th:text="${item.name}"></span>
+								<span style="color: red">売り切れ中です</span><br><br>
+							</div>
 							</td>
 						</tr>
 					</tbody>
@@ -111,6 +126,7 @@
 	<script>
 	$(document).ready(function() {
 		$(".table").paginate({
+
 			rows: 3
 		});
 	});
