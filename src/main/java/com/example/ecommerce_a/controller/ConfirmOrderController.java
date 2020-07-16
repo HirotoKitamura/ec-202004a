@@ -36,9 +36,11 @@ public class ConfirmOrderController {
 	
 	
 	/**
+	 * 注文確認画面を表示する.
 	 * 
-	 * @param model
-	 * @return
+	 * @param model リクエストスコープに値を渡すためのオブジェクト
+	 * @param hasErrors エラーの有無を判定する
+	 * @return 注文確認画面
 	 */
 	@RequestMapping("")
 	public String showOrderConfirm(Model model, boolean hasErrors) {

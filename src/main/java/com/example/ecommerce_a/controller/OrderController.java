@@ -43,6 +43,14 @@ public class OrderController {
 		return new OrderForm();
 	}
 
+	/**
+	 * 注文する.
+	 * 
+	 * @param form フォームに値を渡すためのフォームオブジェクト
+	 * @param result エラー判定を行うためのオブジェクト
+	 * @param model リクエストスコープに値を渡す
+	 * @return エラーがなければ注文完了画面。エラーがあれば注文確認画面に戻る
+	 */
 	@RequestMapping("")
 	public String order(@Validated OrderForm form, BindingResult result, Model model) {
 		//日付を取得
@@ -61,6 +69,7 @@ public class OrderController {
 				result.addError(deliveryTimeError);
 			} 
 		}
+		//エラーがあった場合、エラーがあったという情報をconfirmOrderコントローラに渡す
 		if (result.hasErrors()) {
 			System.out.println("foobar");
 			return controller.showOrderConfirm(model, true);
@@ -88,6 +97,16 @@ public class OrderController {
 		order.setDeliveryTime(java.sql.Timestamp.valueOf(deliveryTime));
 		service.order(order);
 		mailService.sendMail(order);
-		return "order_finished.html";
+		return "redirect:/order/showFinished";
+	}
+	
+	/**
+	 * ダブルサブミット対策として注文完了画面を表示.
+	 * 
+	 * @return 注文完了画面
+	 */
+	@RequestMapping("/showFinished")
+	public String showFinished() {
+		return "order_finished";
 	}
 }
