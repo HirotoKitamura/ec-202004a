@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>カレー屋のネット注文</title>
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<link th:href="@{/css/piza.css}" rel="stylesheet">
+<link rel="icon" th:href="@{/img_curry/favicon.ico}" type="image/vnd.microsoft.icon">
+<link th:href="@{/css/PaginateMyTable.css}" rel="stylesheet">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<div class="container">
+		<div th:include="fragment_header::frag_header"></div>
+
+		<h3 style="text-align: center;">ログアウトされているか、不正な遷移が行われています</h3><br>
+		<h4 style="text-align: center;">商品一覧画面は<a th:href="@{/showItemList}">こちら</a></h4>
+		<h4 th:unless="${session.user}" style="text-align: center;">ログイン画面は<a th:href="@{/toLogin}">こちら</a></h4><br>
+		<h5 style="text-align: center;">他のページでもこの文章が表示される場合、メンテナンス中の可能性があります</h5>
+
+		<!-- end container -->
+	</div>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/changeprice.js}"></script>
+</body>
+</html>
