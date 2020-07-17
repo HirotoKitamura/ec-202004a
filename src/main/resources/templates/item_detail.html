@@ -17,7 +17,6 @@
 
 				<h3 class="text-center">商品詳細</h3>
 				<input type="hidden" th:value="${item.id}" name="itemId">
-				<div class="row">
 					<div class="col-xs-5">
 						<img th:src="${#strings.endsWith(item.imagePath,'.jpg')}?@{'/img_curry/'+${item.imagePath}}:@{${item.imagePath}}" class="img-responsive img-rounded item-img-center">
 					</div>
@@ -149,11 +148,11 @@
 						</div>
 					</div>
 					</div>
-					<h2 class="text-center" th:if="${item.status==1}">この商品は現在、売り切れております。</h2>
-					<h2 class="text-center" th:if="${item.status==2}">この商品は現在、販売しておりません。</h2>
 				</div>
 			</div>
 		</form>
+		<h2 class="text-center" th:if="${item.status==1}">この商品は現在、売り切れております。</h2>
+		<h2 class="text-center" th:if="${item.status==2}">この商品は現在、販売しておりません。</h2>
 
 	</div>
 	<!-- end container -->
