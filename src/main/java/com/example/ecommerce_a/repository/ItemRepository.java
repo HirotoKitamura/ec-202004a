@@ -64,10 +64,10 @@ public class ItemRepository {
 
 		} else if("rankdesc".equals(order)) {
 			sql = "select i.id, i.name, description, price_m, price_l, image_path, status "
-				+ "from items as i join order_items as o on i.id = o.item_id "
+				+ "from items as i left outer join order_items as o on i.id = o.item_id "
 				+ "where name ilike :name and status != 2 "
 				+ "group by i.id ";
-			order = "order by sum(quantity) desc, status, price_m desc, id desc;";
+			order = "order by coalesce(sum(quantity), 0) desc, status, price_m desc, id desc;";
 		}
 		else {// 初期動作
 			order = "order by status, price_m asc, id asc;";
