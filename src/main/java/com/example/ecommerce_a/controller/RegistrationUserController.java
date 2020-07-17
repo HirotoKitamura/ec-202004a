@@ -3,6 +3,8 @@ package com.example.ecommerce_a.controller;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -31,6 +33,9 @@ public class RegistrationUserController {
 		return new RegistrationUserForm();
 	}
 
+	@Autowired
+	private HttpSession session;
+
 	/**
 	 * ユーザ登録画面を表示する．
 	 * 
@@ -38,6 +43,9 @@ public class RegistrationUserController {
 	 */
 	@RequestMapping("")
 	public String index() {
+		if (session.getAttribute("user") != null) {
+			return "redirect:/showItemList";
+		}
 		return "register_user";
 	}
 
@@ -65,10 +73,14 @@ public class RegistrationUserController {
 
 		if (!"".equals(result.getFieldValue("password"))) {// パスワードnotnull
 			String pass = (String) result.getFieldValue("password");
-
+			boolean flag = true;
 			if (pass.length() < 8 || 16 < pass.length()) {// 8以上16以下判定＆エラー
 				result.rejectValue("password", "", "パスワードは８文字以上１６文字以内で設定してください");
-			} else if (isErrorPasswordFormat(pass)) {// 形式チェック
+				flag = false;
+			}
+
+			if (isErrorPasswordFormat(pass) && flag) {// 形式チェック
+				System.out.println("haittayo~");
 				result.rejectValue("password", "", "英大文字、英小文字、数字すべてを使用してください");
 			}
 		}
@@ -97,6 +109,7 @@ public class RegistrationUserController {
 		registrationuserService.insertUser(form);
 
 		return "redirect:/toLogin?from=reg";
+
 	}
 
 	/**
@@ -134,9 +147,22 @@ public class RegistrationUserController {
 	 * @return
 	 */
 	public boolean isErrorPasswordFormat(String matchval) {
-		Pattern p = Pattern.compile("^[a-zA-Z0-9]{8,16}$");
+		Pattern p = Pattern.compile("^.*[a-z].*$");
 		Matcher m = p.matcher(matchval);
-		boolean b = m.matches();
+		boolean b1 = m.matches();
+
+		p = Pattern.compile("^.*[A-Z].*$");
+		m = p.matcher(matchval);
+		boolean b2 = m.matches();
+
+		p = Pattern.compile("^.*[0-9].*$");
+		m = p.matcher(matchval);
+		boolean b3 = m.matches();
+
+		boolean b = false;
+		if (b1 && b2 && b3) {// true
+			b = true;
+		}
 
 		return !b;
 	}

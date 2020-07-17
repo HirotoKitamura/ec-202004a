@@ -29,7 +29,7 @@ public class MailService {
 		msg.setSubject("ご注文完了のお知らせ");// タイトルの設定
 		StringBuilder mainMessage = new StringBuilder();
 		mainMessage.append(order.getDestinationName() + "様\n\n");
-		mainMessage.append("ラクラクピザをご利用いただきありがとうございます。\n");
+		mainMessage.append("ラクラクカリーをご利用いただきありがとうございます。\n");
 		mainMessage.append("ご注文が完了いたしましたので、注文内容をお送りいたします。\n\n");
 		mainMessage.append("注文日:" + order.getOrderDate() + "\n");
 		mainMessage.append("宛先住所:〒" + order.getDestinationZipcode() + "  ");
