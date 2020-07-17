@@ -22,11 +22,10 @@
 
 		<!-- search form -->
 		<div class="row">
-
 			<div
 				class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
 				<div class="panel panel-default">
-					<div class="panel-heading" style="background-color: #ffc44d ;">
+					<div class="panel-heading" style="background-color: #ffc44d;">
 						<div class="panel-title">商品を検索する</div>
 					</div>
 					<div class="panel-body">
@@ -50,7 +49,8 @@
 		</div>
 
 		<div class="row">
-			<div class="col-xs-offset-8 col-xs-4 col-sm-offset-8 col-sm-3 col-md-offset-9 col-md-2">
+			<div
+				class="col-xs-offset-8 col-xs-4 col-sm-offset-8 col-sm-3 col-md-offset-9 col-md-2">
 				並び替え <br />
 				<form th:action="@{/showItemList}" method="post"
 					th:object="${orderSelectForm}">
@@ -72,7 +72,7 @@
 		<!-- table -->
 		<div class="row">
 
-			<div
+			<div style="background-color: #f7f7f9;"
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-12">
 
 				<table class="table table-striped item-list-table">
@@ -80,27 +80,27 @@
 					<tbody th:each="itemlist: ${itemList}">
 						<tr>
 							<td th:each="item,count:${itemlist}">
-							<div th:if="${item.status==0}">
-							<a th:href="@{/showItemDetail(itemId=${item.id})}"> 
-							<img
-									th:src="${#strings.endsWith(item.imagePath,'.jpg')}?@{'/img_curry/'+${item.imagePath}}:@{${item.imagePath}}"
-									class="img-responsive img-rounded item-img-center" width="200"
-									height="600">
-							</a><br> <a th:href="@{/showItemDetail(itemId=${item.id})}"
-								th:text="${item.name}"></a><br> <span class="price">&nbsp;М&nbsp;</span>
-								<span
-								th:text="${#numbers.formatInteger(item.priceM, 3, 'COMMA')} + '円(税抜)' "></span><br>
-								<span class="price">&nbsp;Ｌ</span> <span
-								th:text="${#numbers.formatInteger(item.priceL, 3, 'COMMA')} + '円(税抜)' "></span><br>
-							</div>
-							<div th:if="${item.status==1}">
-							<img
-									th:src="${#strings.endsWith(item.imagePath,'.jpg')}?@{'/img_curry/'+${item.imagePath}}:@{${item.imagePath}}"
-									class="img-responsive img-rounded item-img-center" width="200"
-									height="600">
-								<br> <span th:href="@{/showItemDetail(itemId=${item.id})}" th:text="${item.name}"></span>
-								<span style="color: red">売り切れ中です</span><br><br>
-							</div>
+								<div th:if="${item.status==0}">
+									<a th:href="@{/showItemDetail(itemId=${item.id})}"> <img
+										th:src="${#strings.endsWith(item.imagePath,'.jpg')}?@{'/img_curry/'+${item.imagePath}}:@{${item.imagePath}}"
+										class="img-responsive img-rounded item-img-center" width="200"
+										height="600">
+									</a><br> <a th:href="@{/showItemDetail(itemId=${item.id})}"
+										th:text="${item.name}"></a><br> <span class="price">&nbsp;М&nbsp;</span>
+									<span
+										th:text="${#numbers.formatInteger(item.priceM, 3, 'COMMA')} + '円(税抜)' "></span><br>
+									<span class="price">&nbsp;Ｌ</span> <span
+										th:text="${#numbers.formatInteger(item.priceL, 3, 'COMMA')} + '円(税抜)' "></span><br>
+								</div>
+								<div th:if="${item.status==1}">
+									<img
+										th:src="${#strings.endsWith(item.imagePath,'.jpg')}?@{'/img_curry/'+${item.imagePath}}:@{${item.imagePath}}"
+										class="img-responsive img-rounded item-img-center" width="200"
+										height="600"> <br> <span
+										th:href="@{/showItemDetail(itemId=${item.id})}"
+										th:text="${item.name}"></span> <span style="color: red">売り切れ中です</span><br>
+									<br>
+								</div>
 							</td>
 						</tr>
 					</tbody>
@@ -108,9 +108,8 @@
 
 			</div>
 		</div>
-
 	</div>
-
+	</div>
 
 	<!-- end container -->
 	<script
