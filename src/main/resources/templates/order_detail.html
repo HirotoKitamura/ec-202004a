@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" th:href="@{/img_curry/favicon.ico}" type="image/vnd.microsoft.icon">
+<title>注文詳細確認</title>
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+<link th:href="@{/css/piza.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+		<div th:include="fragment_header::frag_header"></div>
+		<!-- table -->
+		<div class="row">
+		<h5><a th:href="@{/administer/editStatus}">←注文一覧に戻る</a></h5>
+			<div
+				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-12">
+				<h3 class="text-center">注文詳細確認</h3>
+				<form th:action=@{/administer/editStatus} method="post">
+					<h4 class="text-center">注文状態変更</h4>
+					<div class="text-center">
+					<div th:text="'現在の状態:'+${order.status}"></div>
+					<input type="hidden" name="orderId" th:value="${order.id}">
+					<select name="status" class="form-control">
+						<option class="text-center" th:selected="${order.status==1}" value="1">1:未入金</option>
+						<option class="text-center" th:selected="${order.status==2}" value="2">2:入金済</option>
+						<option class="text-center" th:selected="${order.status==3}" value="3">3:発送済</option>
+						<option class="text-center" th:selected="${order.status==4}" value="4">4:配送完了</option>
+						<option class="text-center" th:selected="${order.status==9}" value="9">9:キャンセル</option>
+					</select>
+					<button class="btn btn-primary">更新</button></div>
+				</form>
+				<hr>
+				<h4 class="text-center" th:text="'宛先氏名  '+${order.destinationName}"></h4>
+				<table class="table table-striped item-list-table">
+					<tbody>
+						<tr>
+							<th>
+								<div class="text-center">
+									商品名
+								</div>
+							</th>
+							<th>
+								<div class="text-center">
+									サイズ、価格(税抜)、数量
+								</div>
+							</th>
+							<th>
+								<div class="text-center">
+									トッピング、価格(税抜)
+								</div>
+							</th>
+							<th>
+								<div class="text-center">
+									小計
+								</div>
+							</th>
+						</tr>
+						<tr th:each="orderItem:${order.orderItemList}">
+							<td style="text-align:center;">
+								<div class="center">
+									<img th:src="${#strings.endsWith(orderItem.item.imagePath,'.jpg')}?@{'/img_curry/'+${orderItem.item.imagePath}}:@{${orderItem.item.imagePath}}"
+										class="img-responsive img-rounded item-img-center" width="100" height="300"><br>
+									<span th:text="${orderItem.item.name}"></span>
+								</div>
+							</td>
+							<td style="text-align:center;">
+								<span class="price" th:text="'&nbsp;'+${orderItem.size}"></span>&nbsp;&nbsp;
+								<span th:if="${orderItem.size} == 'M'" th:text="${#numbers.formatInteger(orderItem.item.priceM,0,'COMMA')}"></span>
+								<span th:if="${orderItem.size} == 'L'" th:text="${#numbers.formatInteger(orderItem.item.priceL,0,'COMMA')}"></span>円&nbsp;&nbsp;
+								<span th:text="${orderItem.quantity}"></span>個
+							</td>
+							<td  style="white-space:nowrap;">
+								<div th:if="${#lists.size(orderItem.orderToppingList)}>0" >
+							<details>
+    							<summary style="cursor: pointer;">
+    							
+    							<span th:if="${orderItem.size}=='M'" th:utext="'トッピング詳細 (各 '+${orderItem.orderToppingList.get(0).topping.priceM}+' 円) <br> 個数：'+${#lists.size(orderItem.orderToppingList)} +'個　合計金額：'+${#numbers.formatInteger(orderItem.orderToppingList.get(0).topping.priceM*#lists.size(orderItem.orderToppingList),0,'COMMA')}"></span>
+    							<span th:if="${orderItem.size}=='L'" th:utext="'トッピング詳細 (各 '+${orderItem.orderToppingList.get(0).topping.priceL}+' 円) <br> 個数：'+${#lists.size(orderItem.orderToppingList)} +'個　合計金額：'+${#numbers.formatInteger(orderItem.orderToppingList.get(0).topping.priceL*#lists.size(orderItem.orderToppingList),0,'COMMA')}"></span>
+    							円
+    							
+    							</summary>
+									<div th:each="orderTopping:${orderItem.orderToppingList}">
+   
+										<div th:if="${orderItem.size}=='M'" th:text="'・'+${orderTopping.topping.name}">ピーマン300</div>
+										<div th:if="${orderItem.size}=='L'" th:text="'・'+${orderTopping.topping.name}">ピーマン300</div>
+									</div>
+							</details>
+								</div>
+							</td>
+							<td>
+								<div class="text-center">
+									<span th:text="${#numbers.formatInteger(orderItem.subTotal,0,'COMMA')}"></span>円
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-offset-2 col-xs-8">
+				<div class="form-group text-center">
+					<span id="total-price" th:text="'消費税：'+${#numbers.formatInteger(order.tax,0,'COMMA')}+'円'">消費税：8,000円</span><br>
+					<span id="total-price" th:text="'ご注文金額合計：'+${#numbers.formatInteger(order.calcTotalPrice,0,'COMMA')}+'円'">ご注文金額合計：38,000円 (税込)</span>
+				</div>
+			</div>
+		</div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/zipcode.js}"></script>
+<script th:src="@{/js/show-and-hide-card-info.js}"></script>
+</body>
+</html>

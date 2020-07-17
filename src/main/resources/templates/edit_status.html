@@ -55,7 +55,7 @@
 						<tr th:each="order:${orderListList.get(status)}">
 							<td>
 								<div class="text-center">
-									<div th:text="${order.orderDate==null?'未入力':order.orderDate}">2020-07-04</div>
+									<a th:href="@{'/administer/orderDetail?id='+${order.id}}" th:text="${order.orderDate==null?'未入力':order.orderDate}">2020-07-04</a>
 								</div>
 							</td>
 							<td>

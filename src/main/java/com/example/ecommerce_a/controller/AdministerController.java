@@ -286,4 +286,21 @@ public class AdministerController {
 		adminService.editStatus(orderId, status);
 		return "redirect:/administer/toEditStatus";
 	}
+
+	/**
+	 * 注文詳細を表示する.
+	 * 
+	 * @param id 注文ID
+	 * @return 注文詳細画面
+	 */
+	@RequestMapping("orderDetail")
+	public String orderDetail(Integer id, Model model) {
+		User user = (User) session.getAttribute("user");
+		if (user == null || user.getId() != 0) {
+			return "redirect:/toLogin";
+		}
+		Order order = adminService.searchOrderById(id);
+		model.addAttribute("order", order);
+		return "order_detail";
+	}
 }
