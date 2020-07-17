@@ -270,4 +270,20 @@ public class AdministerController {
 		return "edit_status";
 	}
 
+	/**
+	 * 指定の注文IDのステータスを変更する.
+	 * 
+	 * @param orderId 注文ID
+	 * @param status  変更後の状態
+	 * @return
+	 */
+	@RequestMapping("editStatus")
+	public String editStatus(Integer orderId, Integer status) {
+		User user = (User) session.getAttribute("user");
+		if (user == null || user.getId() != 0) {
+			return "redirect:/toLogin";
+		}
+		adminService.editStatus(orderId, status);
+		return "redirect:/administer/toEditStatus";
+	}
 }

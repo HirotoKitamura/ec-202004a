@@ -138,4 +138,14 @@ public class AdministerService {
 	public void setDeleted(Integer id, Boolean deleted) {
 		toppingRepository.setDeleted(id, deleted);
 	}
+
+	/**
+	 * 指定の注文IDのステータスを変更する.
+	 * 
+	 * @param orderId 注文ID
+	 * @param status  変更後の状態
+	 */
+	public void editStatus(Integer orderId, Integer status) {
+		orderRepository.updateStatus(orderId, status);
+	}
 }

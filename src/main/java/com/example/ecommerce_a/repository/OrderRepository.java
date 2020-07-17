@@ -340,13 +340,14 @@ public class OrderRepository {
 	}
 
 	/**
-	 * 指定の注文IDのステータスを9（キャンセル）にする.
+	 * 指定の注文IDのステータスを変更する.
 	 * 
 	 * @param orderId 注文ID
+	 * @param status  変更後の状態
 	 */
-	public void updateStatus9(Integer orderId) {
-		String sql = "update orders set status=9 where id=:orderId";
-		SqlParameterSource param = new MapSqlParameterSource("orderId", orderId);
+	public void updateStatus(Integer orderId, Integer status) {
+		String sql = "update orders set status=:status where id=:orderId";
+		SqlParameterSource param = new MapSqlParameterSource("orderId", orderId).addValue("status", status);
 		template.update(sql, param);
 
 	}

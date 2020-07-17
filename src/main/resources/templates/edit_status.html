@@ -80,7 +80,7 @@
 							<td>
 							<div>
 								<form th:action=@{/administer/editStatus} method="post">
-								<input type="hidden" name="orderId" value="${order.id}">
+								<input type="hidden" name="orderId" th:value="${order.id}">
 								<select name="status">
 									<option class="text-center" th:selected="${order.status==1}" value="1" th:text="未入金"></option>
 									<option class="text-center" th:selected="${order.status==2}" value="2"  th:text="入金済"></option>
