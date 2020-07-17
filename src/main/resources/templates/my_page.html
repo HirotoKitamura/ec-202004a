@@ -7,12 +7,33 @@
 <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
 </head>
 <body>
+<!-- モーダル・ダイアログ -->
+<div class="modal fade" id="withdrawalModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">最終確認</h4>
+			</div>
+			<div class="modal-body">
+				<h5><strong>退会しますか？</strong></h5>
+				<p>退会すると、注文履歴などの情報が確認できなくなります。</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">やめる</button>
+				<button type="button" class="btn btn-primary" onclick="document.WithdrawalForm.submit(); alert('退会します。ご利用ありがとうございました。')">OK</button>
+			</div>
+		</div>
+	</div>
+</div>
+<form method="post" name="WithdrawalForm" th:action="@{/myPage/withdrawal}">
+	<input type="hidden" name="userId" th:value="${session.user.id}">
+</form>
 	<div class="container">
 		<div th:include="fragment_header::frag_header">
 		</div>
 				<div class="row">
 			<div
-				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-offset-1  col-sm-10 col-xs-12">
 				<h3 class="text-center">ユーザー情報</h3>
 			
 				<table class="table table-bordered">
@@ -44,7 +65,7 @@
 						<tr>
 						<td colspan="2" class="text-center">
 						<a th:href="@{/myPage/showUpdateUser}">情報変更</a> ／ 
-						<a href="">退会する</a>
+						<a href="" data-toggle="modal" data-target="#withdrawalModal">退会する</a>
 						</td>
 						</tr>
 					</tbody>
