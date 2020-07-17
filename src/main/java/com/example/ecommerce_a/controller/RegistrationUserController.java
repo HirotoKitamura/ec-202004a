@@ -3,6 +3,8 @@ package com.example.ecommerce_a.controller;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -30,6 +32,9 @@ public class RegistrationUserController {
 	public RegistrationUserForm setupRegistrationUserForm() {
 		return new RegistrationUserForm();
 	}
+	
+	@Autowired
+	private HttpSession session;
 
 	/**
 	 * ユーザ登録画面を表示する．
@@ -38,6 +43,9 @@ public class RegistrationUserController {
 	 */
 	@RequestMapping("")
 	public String index() {
+		if (session.getAttribute("user") != null) {
+			return "redirect:/showItemList";
+		}
 		return "register_user";
 	}
 
