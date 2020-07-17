@@ -41,7 +41,9 @@ public class LoginLogoutController {
 	 */
 	@RequestMapping("toLogin")
 	public String toLogin(String from) {
-		session.setAttribute("from", from);// nullだった場合は変更しないなどするといいかも
+		if (!"reg".equals(from)) {
+			session.setAttribute("from", from);// nullだった場合は変更しないなどするといいかも
+		}
 		return "login";
 	}
 
