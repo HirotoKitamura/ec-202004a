@@ -80,7 +80,6 @@ public class RegistrationUserController {
 			}
 
 			if (isErrorPasswordFormat(pass) && flag) {// 形式チェック
-				System.out.println("haittayo~");
 				result.rejectValue("password", "", "英大文字、英小文字、数字すべてを使用してください");
 			}
 		}

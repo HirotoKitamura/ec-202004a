@@ -2,6 +2,7 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" th:href="@{/img_curry/favicon.ico}" type="image/vnd.microsoft.icon">
 <title>注文履歴</title>
 <link rel="stylesheet" th:href="@{/css/piza.css}">
 <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
@@ -95,9 +96,22 @@
 								<span th:text="${orderItem.quantity}"></span>個
 							</div></td>
 							<td>
-								<ul>
-									<li th:each="orderTopping:${orderItem.orderToppingList}" th:text="${orderTopping.topping.name}+${orderItem.size=='M'?orderTopping.topping.priceM:orderTopping.topping.priceL}+'円'">ピーマン300円</li>
-								</ul>
+								<div th:if="${#lists.size(orderItem.orderToppingList)}>0" >
+							<details>
+    							<summary style="cursor: pointer;">
+    							
+    							<span th:if="${orderItem.size}=='M'" th:utext="'トッピング詳細 (各 '+${orderItem.orderToppingList.get(0).topping.priceM}+' 円) <br> 個数：'+${#lists.size(orderItem.orderToppingList)} +'個　合計金額：'+${#numbers.formatInteger(orderItem.orderToppingList.get(0).topping.priceM*#lists.size(orderItem.orderToppingList),0,'COMMA')}"></span>
+    							<span th:if="${orderItem.size}=='L'" th:utext="'トッピング詳細 (各 '+${orderItem.orderToppingList.get(0).topping.priceL}+' 円) <br> 個数：'+${#lists.size(orderItem.orderToppingList)} +'個　合計金額：'+${#numbers.formatInteger(orderItem.orderToppingList.get(0).topping.priceL*#lists.size(orderItem.orderToppingList),0,'COMMA')}"></span>
+    							円
+    							
+    							</summary>
+									<div th:each="orderTopping:${orderItem.orderToppingList}">
+   
+										<div th:if="${orderItem.size}=='M'" th:text="'・'+${orderTopping.topping.name}">ピーマン300</div>
+										<div th:if="${orderItem.size}=='L'" th:text="'・'+${orderTopping.topping.name}">ピーマン300</div>
+									</div>
+							</details>
+								</div>
 							</td>
 							<td>
 								<div class="text-center">
