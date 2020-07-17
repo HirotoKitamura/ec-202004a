@@ -17,16 +17,26 @@
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-12">
 				<h3 class="text-center">注文詳細確認</h3>
 				<form th:action=@{/administer/editStatus} method="post">
-					<h4 class="text-center">注文状態変更</h4>
 					<div class="text-center">
-					<div th:text="'現在の状態:'+${order.status}"></div>
+					<h4 style="font-weight: bold;">
+					現在の状態:
+					<span class="text-center" th:if="${order.status==1}">
+					<span th:text="未入金"></span></span>
+					<span class="text-center" th:if="${order.status==2}">
+					<span th:text="入金済"></span>
+					</span>
+					<span class="text-center" th:if="${order.status==3}" th:text="発送済"></span>
+					<span class="text-center" th:if="${order.status==4}" th:text="配送完了"></span>
+					<span class="text-center" th:if="${order.status==9}" th:text="キャンセル"></span>
+					</h4>
+					<h4 class="text-center">注文状態変更</h4>
 					<input type="hidden" name="orderId" th:value="${order.id}">
 					<select name="status" class="form-control">
-						<option class="text-center" th:selected="${order.status==1}" value="1">1:未入金</option>
-						<option class="text-center" th:selected="${order.status==2}" value="2">2:入金済</option>
-						<option class="text-center" th:selected="${order.status==3}" value="3">3:発送済</option>
-						<option class="text-center" th:selected="${order.status==4}" value="4">4:配送完了</option>
-						<option class="text-center" th:selected="${order.status==9}" value="9">9:キャンセル</option>
+						<option class="text-center" th:selected="${order.status==1}" value="1">未入金</option>
+						<option class="text-center" th:selected="${order.status==2}" value="2">入金済</option>
+						<option class="text-center" th:selected="${order.status==3}" value="3">発送済</option>
+						<option class="text-center" th:selected="${order.status==4}" value="4">配送完了</option>
+						<option class="text-center" th:selected="${order.status==9}" value="9">キャンセル</option>
 					</select>
 					<button class="btn btn-primary">更新</button></div>
 				</form>

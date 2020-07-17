@@ -47,5 +47,21 @@ th {
 
 #js-main-movie {
 	z-index: -2;
-	overflow:scroll
+}
+
+
+iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.main-title-wrap {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
