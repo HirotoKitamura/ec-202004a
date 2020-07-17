@@ -187,7 +187,8 @@ public class OrderRepository {
 				+ "from orders as o left join order_items as oi on o.id=oi.order_id "
 				+ "left join items as i on oi.item_id=i.id "
 				+ "left join order_toppings as ot on oi.id=ot.order_item_id "
-				+ "left join toppings as t on t.id=ot.topping_id " + "where user_id=:userId and o.status=:status;";
+				+ "left join toppings as t on t.id=ot.topping_id "
+				+ "where user_id=:userId and o.status=:status order by o.id, oi.id desc, t.id;";
 
 		SqlParameterSource param = new MapSqlParameterSource("userId", userId).addValue("status", status);
 
@@ -266,6 +267,7 @@ public class OrderRepository {
 
 	/**
 	 * 注文情報を更新する
+	 * 
 	 * @param order 注文情報
 	 */
 	public void update(Order order) {

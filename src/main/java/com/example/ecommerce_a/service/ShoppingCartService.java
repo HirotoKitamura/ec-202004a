@@ -103,7 +103,7 @@ public class ShoppingCartService {
 		List<OrderTopping> orderToppings = new ArrayList<>();
 		orderItem.setOrderToppingList(orderToppings);
 
-		order.getOrderItemList().add(orderItem);
+//		order.getOrderItemList().add(orderItem);
 		// orderItems.add(orderItem);
 		if (form.getToppingIds() != null) {
 			for (Integer toppingId : form.getToppingIds()) {
@@ -115,6 +115,22 @@ public class ShoppingCartService {
 
 			}
 		}
+		for (OrderItem pastOrderItem : order.getOrderItemList()) {
+			Integer nowOrderItemId = pastOrderItem.getId();
+			pastOrderItem.setId(null);
+			pastOrderItem.setItem(null);
+			pastOrderItem.setQuantity(orderItem.getQuantity());
+			for (OrderTopping pastOrderTopping : pastOrderItem.getOrderToppingList()) {
+				pastOrderTopping.setId(null);
+				pastOrderTopping.setOrderItemId(null);
+				pastOrderTopping.setTopping(null);
+			}
+			if (orderItem.toString().equals(pastOrderItem.toString())) {
+				orderItemRepository.addQuantity(nowOrderItemId, orderItem.getQuantity());
+				return;
+			}
+		}
+
 		orderItem = orderItemRepository.insert(orderItem);
 		for (OrderTopping orderTopping : orderItem.getOrderToppingList()) {
 			orderTopping.setOrderItemId(orderItem.getId());
