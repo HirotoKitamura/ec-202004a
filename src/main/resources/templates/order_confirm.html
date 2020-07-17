@@ -15,6 +15,7 @@
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 				<h3 class="text-center">注文内容確認</h3>
 				<h4 class="text-center" style="color: red;" th:text="${alert}"></h4>
+				<h4 class="text-center" style="color: red;" th:text="${alert2}"></h4>
 				<h4 class="text-center" th:text="${nullorder}"></h4>
 				<div th:unless="${nullorder}">
 				<table class="table table-striped item-list-table">
@@ -162,8 +163,8 @@
 										<div class="row">
 											<div class="col-sm-12">
 												<label class="radio-inline">
-													<input type="radio" th:field="*{deliveryTime}"
-														name="deliveryTime" checked="checked" th:value=10>
+													<input type="radio"
+														name="deliveryTime" th:checked="${orderForm.deliveryTime==null||orderForm.deliveryTime==10}" th:value=10>
 													10時
 												</label>
 												<label class="radio-inline">
@@ -233,8 +234,8 @@
 									<div class="row">
 										<div class="col-sm-12">
 											<label class="radio-inline">
-												<input type="radio" th:field="*{paymentMethod}"
-													name="paymentMethod" checked="checked" th:value=1>
+												<input type="radio"
+													name="paymentMethod" th:checked="${orderForm.paymentMethod==null||orderForm.paymentMethod==1}" th:value=1>
 												代金引換
 											</label>
 										</div>

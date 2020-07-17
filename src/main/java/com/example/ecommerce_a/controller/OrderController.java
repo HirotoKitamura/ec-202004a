@@ -57,12 +57,12 @@ public class OrderController {
 	@RequestMapping("")
 	public String order(@Validated OrderForm form, BindingResult result, Model model) {
 		// 日付を指定していない場合、エラーメッセージを生成する。
-		if (form.getDeliveryDate() == null) {
+		if (form.getDeliveryDate() == null || form.getDeliveryTime() == null) {
 			FieldError deliveryTimeError = new FieldError(result.getObjectName(), "deliveryTime", "日時を指定してください");
 			result.addError(deliveryTimeError);
 		}
 
-		if (form.getDeliveryDate() != null) {
+		if (form.getDeliveryDate() != null && form.getDeliveryTime() != null) {
 			LocalDateTime deliveryTime = form.getDeliveryDate().toLocalDate().atTime(form.getDeliveryTime(), 0);
 			if (deliveryTime.isBefore(LocalDateTime.now().plusHours(3))) {
 				FieldError deliveryTimeError = new FieldError(result.getObjectName(), "deliveryTime",
@@ -72,18 +72,20 @@ public class OrderController {
 		}
 		CreditCardRequest request = new CreditCardRequest();
 		BeanUtils.copyProperties(form, request);
-		System.out.println(form);
-		System.out.println(request);
 		if (form.getPaymentMethod() == 2 && !cardService.isAuthenticated(request)) {
 			result.rejectValue("card_cvv", null, "カード情報が不正です");
 		}
 
 		// エラーがあった場合、エラーがあったという情報をconfirmOrderコントローラに渡す
 		if (result.hasErrors()) {
-			return controller.showOrderConfirm(model, true);
+			return controller.showOrderConfirm(model, true, null);
 		}
 		// orderを取得
 		Order order = service.findByUserIdAndStatus((Integer) session.getAttribute("userId"), 0);
+		Order prevOrder = (Order) session.getAttribute("order");
+		if (order == null || prevOrder == null || !order.toString().equals(prevOrder.toString())) {
+			return "redirect:/confirmOrder?error=modified";
+		}
 
 		// フォームからコピーできる値をorderオブジェクトにコピー
 		BeanUtils.copyProperties(form, order);
