@@ -63,13 +63,23 @@
 								<span th:if="${orderItem.size} == 'L'" th:text="${#numbers.formatInteger(orderItem.item.priceL,0,'COMMA')}"></span>円&nbsp;&nbsp;
 								<span th:text="${orderItem.quantity}"></span>個
 							</td>
-							<td>
-								<ul>
-									<li th:each="orderTopping:${orderItem.orderToppingList}">
-									<span th:if="${orderItem.size}=='M'" th:text="${orderTopping.topping.name}+${orderTopping.topping.priceM}">ピーマン300</span>
-									<span th:if="${orderItem.size}=='L'" th:text="${orderTopping.topping.name}+${orderTopping.topping.priceL}">ピーマン300</span>
-									円</li>
-								</ul>
+							<td style="white-space:nowrap;">
+							<div th:if="${#lists.size(orderItem.orderToppingList)}>0" >
+							<details>
+    							<summary>
+    							
+    							<span th:if="${orderItem.size}=='M'" th:utext="'トッピング詳細 (各 '+${orderItem.orderToppingList.get(0).topping.priceM}+' 円) <br> <span>' +'合計金額：'+${#numbers.formatInteger(orderItem.orderToppingList.get(0).topping.priceM*#lists.size(orderItem.orderToppingList),0,'COMMA')}"></span>
+    							<span th:if="${orderItem.size}=='L'" th:utext="'トッピング詳細 (各 '+${orderItem.orderToppingList.get(0).topping.priceL}+' 円) <br> <span>' +'合計金額：'+${#numbers.formatInteger(orderItem.orderToppingList.get(0).topping.priceL*#lists.size(orderItem.orderToppingList),0,'COMMA')}"></span>
+    							円
+    							
+    							</summary>
+									<div th:each="orderTopping:${orderItem.orderToppingList}">
+   
+									<div th:if="${orderItem.size}=='M'" th:text="'・'+${orderTopping.topping.name}">ピーマン300</div>
+									<div th:if="${orderItem.size}=='L'" th:text="'・'+${orderTopping.topping.name}">ピーマン300</div>
+							</div>
+							</details>
+								</div>
 							</td>
 							<td>
 								<div class="text-center">
@@ -86,7 +96,7 @@
 				</table>
 			</div>
 		</div>
-
+		
 		<div class="row">
 			<div class="col-xs-offset-2 col-xs-8">
 				<div class="form-group text-center">

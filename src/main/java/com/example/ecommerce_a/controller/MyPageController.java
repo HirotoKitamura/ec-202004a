@@ -16,6 +16,12 @@ import com.example.ecommerce_a.service.LoginLogoutService;
 import com.example.ecommerce_a.service.MyPageService;
 import com.example.ecommerce_a.service.RegistrationUserService;
 
+/**
+ * ユーザーのマイページを表示するコントローラ.
+ * 
+ * @author hyoga.ito
+ *
+ */
 @Controller
 @RequestMapping("myPage")
 public class MyPageController {
@@ -31,13 +37,25 @@ public class MyPageController {
 	
 	@Autowired
 	LoginLogoutService loginLogoutService;
+	
 
 
+
+	/**
+	 * フォームをセットアップする.
+	 * 
+	 * @return　フォームオブジェクト
+	 */
 	@ModelAttribute
 	public UpdateUserForm setUpForm() {
 		return new UpdateUserForm();
 	}
 
+	/**
+	 * マイページを表示する.
+	 * 
+	 * @return マイページ
+	 */
 	@RequestMapping("")
 	public String index() {
 		if (session.getAttribute("user") == null) {
@@ -46,6 +64,13 @@ public class MyPageController {
 		return "my_page";
 	}
 	
+	/**
+	 * ユーザー情報変更画面を表示する.
+	 * 
+	 * @param model リクエストスコープ
+	 * @param hasError　バリデーションでエラーがある場合はtrue
+	 * @return ユーザー情報変更画面
+	 */
 	@RequestMapping("showUpdateUser")
 	public String showUpdateUser(Model model,boolean hasError) {
 		if (session.getAttribute("user") == null) {
@@ -64,6 +89,14 @@ public class MyPageController {
 		return "update_user";
 	}
 
+	/**
+	 * ユーザー情報を変更する.
+	 * 
+	 * @param form ユーザー情報
+	 * @param result　バリデーションのエラー情報
+	 * @param model　リクエストスコープ
+　	 * @return　バリデーションエラーがある場合は、ユーザー情報変更画面　ない場合は、リダイレクト：マイページ
+	 */
 	@RequestMapping("updateUser")
 	public String updateUser(@Validated UpdateUserForm form, BindingResult result,Model model) {
 		User user = (User) session.getAttribute("user");
@@ -116,4 +149,17 @@ public class MyPageController {
 		return "redirect:/myPage/";
 
 	}
+	
+	/**
+	 * ユーザー情報を削除する（退会する）.
+	 * 
+	 * @param userId　ユーザーID
+	 * @return　ログアウトする
+	 */
+	@RequestMapping("withdrawal")
+	public String withdrawal(Integer userId) {
+		myPageService.withdrawalFromEcsite(userId);
+		return "redirect:/logout";
+	}
+	
 }
