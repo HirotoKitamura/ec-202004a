@@ -67,7 +67,9 @@ public class ItemRepository {
 				+ "from items as i left outer join order_items as o on i.id = o.item_id "
 				+ "where name ilike :name and status != 2 "
 				+ "group by i.id ";
-			order = "order by coalesce(sum(quantity), 0) desc, status, price_m desc, id desc;";
+		  order = "order by coalesce((select sum(quantity) from order_items as oi left outer join orders as o "
+		  		+ "on oi.order_id = o.id where item_id = i.id and 0 < o.status and o.status < 5), 0) "
+		  		+ "desc, status, price_m asc, id asc;";
 		}
 		else {// 初期動作
 			order = "order by status, price_m asc, id asc;";
