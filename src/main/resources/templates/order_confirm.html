@@ -56,10 +56,23 @@
 								<span th:if="${orderItem.size} == 'L'" th:text="${#numbers.formatInteger(orderItem.item.priceL,0,'COMMA')}"></span>円&nbsp;&nbsp;
 								<span th:text="${orderItem.quantity}"></span>個
 							</td>
-							<td>
-								<ul>
-									<li th:each="orderTopping:${orderItem.orderToppingList}" th:text="${orderTopping.topping.name}+${orderItem.size=='M'?orderTopping.topping.priceM:orderTopping.topping.priceL}">ピーマン300円</li>
-								</ul>
+							<td  style="white-space:nowrap;">
+								<div th:if="${#lists.size(orderItem.orderToppingList)}>0" >
+							<details>
+    							<summary style="cursor: pointer;">
+    							
+    							<span th:if="${orderItem.size}=='M'" th:utext="'トッピング詳細 (各 '+${orderItem.orderToppingList.get(0).topping.priceM}+' 円) <br> 個数：'+${#lists.size(orderItem.orderToppingList)} +'個　合計金額：'+${#numbers.formatInteger(orderItem.orderToppingList.get(0).topping.priceM*#lists.size(orderItem.orderToppingList),0,'COMMA')}"></span>
+    							<span th:if="${orderItem.size}=='L'" th:utext="'トッピング詳細 (各 '+${orderItem.orderToppingList.get(0).topping.priceL}+' 円) <br> 個数：'+${#lists.size(orderItem.orderToppingList)} +'個　合計金額：'+${#numbers.formatInteger(orderItem.orderToppingList.get(0).topping.priceL*#lists.size(orderItem.orderToppingList),0,'COMMA')}"></span>
+    							円
+    							
+    							</summary>
+									<div th:each="orderTopping:${orderItem.orderToppingList}">
+   
+										<div th:if="${orderItem.size}=='M'" th:text="'・'+${orderTopping.topping.name}">ピーマン300</div>
+										<div th:if="${orderItem.size}=='L'" th:text="'・'+${orderTopping.topping.name}">ピーマン300</div>
+									</div>
+							</details>
+								</div>
 							</td>
 							<td>
 								<div class="text-center">
@@ -157,7 +170,7 @@
 											</div>
 											<div class="col-sm-5">
 												<input type="date" name="deliveryDate" id="date-form"
-													class="form-control input-sm" th:field="*{deliveryDate}">
+													class="form-control input-sm" th:field="*{deliveryDate}" th:min="${today}">
 											</div>
 										</div>
 										<div class="row">
@@ -260,13 +273,13 @@
 									</div>
 								</td>
 							</tr>
-							<tr><td colspan="2">
+							<tr class="card-info" style="display:none;"><td colspan="2">
 								<div style="font-weight: bold;" class="text-center">
 									カード情報
 									<span style="color: red" th:errors="*{card_cvv}"></span>
 								</div>
 							</td></tr>
-							<tr>
+							<tr class="card-info" style="display:none;">
 								<td>
 									<div class="text-center">
 										カード番号(-なし)
@@ -277,7 +290,7 @@
 									<input id="inputCardNumber" type="text" name="card_number" th:field="*{card_number}">
 								</td>
 							</tr>
-							<tr>
+							<tr class="card-info" style="display:none;">
 								<td>
 									<div class="text-center">
 										カードの有効期限
@@ -288,7 +301,7 @@
 									<input style="width: 2em" id="inputCardExpMonth" type="text" name="card_exp_month" th:field="*{card_exp_month}">月
 								</td>
 							</tr>
-							<tr>
+							<tr class="card-info" style="display:none;">
 								<td>
 									<div class="text-center">
 										カード名義人
@@ -298,7 +311,7 @@
 									<input id="inputCardName" type="text" name="card_name"th:field="*{card_name}">
 								</td>
 							</tr>
-							<tr>
+							<tr class="card-info" style="display:none;">
 								<td>
 									<div class="text-center">
 										セキュリティコード
@@ -325,5 +338,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/zipcode.js}"></script>
+<script th:src="@{/js/show-and-hide-card-info.js}"></script>
 </body>
 </html>

@@ -45,9 +45,28 @@ public class OrderItemRepository {
 	/** SQL実行用変数 */
 	@Autowired
 	private NamedParameterJdbcTemplate template;
-	
+
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+
+//	private static final ResultSetExtractor<List<OrderItem>> ORDER_ITEM_RSE = (rs) -> {
+//		OrderItem orderItem = new OrderItem();
+//		List<OrderTopping> orderToppingList = new ArrayList<>();
+//		while(rs.next()) {
+//			
+//		}
+//		return null;
+//	};
+//	
+//	/** カート内のアイテムを全件検索
+//	 * @param orderId
+//	 * @return
+//	 */
+//	public List<OrderItem> findAllInCart(Integer orderId){
+//		String sql = "select i.id i_id,i.item_id,i.order_id,i.quantity,i.size,t.id t_id,t.topping_id,t.order_item_id from order_items i left join order_toppings t on i.id = t.order_item_id where order_id = :orderId order by i.id;";
+//		SqlParameterSource param = new MapSqlParameterSource("orderId", orderId);
+//		return template.query(sql, param, ORDER_ITEM_RSE);
+//	}
 
 	/**
 	 * 注文商品情報を挿入する.
@@ -60,13 +79,13 @@ public class OrderItemRepository {
 				+ "(:itemId,:orderId,:quantity,:size);";
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		String[] keyColumnNames = {"id"};
-		template.update(sql, param,keyHolder,keyColumnNames);
-		
+		String[] keyColumnNames = { "id" };
+		template.update(sql, param, keyHolder, keyColumnNames);
+
 		orderItem.setId(keyHolder.getKey().intValue());
-		
+
 		return orderItem;
-		
+
 	}
 
 	/**
@@ -80,7 +99,6 @@ public class OrderItemRepository {
 		template.update(sql, param);
 	}
 
-	
 //	/**
 //	 * 注文IDから、注文商品一覧を取得する.
 //	 * 
@@ -94,5 +112,17 @@ public class OrderItemRepository {
 //		List<OrderItem> orderItems = template.query(sql, param, ORDER_ITEM_ROW_MAPPER);
 //		return orderItems;
 //	}
+
+	/**
+	 * 指定された注文商品に指定量個数を追加.
+	 * 
+	 * @param id            注文ID
+	 * @param extraQuantity 追加する個数
+	 */
+	public void addQuantity(Integer id, Integer extraQuantity) {
+		String sql = "update order_items set quantity=quantity+:extraQuantity where id=:id;";
+		SqlParameterSource param = new MapSqlParameterSource("extraQuantity", extraQuantity).addValue("id", id);
+		template.update(sql, param);
+	}
 
 }

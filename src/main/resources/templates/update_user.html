@@ -16,7 +16,7 @@
 </head>
 <body>
 	<div class="container">
-		<div th:include="fragment_header::frag_header_register"></div>
+		<div th:include="fragment_header::frag_header"></div>
 
 		<!-- login form -->
 		<div class="row">
@@ -70,7 +70,7 @@
 									class="control-label" style="color: red" for="inputError"
 									th:if="${#fields.hasErrors('password')}"
 									th:errors="*{password}">変更後のパスワードを入力してください</label> <input
-									type="text" id="inputPassword" class="form-control"
+									type="password" id="inputPassword" class="form-control"
 									placeholder="Password" th:field="*{password}"th:errorclass="fieldError" />
 							</div>
 							<div class="form-group">
@@ -78,16 +78,17 @@
 									class="control-label" style="color: red" for="inputError"
 									th:if="${#fields.hasErrors('checkpassword')}"
 									th:errors="*{checkpassword}">確認用パスワードを入力してください</label> <input
-									type="text" id="inputConfirmationPassword" class="form-control"
+									type="password" id="inputConfirmationPassword" class="form-control"
 									placeholder="Confirmation Password" th:field="*{checkpassword}"
 									th:errorclass="fieldError" />
 							</div>
+									<hr>
 							<div class="form-group">
-								<label for="oldPassword">変更前のパスワード:<strong style="color: red"></strong></label> <label
+								<label for="oldPassword">変更前(現在)のパスワード:<strong style="color: red"></strong></label> <label
 									class="control-label" style="color: red" for="inputError"
 									th:if="${#fields.hasErrors('oldPassword')}"
 									th:errors="*{oldPassword}">変更前(現在)のパスワードを入力してください</label> <input
-									type="text" id="oldPassword" class="form-control"
+									type="password" id="oldPassword" class="form-control"
 									placeholder="Now Password" th:field="*{oldPassword}"th:errorclass="fieldError" />
 							</div>
 							<div class="form-group">

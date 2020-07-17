@@ -99,21 +99,42 @@ public class ShoppingCartService {
 		orderItem.setOrderId(order.getId());
 		orderItem.setQuantity(form.getQuantity());
 		orderItem.setSize(form.getSize());
-		orderItem = orderItemRepository.insert(orderItem);
+//		orderItem = orderItemRepository.insert(orderItem);
 		List<OrderTopping> orderToppings = new ArrayList<>();
 		orderItem.setOrderToppingList(orderToppings);
 
-		order.getOrderItemList().add(orderItem);
+//		order.getOrderItemList().add(orderItem);
 		// orderItems.add(orderItem);
 		if (form.getToppingIds() != null) {
 			for (Integer toppingId : form.getToppingIds()) {
 				OrderTopping orderTopping = new OrderTopping();
 				orderTopping.setToppingId(toppingId);
-				orderTopping.setOrderItemId(orderItem.getId());
-				orderToppingRepository.insert(orderTopping);
+//				orderTopping.setOrderItemId(orderItem.getId());
+//				orderToppingRepository.insert(orderTopping);
 				orderItem.getOrderToppingList().add(orderTopping);
 
 			}
+		}
+		for (OrderItem pastOrderItem : order.getOrderItemList()) {
+			Integer nowOrderItemId = pastOrderItem.getId();
+			pastOrderItem.setId(null);
+			pastOrderItem.setItem(null);
+			pastOrderItem.setQuantity(orderItem.getQuantity());
+			for (OrderTopping pastOrderTopping : pastOrderItem.getOrderToppingList()) {
+				pastOrderTopping.setId(null);
+				pastOrderTopping.setOrderItemId(null);
+				pastOrderTopping.setTopping(null);
+			}
+			if (orderItem.toString().equals(pastOrderItem.toString())) {
+				orderItemRepository.addQuantity(nowOrderItemId, orderItem.getQuantity());
+				return;
+			}
+		}
+
+		orderItem = orderItemRepository.insert(orderItem);
+		for (OrderTopping orderTopping : orderItem.getOrderToppingList()) {
+			orderTopping.setOrderItemId(orderItem.getId());
+			orderToppingRepository.insert(orderTopping);
 		}
 
 	}

@@ -63,8 +63,7 @@ public class ConfirmOrderController {
 		session.setAttribute("order", order);
 		model.addAttribute("order", order);
 
-		// お届け先情報を入力する際に、デフォルト値にログイン者情報をセットする。
-		// バリデーションチェックでエラーがあった場合にif文の中身が実行されないようにした
+		model.addAttribute("today", java.sql.Date.valueOf(LocalDate.now()).toString());
 		if (!hasErrors) {
 			OrderForm orderForm = new OrderForm();
 			User user = (User) session.getAttribute("user");

@@ -19,6 +19,15 @@ import com.example.ecommerce_a.service.LoginLogoutService;
 import com.example.ecommerce_a.service.MyPageService;
 import com.example.ecommerce_a.service.RegistrationUserService;
 
+<<<<<<< HEAD
+=======
+/**
+ * ユーザーのマイページを表示するコントローラ.
+ * 
+ * @author hyoga.ito
+ *
+ */
+>>>>>>> ca6bab76c56a1ad86717e04371e9242d4df37c08
 @Controller
 @RequestMapping("myPage")
 public class MyPageController {
@@ -34,12 +43,28 @@ public class MyPageController {
 
 	@Autowired
 	LoginLogoutService loginLogoutService;
+	
 
+
+<<<<<<< HEAD
+=======
+
+	/**
+	 * フォームをセットアップする.
+	 * 
+	 * @return　フォームオブジェクト
+	 */
+>>>>>>> ca6bab76c56a1ad86717e04371e9242d4df37c08
 	@ModelAttribute
 	public UpdateUserForm setUpForm() {
 		return new UpdateUserForm();
 	}
 
+	/**
+	 * マイページを表示する.
+	 * 
+	 * @return マイページ
+	 */
 	@RequestMapping("")
 	public String index() {
 		if (session.getAttribute("user") == null) {
@@ -47,7 +72,18 @@ public class MyPageController {
 		}
 		return "my_page";
 	}
+<<<<<<< HEAD
 
+=======
+	
+	/**
+	 * ユーザー情報変更画面を表示する.
+	 * 
+	 * @param model リクエストスコープ
+	 * @param hasError　バリデーションでエラーがある場合はtrue
+	 * @return ユーザー情報変更画面
+	 */
+>>>>>>> ca6bab76c56a1ad86717e04371e9242d4df37c08
 	@RequestMapping("showUpdateUser")
 	public String showUpdateUser(Model model, boolean hasError) {
 		if (session.getAttribute("user") == null) {
@@ -66,6 +102,14 @@ public class MyPageController {
 		return "update_user";
 	}
 
+	/**
+	 * ユーザー情報を変更する.
+	 * 
+	 * @param form ユーザー情報
+	 * @param result　バリデーションのエラー情報
+	 * @param model　リクエストスコープ
+　	 * @return　バリデーションエラーがある場合は、ユーザー情報変更画面　ない場合は、リダイレクト：マイページ
+	 */
 	@RequestMapping("updateUser")
 	public String updateUser(@Validated UpdateUserForm form, BindingResult result, Model model) {
 		User user = (User) session.getAttribute("user");
@@ -129,6 +173,7 @@ public class MyPageController {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * パスワードが英大文字、小文字、数字全てを使用しているか確認し、エラーの発生を判定します．
 	 * 
 	 * @param matchval パスワード
@@ -154,4 +199,17 @@ public class MyPageController {
 
 		return !b;
 	}
+=======
+	 * ユーザー情報を削除する（退会する）.
+	 * 
+	 * @param userId　ユーザーID
+	 * @return　ログアウトする
+	 */
+	@RequestMapping("withdrawal")
+	public String withdrawal(Integer userId) {
+		myPageService.withdrawalFromEcsite(userId);
+		return "redirect:/logout";
+	}
+	
+>>>>>>> ca6bab76c56a1ad86717e04371e9242d4df37c08
 }

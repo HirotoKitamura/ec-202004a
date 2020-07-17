@@ -78,6 +78,8 @@ public class OrderController {
 
 		// エラーがあった場合、エラーがあったという情報をconfirmOrderコントローラに渡す
 		if (result.hasErrors()) {
+
+
 			return controller.showOrderConfirm(model, true, null);
 		}
 		// orderを取得
