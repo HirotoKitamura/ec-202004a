@@ -64,13 +64,13 @@ public class ItemRepository {
 			order = "order by status, price_m asc, id asc;";
 
 		} else if ("rankdesc".equals(order)) {
-			order = "order by coalesce((select sum(quantity) from order_items as oi left outer join orders as o "
+			order = "order by status, coalesce((select sum(quantity) from order_items as oi left outer join orders as o "
 					+ "on oi.order_id = o.id where item_id = i.id and 0 < o.status and o.status < 5), 0) "
-					+ "desc, status, price_m asc, id asc;";
+					+ "desc, price_m asc, id asc;";
 		} else {// 初期動作
-			order = "order by coalesce((select sum(quantity) from order_items as oi left outer join orders as o "
+			order = "order by status, coalesce((select sum(quantity) from order_items as oi left outer join orders as o "
 					+ "on oi.order_id = o.id where item_id = i.id and 0 < o.status and o.status < 5), 0) "
-					+ "desc, status, price_m asc, id asc;";
+					+ "desc, price_m asc, id asc;";
 		}
 
 		sql += order;
@@ -109,13 +109,13 @@ public class ItemRepository {
 			order = "order by status, price_m asc, id asc;";
 
 		} else if ("rankdesc".equals(order)) {
-			order = "order by coalesce((select sum(quantity) from order_items as oi left outer join orders as o "
+			order = "order by status, coalesce((select sum(quantity) from order_items as oi left outer join orders as o "
 					+ "on oi.order_id = o.id where item_id = i.id and 0 < o.status and o.status < 5), 0) "
-					+ "desc, status, price_m asc, id asc;";
+					+ "desc, price_m asc, id asc;";
 		} else {// 初期動作
-			order = "order by coalesce((select sum(quantity) from order_items as oi left outer join orders as o "
+			order = "order by status, coalesce((select sum(quantity) from order_items as oi left outer join orders as o "
 					+ "on oi.order_id = o.id where item_id = i.id and 0 < o.status and o.status < 5), 0) "
-					+ "desc, status, price_m asc, id asc;";
+					+ "desc, price_m asc, id asc;";
 		}
 
 		sql += order;

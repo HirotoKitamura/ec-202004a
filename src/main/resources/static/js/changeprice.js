@@ -20,8 +20,13 @@ $(function() {
 		printTotalPrice();
 	})
 	
-	$("#allcheck").on('change', function() {
-		$("input[type=checkbox]").prop('checked', this.checked);
+	$("#allcheck").on('click', function() {
+		$("input[type=checkbox]").prop('checked', true);
+		printTotalPrice();
+	})
+	
+	$("#alluncheck").on('click', function() {
+		$("input[type=checkbox]").prop('checked', false);
 		printTotalPrice();
 	})
 

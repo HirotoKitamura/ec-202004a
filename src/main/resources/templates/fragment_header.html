@@ -32,7 +32,7 @@
 						<span th:if="${session.user}">
 						<a href="order_history.html" th:href="@{/showOrderHistory}" class="navbar-link" >注文履歴</a>&nbsp;&nbsp;
 						
-						<a href="order_history.html" th:href="@{/myPage}" class="navbar-link" data-toggle="tooltip" th:title="'「'+${session.user.name}+'」様'" >ユーザー情報</a>&nbsp;&nbsp;
+						<a href="order_history.html" th:href="@{/myPage}" data-placement="bottom" class="navbar-link" data-toggle="tooltip"  th:title="'「'+${session.user.name}+'」様'" >ユーザー情報</a>&nbsp;&nbsp;
 						
 						<a href="item_list_pizza.html" th:href="@{/logout}" class="navbar-link">ログアウト</a>&nbsp;&nbsp;
 						<span th:if="${session.user.id==0}">
@@ -48,6 +48,7 @@
 			</div>
 			<!-- /.container-fluid -->
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 			<script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
 			<script>
 			$(function () {

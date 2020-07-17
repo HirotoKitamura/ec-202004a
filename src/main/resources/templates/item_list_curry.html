@@ -91,7 +91,9 @@ jQuery(function($){
 			</div>
 		</div>
 
-		<span th:if="${message} != null" th:text="${message}"></span> <br />
+		 <div class="text-center">
+		   <span　th:if="${message} != null" th:text="${message}"></span>
+		 </div>
 		<!-- table -->
 		<div class="row">
 
@@ -135,11 +137,8 @@ jQuery(function($){
 	</div>
 
 	<!-- end container -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script th:src="@{/js/PaginateMyTable.js}"></script>
-	<script th:src="@{/js/bootstrap.min.js}"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
 	<script>
 	$( function() {
 	  var availableTags = [ [(${itemListForAutocomplete})] ];
