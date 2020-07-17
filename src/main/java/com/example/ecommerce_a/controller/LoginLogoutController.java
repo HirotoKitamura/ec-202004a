@@ -44,7 +44,9 @@ public class LoginLogoutController {
 		if (session.getAttribute("user") != null) {
 			return "redirect:/showItemList";
 		}
-		session.setAttribute("from", from);// nullだった場合は変更しないなどするといいかも
+		if (!"reg".equals(from)) {
+			session.setAttribute("from", from);// nullだった場合は変更しないなどするといいかも
+		}
 		return "login";
 	}
 

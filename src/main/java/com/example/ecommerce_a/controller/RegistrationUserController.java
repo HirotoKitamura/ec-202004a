@@ -32,7 +32,7 @@ public class RegistrationUserController {
 	public RegistrationUserForm setupRegistrationUserForm() {
 		return new RegistrationUserForm();
 	}
-	
+
 	@Autowired
 	private HttpSession session;
 
@@ -108,7 +108,8 @@ public class RegistrationUserController {
 		// insert
 		registrationuserService.insertUser(form);
 
-		return "redirect:/toLogin";
+		return "redirect:/toLogin?from=reg";
+
 	}
 
 	/**
