@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="../static/css/piza.css">
-<link rel="stylesheet" href="../static/css/bootstrap.css">
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css">
 </head>
 <body>
 <div th:fragment="frag_header">
@@ -31,7 +31,9 @@
 						<a th:href="@{/cartList}" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
 						<span th:if="${session.user}">
 						<a href="order_history.html" th:href="@{/showOrderHistory}" class="navbar-link" >注文履歴</a>&nbsp;&nbsp;
-						<a href="order_history.html" th:href="@{/myPage}" class="navbar-link" >ユーザー情報</a>&nbsp;&nbsp;
+						
+						<a href="order_history.html" th:href="@{/myPage}" class="navbar-link" data-toggle="tooltip" th:title="'「'+${session.user.name}+'」様'" >ユーザー情報</a>&nbsp;&nbsp;
+						
 						<a href="item_list_pizza.html" th:href="@{/logout}" class="navbar-link">ログアウト</a>&nbsp;&nbsp;
 						<span th:if="${session.user.id==0}">
 						<a href="order_history.html" th:href="@{/administer}" class="navbar-link" >管理者機能</a>&nbsp;&nbsp;
@@ -45,6 +47,13 @@
 				<!-- /.navbar-collapse -->
 			</div>
 			<!-- /.container-fluid -->
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+			<script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
+			<script>
+			$(function () {
+				$('[data-toggle="tooltip"]').tooltip();
+			});
+			</script>
 		</nav>
 </div>
 
@@ -77,7 +86,8 @@
 			<!-- /.container-fluid -->
 		</nav>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script th:src="@{/js/bootstrap.min.js}"></script>
+
+
+
 </body>
 </html>
