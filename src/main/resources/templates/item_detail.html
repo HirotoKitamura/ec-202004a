@@ -17,7 +17,6 @@
 
 				<h3 class="text-center">商品詳細</h3>
 				<input type="hidden" th:value="${item.id}" name="itemId">
-				<div class="row">
 					<div class="col-xs-5">
 						<img th:src="${#strings.endsWith(item.imagePath,'.jpg')}?@{'/img_curry/'+${item.imagePath}}:@{${item.imagePath}}" class="img-responsive img-rounded item-img-center">
 					</div>
@@ -31,6 +30,7 @@
 						</div>
 					</div>
 					<br>
+					<div th:if="${item.status==0}">
 					<div class="row">
 						<div class="row">
 							<div class="col-xs-offset-2 col-xs-10">
@@ -59,6 +59,7 @@
 						</div>
 					</div>
 					<br>
+					
 					<div class="row">
 						<div class="col-xs-offset-2 col-xs-10">
 							<div class="form-group">
@@ -71,11 +72,16 @@
 									</div>
 									<div>
 										<div class="col-sm-12">
-										<label for="allcheck" class="checkbox-inline" >
-											<input type="checkbox" id="allcheck">全てチェックする
-											</label>
+										<label for="allcheck" class="button-inline" >
+											<input type="button" class="btn-primary btn-sm"id="allcheck" value="全てチェックする">
+										</label>
+										<label for="alluncheck" class="button-inline">
+											<input type="button" class="btn-primary btn-sm" id="alluncheck" value="全て解除する">
+										</label>
 										</div>
-
+										<div class="col-sm-12">
+										</div>
+										<div class="col-sm-12">
 										<div class="col-md-offset-1 col-md-12">
 											<div th:each="topping : ${item.toppingList}" class="col-sm-6">
 												<label class="checkbox-inline" id="topping-check"> <input
@@ -141,9 +147,12 @@
 							</div>
 						</div>
 					</div>
+					</div>
 				</div>
 			</div>
 		</form>
+		<h2 class="text-center" th:if="${item.status==1}">この商品は現在、売り切れております。</h2>
+		<h2 class="text-center" th:if="${item.status==2}">この商品は現在、販売しておりません。</h2>
 
 	</div>
 	<!-- end container -->
