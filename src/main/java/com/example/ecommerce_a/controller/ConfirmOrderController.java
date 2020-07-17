@@ -58,6 +58,7 @@ public class ConfirmOrderController {
 			model.addAttribute("nullorder", "カートに何も入っていません");
 		}
 		model.addAttribute("order", order);
+		model.addAttribute("today", java.sql.Date.valueOf(LocalDate.now()).toString());
 		
 		//お届け先情報を入力する際に、デフォルト値にログイン者情報をセットする。
 		//バリデーションチェックでエラーがあった場合にif文の中身が実行されないようにした
