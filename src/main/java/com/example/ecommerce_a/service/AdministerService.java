@@ -148,4 +148,8 @@ public class AdministerService {
 	public void editStatus(Integer orderId, Integer status) {
 		orderRepository.updateStatus(orderId, status);
 	}
+
+	public Order searchOrderById(Integer orderId) {
+		return orderRepository.findByOrderId(orderId);
+	}
 }
