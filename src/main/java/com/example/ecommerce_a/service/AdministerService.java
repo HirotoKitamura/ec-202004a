@@ -12,10 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.ecommerce_a.domain.Item;
+import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.Topping;
 import com.example.ecommerce_a.form.InsertItemForm;
 import com.example.ecommerce_a.form.InsertToppingForm;
 import com.example.ecommerce_a.repository.ItemRepository;
+import com.example.ecommerce_a.repository.OrderRepository;
 import com.example.ecommerce_a.repository.ToppingRepository;
 
 /**
@@ -31,6 +33,8 @@ public class AdministerService {
 	private ItemRepository itemRepository;
 	@Autowired
 	private ToppingRepository toppingRepository;
+	@Autowired
+	private OrderRepository orderRepository;
 
 	/**
 	 * 商品を追加する.
@@ -113,6 +117,16 @@ public class AdministerService {
 		toppingListList.add(toppingRepository.findOnSale());
 		toppingListList.add(toppingRepository.findSuspended());
 		return toppingListList;
+	}
+
+	/**
+	 * 指定された状態の注文を全取得する.
+	 * 
+	 * @param status 状態
+	 * @return 注文リスト
+	 */
+	public List<Order> searchByStatus(Integer status) {
+		return orderRepository.findByStatus(status);
 	}
 
 	/**

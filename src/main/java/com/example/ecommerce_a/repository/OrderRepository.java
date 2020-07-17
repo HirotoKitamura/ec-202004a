@@ -138,6 +138,17 @@ public class OrderRepository {
 		return minId;
 	};
 
+	private final String SQL_TEMPLATE = "select o.id as o_id,user_id,o.status as o_status,total_price,order_date,"
+			+ "destination_name,destination_email,destination_zipcode,"
+			+ "destination_address,destination_tel,delivery_time,payment_method,"
+			+ "oi.id as oi_id,item_id,order_id,quantity,size,"
+			+ "i.id as i_id,i.name as i_name,description,i.price_m as i_price_m,"
+			+ "i.price_l as i_price_l,image_path,i.status as i_status," + "ot.id as ot_id,topping_id,order_item_id,"
+			+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l,deleted "
+			+ "from orders as o left join order_items as oi on o.id=oi.order_id "
+			+ "left join items as i on oi.item_id=i.id " + "left join order_toppings as ot on oi.id=ot.order_item_id "
+			+ "left join toppings as t on t.id=ot.topping_id ";
+
 	/** SQL実行用変数 */
 	@Autowired
 	private NamedParameterJdbcTemplate template;
@@ -177,18 +188,7 @@ public class OrderRepository {
 	 * @return 注文情報
 	 */
 	public Order findByUserIdAndStatus(Integer userId, Integer status) {
-		String sql = "select o.id as o_id,user_id,o.status as o_status,total_price,order_date,"
-				+ "destination_name,destination_email,destination_zipcode,"
-				+ "destination_address,destination_tel,delivery_time,payment_method,"
-				+ "oi.id as oi_id,item_id,order_id,quantity,size,"
-				+ "i.id as i_id,i.name as i_name,description,i.price_m as i_price_m,"
-				+ "i.price_l as i_price_l,image_path,i.status as i_status," + "ot.id as ot_id,topping_id,order_item_id,"
-				+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l,deleted "
-				+ "from orders as o left join order_items as oi on o.id=oi.order_id "
-				+ "left join items as i on oi.item_id=i.id "
-				+ "left join order_toppings as ot on oi.id=ot.order_item_id "
-				+ "left join toppings as t on t.id=ot.topping_id "
-				+ "where user_id=:userId and o.status=:status order by o.id, oi.id desc, t.id;";
+		String sql = SQL_TEMPLATE + "where user_id=:userId and o.status=:status order by o.id, oi.id desc, t.id;";
 
 		SqlParameterSource param = new MapSqlParameterSource("userId", userId).addValue("status", status);
 
@@ -210,17 +210,7 @@ public class OrderRepository {
 		String sql = "select id from orders where user_id=:userId order by id;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
 		List<Integer> orderIdList = template.queryForList(sql, param, Integer.class);
-		String sql2 = "select o.id as o_id,user_id,o.status as o_status,total_price,order_date,"
-				+ "destination_name,destination_email,destination_zipcode,"
-				+ "destination_address,destination_tel,delivery_time,payment_method,"
-				+ "oi.id as oi_id,item_id,order_id,quantity,size,"
-				+ "i.id as i_id,i.name as i_name,description,i.price_m as i_price_m,"
-				+ "i.price_l as i_price_l,image_path,i.status as i_status," + "ot.id as ot_id,topping_id,order_item_id,"
-				+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l,deleted "
-				+ "from orders as o left join order_items as oi on o.id=oi.order_id "
-				+ "left join items as i on oi.item_id=i.id "
-				+ "left join order_toppings as ot on oi.id=ot.order_item_id "
-				+ "left join toppings as t on t.id=ot.topping_id " + "where o.id = :orderId and o.status!=0;";
+		String sql2 = SQL_TEMPLATE + "where o.id = :orderId and o.status!=0;";
 		for (int orderId : orderIdList) {
 			SqlParameterSource param2 = new MapSqlParameterSource().addValue("orderId", orderId);
 			Order order = template.query(sql2, param2, ORDER_RS_EXT);
@@ -238,20 +228,33 @@ public class OrderRepository {
 	 * @return 注文情報
 	 */
 	public Order findByOrderId(Integer orderId) {
-		String sql = "select o.id as o_id,user_id,o.status as o_status,total_price,order_date,"
-				+ "destination_name,destination_email,destination_zipcode,"
-				+ "destination_address,destination_tel,delivery_time,payment_method,"
-				+ "oi.id as oi_id,item_id,order_id,quantity,size,"
-				+ "i.id as i_id,i.name as i_name,description,i.price_m as i_price_m,"
-				+ "i.price_l as i_price_l,image_path,i.status as i_status," + "ot.id as ot_id,topping_id,order_item_id,"
-				+ "t.id as t_id,t.name as t_name," + "t.price_m as t_price_m,t.price_l as t_price_l,deleted "
-				+ "from orders as o left join order_items as oi on o.id=oi.order_id "
-				+ "left join items as i on oi.item_id=i.id "
-				+ "left join order_toppings as ot on oi.id=ot.order_item_id "
-				+ "left join toppings as t on t.id=ot.topping_id " + "where o.id = :orderId and o.status!=0;";
+		String sql = SQL_TEMPLATE + "where o.id = :orderId and o.status!=0;";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("orderId", orderId);
 		return template.query(sql, param, ORDER_RS_EXT);
 
+	}
+
+	/**
+	 * 指定された状態の注文を全取得する.
+	 * 
+	 * @param status 状態
+	 * @return 注文リスト
+	 */
+	public List<Order> findByStatus(Integer status) {
+		List<Order> result = new ArrayList<>();
+
+		String sql = "select id from orders where status=:status order by id;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("status", status);
+		List<Integer> orderIdList = template.queryForList(sql, param, Integer.class);
+		String sql2 = SQL_TEMPLATE + "where o.id = :orderId";
+		for (int orderId : orderIdList) {
+			SqlParameterSource param2 = new MapSqlParameterSource().addValue("orderId", orderId);
+			Order order = template.query(sql2, param2, ORDER_RS_EXT);
+			if (order != null) {
+				result.add(order);
+			}
+		}
+		return result;
 	}
 
 	/**

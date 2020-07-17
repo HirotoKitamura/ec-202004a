@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>注文状態変更</title>
+<link rel="stylesheet" th:href="@{/css/piza.css}">
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+<link th:href="@{/css/PaginateMyTable.css}" rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+		<div th:include="fragment_header::frag_header">
+		</div>
+		<div class="row">
+		<h5><a th:href="@{/administer}">←管理者トップに戻る</a></h5>
+		<h3 class="text-center">注文状態変更</h3>
+			<div th:each="status:${#numbers.sequence(1,3)}" class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-12">
+				<h4 class="text-center" th:text="${statusList[status]}"></h4>
+				<div class="text-center" th:text="${messageList[status]}"></div>
+				<table th:unless="${messageList[status]}" class="table table-striped item-list-table">
+					<tbody>
+						<tr>
+							<th>
+								<div class="text-center">
+									注文日時
+								</div>
+							</th>
+							<th>
+								<div class="text-center">
+									宛先氏名
+								</div>
+							</th>
+							<th>
+								<div class="text-center">
+									注文商品
+								</div>
+							</th>
+							<th>
+								<div class="text-center">
+									小計
+								</div>
+							</th>
+							<th>
+								<div class="text-center">
+									税込価格
+								</div>
+							</th>
+							<th>
+								<div class="text-center">
+									現在の状態
+								</div>
+							</th>
+						</tr>
+						<tr th:each="order:${orderListList.get(status)}">
+							<td>
+								<div class="text-center">
+									<div th:text="${order.orderDate==null?'未入力':order.orderDate}">2020-07-04</div>
+								</div>
+							</td>
+							<td>
+								<div class="text-center" th:text="${order.destinationName}">
+									馬場このみ
+								</div>
+							</td>
+							<td>
+									<ul>
+										<li th:each="orderItem:${order.orderItemList}" th:text="${orderItem.item.name}">カレー</li>
+									</ul>
+							</td>
+							<td>
+								<div class="text-center" th:text="${order.totalPrice}+'円'">
+									2,800円
+								</div>
+							</td>
+							<td>
+								<div class="text-center" th:text="${order.calcTotalPrice}+'円'">
+									3,080円
+								</div>
+							</td>
+							<td>
+							<div>
+								<form th:action=@{/administer/editStatus} method="post">
+								<input type="hidden" name="orderId" value="${order.id}">
+								<select name="status">
+									<option class="text-center" th:selected="${order.status==1}" value="1" th:text="未入金"></option>
+									<option class="text-center" th:selected="${order.status==2}" value="2"  th:text="入金済"></option>
+									<option class="text-center" th:selected="${order.status==3}" value="3"  th:text="発送済"></option>
+									<option class="text-center" th:selected="${order.status==4}" value="4"  th:text="発送完了"></option>
+									<option class="text-center" th:selected="${order.status==9}" value="9"  th:text="キャンセル"></option>
+								</select>
+								<button class="btn btn-primary">更新</button>
+								</form>
+							</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- end container -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/PaginateMyTable.js}"></script>
+	<script>
+	$(document).ready(function() {
+		$(".table").paginate({
+			rows: 9
+		});
+	});
+	</script>
+</body>
+</html>
