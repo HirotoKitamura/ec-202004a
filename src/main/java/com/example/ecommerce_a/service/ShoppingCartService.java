@@ -99,7 +99,7 @@ public class ShoppingCartService {
 		orderItem.setOrderId(order.getId());
 		orderItem.setQuantity(form.getQuantity());
 		orderItem.setSize(form.getSize());
-		orderItem = orderItemRepository.insert(orderItem);
+//		orderItem = orderItemRepository.insert(orderItem);
 		List<OrderTopping> orderToppings = new ArrayList<>();
 		orderItem.setOrderToppingList(orderToppings);
 
@@ -109,11 +109,16 @@ public class ShoppingCartService {
 			for (Integer toppingId : form.getToppingIds()) {
 				OrderTopping orderTopping = new OrderTopping();
 				orderTopping.setToppingId(toppingId);
-				orderTopping.setOrderItemId(orderItem.getId());
-				orderToppingRepository.insert(orderTopping);
+//				orderTopping.setOrderItemId(orderItem.getId());
+//				orderToppingRepository.insert(orderTopping);
 				orderItem.getOrderToppingList().add(orderTopping);
 
 			}
+		}
+		orderItem = orderItemRepository.insert(orderItem);
+		for (OrderTopping orderTopping : orderItem.getOrderToppingList()) {
+			orderTopping.setOrderItemId(orderItem.getId());
+			orderToppingRepository.insert(orderTopping);
 		}
 
 	}
