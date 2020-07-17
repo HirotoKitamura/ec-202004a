@@ -255,15 +255,15 @@ public class AdministerController {
 		}
 		List<List<Order>> orderListList = new ArrayList<>();
 		orderListList.add(new ArrayList<Order>());
-		String[] messageList = new String[4];
-		for (int status = 1; status <= 3; status++) {
-			List<Order> orderList = adminService.searchByStatus(status);
+		String[] messageList = new String[6];
+		for (int status = 1; status <= 5; status++) {
+			List<Order> orderList = adminService.searchByStatus(status == 5 ? 9 : status);
 			orderListList.add(orderList);
 			if (orderList == null || orderList.size() == 0 || orderList.get(0) == null) {
 				messageList[status] = "注文がありません";
 			}
 		}
-		String[] statusList = { null, "未入金", "入金済", "発送済" };
+		String[] statusList = { null, "未入金", "入金済", "発送済", "配送完了", "キャンセル" };
 		model.addAttribute("orderListList", orderListList);
 		model.addAttribute("messageList", messageList);
 		model.addAttribute("statusList", statusList);

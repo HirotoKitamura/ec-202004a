@@ -56,7 +56,8 @@
 					<form th:action="@{/administer/toDeleteItem}" method="post"
 						th:object="${orderSelectForm}" class="form-horizontal">
 						<select name="order" id="order" th:field="*{order}"
-							onChange="submit(this.form)">
+							onChange="submit(this.form)" class="form-control">
+							<option value="rankdesc">人気順</option>
 							<option value="priceasc">価格の安い順</option>
 							<option value="pricedesc">価格の高い順</option>
 							<option value="iddesc">新着順</option>
@@ -86,7 +87,7 @@
 									height="600">
 								<br> <a th:href="@{/showItemDetail(itemId=${item.id})}" th:text="${item.name}"></a>
 								<form th:action="@{/administer/deleteItem}" method="post">
-									<select name="status">
+									<select name="status" class="form-control">
 										<option value="0" th:selected="${i==0}">販売中</option>
 										<option value="1" th:selected="${i==1}">売り切れ</option>
 										<option value="2" th:selected="${i==2}">販売停止中</option>
