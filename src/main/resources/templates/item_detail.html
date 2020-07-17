@@ -73,11 +73,16 @@
 									</div>
 									<div>
 										<div class="col-sm-12">
-										<label for="allcheck" class="checkbox-inline" >
-											<input type="checkbox" id="allcheck">全てチェックする
-											</label>
+										<label for="allcheck" class="button-inline" >
+											<input type="button" class="btn-primary btn-sm"id="allcheck" value="全てチェックする">
+										</label>
+										<label for="alluncheck" class="button-inline">
+											<input type="button" class="btn-primary btn-sm" id="alluncheck" value="全て解除する">
+										</label>
 										</div>
-
+										<div class="col-sm-12">
+										</div>
+										<div class="col-sm-12">
 										<div class="col-md-offset-1 col-md-12">
 											<div th:each="topping : ${item.toppingList}" class="col-sm-6">
 												<label class="checkbox-inline" id="topping-check"> <input

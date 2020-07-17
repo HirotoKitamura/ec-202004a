@@ -62,7 +62,7 @@ public class ItemRepository {
 
 		} else if ("priceasc".equals(order)) {// 価格の安い順
 			order = "order by status, price_m asc, id asc;";
-
+			
 		} else if ("rankdesc".equals(order)) {
 			order = "order by coalesce((select sum(quantity) from order_items as oi left outer join orders as o "
 					+ "on oi.order_id = o.id where item_id = i.id and 0 < o.status and o.status < 5), 0) "
