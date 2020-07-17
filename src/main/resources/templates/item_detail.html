@@ -31,6 +31,7 @@
 						</div>
 					</div>
 					<br>
+					<div th:if="${item.status==0}">
 					<div class="row">
 						<div class="row">
 							<div class="col-xs-offset-2 col-xs-10">
@@ -59,6 +60,7 @@
 						</div>
 					</div>
 					<br>
+					
 					<div class="row">
 						<div class="col-xs-offset-2 col-xs-10">
 							<div class="form-group">
@@ -141,6 +143,9 @@
 							</div>
 						</div>
 					</div>
+					</div>
+					<h2 class="text-center" th:if="${item.status==1}">この商品は現在、売り切れております。</h2>
+					<h2 class="text-center" th:if="${item.status==2}">この商品は現在、販売しておりません。</h2>
 				</div>
 			</div>
 		</form>
