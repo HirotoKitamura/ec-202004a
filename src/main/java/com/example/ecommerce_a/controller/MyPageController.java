@@ -6,7 +6,6 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -19,17 +18,13 @@ import com.example.ecommerce_a.service.LoginLogoutService;
 import com.example.ecommerce_a.service.MyPageService;
 import com.example.ecommerce_a.service.RegistrationUserService;
 
-<<<<<<< HEAD
-=======
 /**
  * ユーザーのマイページを表示するコントローラ.
  * 
  * @author hyoga.ito
  *
  */
->>>>>>> ca6bab76c56a1ad86717e04371e9242d4df37c08
-@Controller
-@RequestMapping("myPage")
+
 public class MyPageController {
 
 	@Autowired
@@ -43,18 +38,12 @@ public class MyPageController {
 
 	@Autowired
 	LoginLogoutService loginLogoutService;
-	
-
-
-<<<<<<< HEAD
-=======
 
 	/**
 	 * フォームをセットアップする.
 	 * 
-	 * @return　フォームオブジェクト
+	 * @return フォームオブジェクト
 	 */
->>>>>>> ca6bab76c56a1ad86717e04371e9242d4df37c08
 	@ModelAttribute
 	public UpdateUserForm setUpForm() {
 		return new UpdateUserForm();
@@ -72,18 +61,14 @@ public class MyPageController {
 		}
 		return "my_page";
 	}
-<<<<<<< HEAD
 
-=======
-	
 	/**
 	 * ユーザー情報変更画面を表示する.
 	 * 
-	 * @param model リクエストスコープ
-	 * @param hasError　バリデーションでエラーがある場合はtrue
+	 * @param model    リクエストスコープ
+	 * @param hasError バリデーションでエラーがある場合はtrue
 	 * @return ユーザー情報変更画面
 	 */
->>>>>>> ca6bab76c56a1ad86717e04371e9242d4df37c08
 	@RequestMapping("showUpdateUser")
 	public String showUpdateUser(Model model, boolean hasError) {
 		if (session.getAttribute("user") == null) {
@@ -105,10 +90,10 @@ public class MyPageController {
 	/**
 	 * ユーザー情報を変更する.
 	 * 
-	 * @param form ユーザー情報
-	 * @param result　バリデーションのエラー情報
-	 * @param model　リクエストスコープ
-　	 * @return　バリデーションエラーがある場合は、ユーザー情報変更画面　ない場合は、リダイレクト：マイページ
+	 * @param form   ユーザー情報
+	 * @param result バリデーションのエラー情報
+	 * @param model  リクエストスコープ @return バリデーションエラーがある場合は、ユーザー情報変更画面
+	 *               ない場合は、リダイレクト：マイページ
 	 */
 	@RequestMapping("updateUser")
 	public String updateUser(@Validated UpdateUserForm form, BindingResult result, Model model) {
@@ -116,22 +101,22 @@ public class MyPageController {
 
 		if (!"".equals(form.getPassword())) {// パスワード再設定時
 			String pass = (String) result.getFieldValue("password");
-			boolean flag =true;
+			boolean flag = true;
 			if (form.getPassword().length() < 8 || 16 < form.getPassword().length()) {// 再設定パスワード数の判定
-				result.rejectValue("password","", "パスワードは８文字以上１６文字以内で設定してください");
+				result.rejectValue("password", "", "パスワードは８文字以上１６文字以内で設定してください");
 				flag = false;
 			}
-			
+
 			if (isErrorPasswordFormat(pass) && flag) {// 形式チェック
 				result.rejectValue("password", "", "英大文字、英小文字、数字すべてを使用してください");
 			}
 
 			if ("".equals(form.getCheckpassword())) {// 確認パスワード空欄判定
-				result.rejectValue("checkpassword","", "確認用パスワードも入力してください");
+				result.rejectValue("checkpassword", "", "確認用パスワードも入力してください");
 			} else if (!form.getPassword().equals(form.getCheckpassword())) {// 確認パスワード一致判定
-				result.rejectValue("checkpassword", "","パスワードと確認用パスワードが不一致です");
+				result.rejectValue("checkpassword", "", "パスワードと確認用パスワードが不一致です");
 			}
-			
+
 		}
 
 		if (!form.getEmail().equals(user.getEmail()) && registrationUserService.isExistEmail(form.getEmail())) {
@@ -139,8 +124,8 @@ public class MyPageController {
 		}
 
 		user = loginLogoutService.login(user.getEmail(), form.getOldPassword());
-		if (user == null) {//現在のパスワード正誤判定
-			result.rejectValue("oldPassword", "","パスワードが間違っています");
+		if (user == null) {// 現在のパスワード正誤判定
+			result.rejectValue("oldPassword", "", "パスワードが間違っています");
 		}
 
 		if (result.hasErrors()) {
@@ -171,9 +156,8 @@ public class MyPageController {
 		return "redirect:/myPage/";
 
 	}
-	
+
 	/**
-<<<<<<< HEAD
 	 * パスワードが英大文字、小文字、数字全てを使用しているか確認し、エラーの発生を判定します．
 	 * 
 	 * @param matchval パスワード
@@ -199,17 +183,17 @@ public class MyPageController {
 
 		return !b;
 	}
-=======
+
+	/**
 	 * ユーザー情報を削除する（退会する）.
 	 * 
-	 * @param userId　ユーザーID
-	 * @return　ログアウトする
+	 * @param userId ユーザーID
+	 * @return ログアウトする
 	 */
 	@RequestMapping("withdrawal")
 	public String withdrawal(Integer userId) {
 		myPageService.withdrawalFromEcsite(userId);
 		return "redirect:/logout";
 	}
-	
->>>>>>> ca6bab76c56a1ad86717e04371e9242d4df37c08
+
 }
