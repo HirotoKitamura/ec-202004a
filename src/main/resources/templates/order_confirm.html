@@ -2,6 +2,7 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" th:href="@{/img_curry/favicon.ico}" type="image/vnd.microsoft.icon">
 <title>ラクラクカリー：注文内容確認</title>
 <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
 <link th:href="@{/css/piza.css}" rel="stylesheet">
@@ -43,14 +44,14 @@
 							</th>
 						</tr>
 						<tr th:each="orderItem:${order.orderItemList}">
-							<td>
+							<td style="text-align:center;">
 								<div class="center">
 									<img th:src="${#strings.endsWith(orderItem.item.imagePath,'.jpg')}?@{'/img_curry/'+${orderItem.item.imagePath}}:@{${orderItem.item.imagePath}}"
 										class="img-responsive img-rounded item-img-center" width="100" height="300"><br>
 									<span th:text="${orderItem.item.name}"></span>
 								</div>
 							</td>
-							<td>
+							<td style="text-align:center;">
 								<span class="price" th:text="'&nbsp;'+${orderItem.size}"></span>&nbsp;&nbsp;
 								<span th:if="${orderItem.size} == 'M'" th:text="${#numbers.formatInteger(orderItem.item.priceM,0,'COMMA')}"></span>
 								<span th:if="${orderItem.size} == 'L'" th:text="${#numbers.formatInteger(orderItem.item.priceL,0,'COMMA')}"></span>円&nbsp;&nbsp;

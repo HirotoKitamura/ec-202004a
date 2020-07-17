@@ -2,6 +2,7 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" th:href="@{/img_curry/favicon.ico}" type="image/vnd.microsoft.icon">
 <title>ラクラクカリー：注文履歴</title>
 <link rel="stylesheet" th:href="@{/css/piza.css}">
 <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
@@ -58,12 +59,13 @@
 									</ul>
 							</td>
 							<td>
-								<div class="text-center" th:text="${order.totalPrice}+'円'">
+								<div class="text-center" th:text="${#numbers.formatInteger(order.totalPrice,0,'COMMA')}+'円'">
+								
 									2,800円
 								</div>
 							</td>
 							<td>
-								<div class="text-center" th:text="${order.calcTotalPrice}+'円'">
+								<div class="text-center" th:text="${#numbers.formatInteger(order.calcTotalPrice,0,'COMMA')}+'円'">
 									3,080円
 								</div>
 							</td>

@@ -2,6 +2,7 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" th:href="@{/img_curry/favicon.ico}" type="image/vnd.microsoft.icon">
 <title>注文履歴</title>
 <link rel="stylesheet" th:href="@{/css/piza.css}">
 <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
@@ -78,7 +79,7 @@
 							</th>
 						</tr>
 						<tr th:each="orderItem:${order.orderItemList}">
-							<td>
+							<td style="text-align:center;">
 								<div class="center">
 									<a th:href="@{/showItemDetail(itemId=${orderItem.item.id})}">
 									<img th:src="${#strings.endsWith(orderItem.item.imagePath,'.jpg')}?@{'/img_curry/'+${orderItem.item.imagePath}}:@{${orderItem.item.imagePath}}"
@@ -89,9 +90,10 @@
 									<a th:href="@{/showItemDetail(itemId=${orderItem.item.id})}" th:text="${orderItem.item.name}"></a>
 								</div>
 							</td>
-							<td><div class="text-center">
+							<td style="text-align:center;"><div class="text-center">
 								<span class="price" th:text="'&nbsp;'+${orderItem.size}"></span>&nbsp;&nbsp;
-								<span th:text="${#numbers.formatInteger(orderItem.size=='M'?orderItem.item.priceM:orderItem.item.priceL,0,'COMMA')}"></span>円&nbsp;&nbsp;
+								<span th:if="${orderItem.size} == 'M'" th:text="${#numbers.formatInteger(orderItem.item.priceM,0,'COMMA')}"></span>
+								<span th:if="${orderItem.size} == 'L'" th:text="${#numbers.formatInteger(orderItem.item.priceL,0,'COMMA')}"></span>円&nbsp;&nbsp;
 								<span th:text="${orderItem.quantity}"></span>個
 							</div></td>
 							<td>
