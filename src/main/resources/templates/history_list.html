@@ -59,12 +59,13 @@
 									</ul>
 							</td>
 							<td>
-								<div class="text-center" th:text="${order.totalPrice}+'円'">
+								<div class="text-center" th:text="${#numbers.formatInteger(order.totalPrice,0,'COMMA')}+'円'">
+								
 									2,800円
 								</div>
 							</td>
 							<td>
-								<div class="text-center" th:text="${order.calcTotalPrice}+'円'">
+								<div class="text-center" th:text="${#numbers.formatInteger(order.calcTotalPrice,0,'COMMA')}+'円'">
 									3,080円
 								</div>
 							</td>
