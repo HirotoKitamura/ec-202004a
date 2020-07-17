@@ -19,12 +19,15 @@ import com.example.ecommerce_a.service.LoginLogoutService;
 import com.example.ecommerce_a.service.MyPageService;
 import com.example.ecommerce_a.service.RegistrationUserService;
 
+
+
 /**
  * ユーザーのマイページを表示するコントローラ.
  * 
  * @author hyoga.ito
  *
  */
+
 @Controller
 @RequestMapping("myPage")
 public class MyPageController {

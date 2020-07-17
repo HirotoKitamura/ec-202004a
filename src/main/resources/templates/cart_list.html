@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ピザ屋のネット注文</title>
+<title>ラクラクカリー：ショッピングカート</title>
+<link rel="icon" th:href="@{/img_curry/favicon.ico}" type="image/vnd.microsoft.icon">
 <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
 <link th:href="@{/css/piza.css}" rel="stylesheet">
 <link href="../static/css/bootstrap.css" rel="stylesheet">
@@ -51,33 +52,33 @@
 							</th>
 						</tr>
 						<tr th:each="orderItem:${order.orderItemList}">
-							<td>
+							<td style="text-align:center;">
 								<div class="center">
 									<img th:src="${#strings.endsWith(orderItem.item.imagePath,'.jpg')}?@{'/img_curry/'+${orderItem.item.imagePath}}:@{${orderItem.item.imagePath}}"
 										class="img-responsive img-rounded item-img-center" width="100" height="300"><br>
 									<span th:text="${orderItem.item.name}"></span>
 								</div>
 							</td>
-							<td>
+							<td style="text-align:center;">
 								<span class="price" th:text="'&nbsp;'+${orderItem.size}"></span>&nbsp;&nbsp;
 								<span th:if="${orderItem.size} == 'M'" th:text="${#numbers.formatInteger(orderItem.item.priceM,0,'COMMA')}"></span>
 								<span th:if="${orderItem.size} == 'L'" th:text="${#numbers.formatInteger(orderItem.item.priceL,0,'COMMA')}"></span>円&nbsp;&nbsp;
 								<span th:text="${orderItem.quantity}"></span>個
 							</td>
-							<td>
+							<td style="text-align:center;">
 							<div th:if="${#lists.size(orderItem.orderToppingList)}>0" >
 							<details>
     							<summary style="cursor: pointer;">
-    							
     							<span th:if="${orderItem.size}=='M'" th:utext="'トッピング詳細 (各 '+${orderItem.orderToppingList.get(0).topping.priceM}+' 円) <br> 個数：'+${#lists.size(orderItem.orderToppingList)} +'個　合計金額：'+${#numbers.formatInteger(orderItem.orderToppingList.get(0).topping.priceM*#lists.size(orderItem.orderToppingList),0,'COMMA')}"></span>
     							<span th:if="${orderItem.size}=='L'" th:utext="'トッピング詳細 (各 '+${orderItem.orderToppingList.get(0).topping.priceL}+' 円) <br> 個数：'+${#lists.size(orderItem.orderToppingList)} +'個　合計金額：'+${#numbers.formatInteger(orderItem.orderToppingList.get(0).topping.priceL*#lists.size(orderItem.orderToppingList),0,'COMMA')}"></span>
     							円
-    							
     							</summary>
 									<div th:each="orderTopping:${orderItem.orderToppingList}">
    
+    							<div style="text-align:left;">
 										<div th:if="${orderItem.size}=='M'" th:text="'・'+${orderTopping.topping.name}">ピーマン300</div>
 										<div th:if="${orderItem.size}=='L'" th:text="'・'+${orderTopping.topping.name}">ピーマン300</div>
+    							</div>
 									</div>
 							</details>
 								</div>

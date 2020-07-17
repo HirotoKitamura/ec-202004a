@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ネットでピザ注文</title>
+<link rel="icon" th:href="@{/img_curry/favicon.ico}" type="image/vnd.microsoft.icon">
+<title>商品登録</title>
 <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
 <link rel="stylesheet" th:href="@{/css/inputError.css}">
 <!--[if lt IE 9]>
@@ -65,8 +66,8 @@
 									th:field="*{status}" th:value="0" th:errorclass="fieldError"/><label for="inputStatus0">販売中</label>
 								<input type="radio" id="inputStatus1"
 									th:field="*{status}" th:value="1" th:errorclass="fieldError"/><label for="inputStatus1">売り切れ</label>
-								<input type="radio" id="inputStatus2"
-									th:field="*{status}" th:value="2" th:errorclass="fieldError"/><label for="inputStatus2">販売停止中</label>
+								<input type="radio" id="inputStatus2" th:checked="${insertItemForm.status==null||insertItemForm.status==2}" name="status"
+									th:value="2" th:errorclass="fieldError"/><label for="inputStatus2">販売停止中</label>
 							</div>
 							<div class="form-group">
 								<button type="submit" class="btn btn-primary">登録</button>
