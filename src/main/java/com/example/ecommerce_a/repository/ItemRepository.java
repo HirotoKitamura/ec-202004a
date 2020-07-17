@@ -69,7 +69,7 @@ public class ItemRepository {
 		  		+ "on oi.order_id = o.id where item_id = i.id and 0 < o.status and o.status < 5), 0) "
 		  		+ "desc, status, price_m asc, id asc;";
 		}
-		else {// 初期動作
+		else {// 初期動作(人気順)
 			order = "order by coalesce((select sum(quantity) from order_items as oi left outer join orders as o "
 			  		+ "on oi.order_id = o.id where item_id = i.id and 0 < o.status and o.status < 5), 0) "
 			  		+ "desc, status, price_m asc, id asc;";
