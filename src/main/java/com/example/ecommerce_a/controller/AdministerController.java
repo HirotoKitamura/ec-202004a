@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.ecommerce_a.domain.Item;
+import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.Topping;
 import com.example.ecommerce_a.domain.User;
 import com.example.ecommerce_a.form.InsertItemForm;
@@ -241,4 +242,48 @@ public class AdministerController {
 		return "redirect:/administer/toDeleteTopping";
 	}
 
+	/**
+	 * 注文状態変更画面を表示する.
+	 * 
+	 * @return 注文状態変更画面
+	 */
+	@RequestMapping("toEditStatus")
+	public String toEditStatus(Model model) {
+		User user = (User) session.getAttribute("user");
+		if (user == null || user.getId() != 0) {
+			return "redirect:/toLogin";
+		}
+		List<List<Order>> orderListList = new ArrayList<>();
+		orderListList.add(new ArrayList<Order>());
+		String[] messageList = new String[4];
+		for (int status = 1; status <= 3; status++) {
+			List<Order> orderList = adminService.searchByStatus(status);
+			orderListList.add(orderList);
+			if (orderList == null || orderList.size() == 0 || orderList.get(0) == null) {
+				messageList[status] = "注文がありません";
+			}
+		}
+		String[] statusList = { null, "未入金", "入金済", "発送済" };
+		model.addAttribute("orderListList", orderListList);
+		model.addAttribute("messageList", messageList);
+		model.addAttribute("statusList", statusList);
+		return "edit_status";
+	}
+
+	/**
+	 * 指定の注文IDのステータスを変更する.
+	 * 
+	 * @param orderId 注文ID
+	 * @param status  変更後の状態
+	 * @return
+	 */
+	@RequestMapping("editStatus")
+	public String editStatus(Integer orderId, Integer status) {
+		User user = (User) session.getAttribute("user");
+		if (user == null || user.getId() != 0) {
+			return "redirect:/toLogin";
+		}
+		adminService.editStatus(orderId, status);
+		return "redirect:/administer/toEditStatus";
+	}
 }

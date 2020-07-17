@@ -39,13 +39,13 @@ public class OrderHistoryService {
 	public Order searchOrdersByOrderId(Integer orderId) {
 		return repository.findByOrderId(orderId);
 	}
-	
+
 	/**
 	 * 指定した注文IDをキャンセルにする.
 	 * 
 	 * @param orderId
 	 */
 	public void cancel(Integer orderId) {
-		repository.updateStatus9(orderId);
+		repository.updateStatus(orderId, 9);
 	}
 }
