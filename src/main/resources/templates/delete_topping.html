@@ -22,25 +22,25 @@
 		<!-- search form -->
 		<div class="row">
 		<h5><a th:href="@{/administer}">←管理者トップに戻る</a></h5>
-		<h3 class="text-center">トッピング削除</h3>
+		<h3 class="text-center">トッピング販売状態変更</h3>
 			
 		</div>
 
-		<div class="text-center" th:if="${message} != null" th:text="${message}"></div>
 		<!-- table -->
 		<div class="row">
 
-
+			<div th:each="i:${#numbers.sequence(0,1)}">
+				<h4 class="text-center" th:text="${statusList[i]}"></h4>
 				<div class="col-md-offset-1 col-md-12">
-
-
-						<div th:each="topping:${toppingList}" class="col-sm-6">
-								<a class="btn btn-primary" th:href="@{'/administer/deleteTopping?id='+${topping.id}}">削除</a>
+						<div class="text-center" th:text="${message[i]}"></div>
+						<div th:each="topping:${toppingListList.get(i)}" class="col-sm-6">
+								<a class="btn btn-primary" th:href="@{'/administer/deleteTopping?id='+${topping.id}+'&deleted='+${!topping.deleted}}"
+								th:text="${topping.deleted}?'販売再開':'販売停止'"></a>
 								<span th:text="${topping.name}"></span>
 						</div>
 					
 				</div>
-
+			</div>
 		</div>
 
 	</div>

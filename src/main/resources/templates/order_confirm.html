@@ -12,9 +12,10 @@
 		<!-- table -->
 		<div class="row">
 			<div
-				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-12">
 				<h3 class="text-center">注文内容確認</h3>
 				<h4 class="text-center" style="color: red;" th:text="${alert}"></h4>
+				<h4 class="text-center" style="color: red;" th:text="${alert2}"></h4>
 				<h4 class="text-center" th:text="${nullorder}"></h4>
 				<div th:unless="${nullorder}">
 				<table class="table table-striped item-list-table">
@@ -169,53 +170,53 @@
 											</div>
 											<div class="col-sm-5">
 												<input type="date" name="deliveryDate" id="date-form"
-													class="form-control input-sm" th:field="*{deliveryDate}">
+													class="form-control input-sm" th:field="*{deliveryDate}" th:min="${today}">
 											</div>
 										</div>
 										<div class="row">
 											<div class="col-sm-12">
 												<label class="radio-inline">
 													<input type="radio"
-														name="deliveryTime" checked="checked" th:value=10>
+														name="deliveryTime" th:checked="${orderForm.deliveryTime==null||orderForm.deliveryTime==10}" th:value=10>
 													10時
 												</label>
 												<label class="radio-inline">
-													<input type="radio"
+													<input type="radio" th:field="*{deliveryTime}"
 														name="deliveryTime" th:value=11>
 													11時
 												</label>
 												<label class="radio-inline">
-													<input type="radio"
+													<input type="radio" th:field="*{deliveryTime}"
 														name="deliveryTime" th:value=12>
 													12時
 												</label><br>
 												<label class="radio-inline">
-													<input type="radio"
+													<input type="radio" th:field="*{deliveryTime}"
 														name="deliveryTime" th:value=13>
 													13時
 												</label>
 												<label class="radio-inline">
-													<input type="radio"
+													<input type="radio" th:field="*{deliveryTime}"
 														name="deliveryTime" th:value=14>
 													14時
 												</label>
 												<label class="radio-inline">
-													<input type="radio"
+													<input type="radio" th:field="*{deliveryTime}"
 														name="deliveryTime" th:value=15>
 													15時
 												</label><br>
 												<label class="radio-inline">
-													<input type="radio"
+													<input type="radio" th:field="*{deliveryTime}"
 														name="deliveryTime" th:value=16>
 													16時
 												</label>
 												<label class="radio-inline">
-													<input type="radio"
+													<input type="radio" th:field="*{deliveryTime}"
 														name="deliveryTime" th:value=17>
 													17時
 												</label>
 												<label class="radio-inline">
-													<input type="radio"
+													<input type="radio" th:field="*{deliveryTime}"
 														name="deliveryTime" th:value=18>
 													18時
 												</label><br>
@@ -247,7 +248,7 @@
 										<div class="col-sm-12">
 											<label class="radio-inline">
 												<input type="radio"
-													name="paymentMethod" checked="checked" th:value=1>
+													name="paymentMethod" th:checked="${orderForm.paymentMethod==null||orderForm.paymentMethod==1}" th:value=1>
 												代金引換
 											</label>
 										</div>
@@ -260,16 +261,64 @@
 										クレジットカード決済
 									</div>
 								</td>
-								<td align="center">
+								<td >
 									<div class="row">
 										<div class="col-sm-12">
 											<label class="radio-inline">
-												<input type="radio"
+												<input type="radio" th:field="*{paymentMethod}"
 													name="paymentMethod"  th:value=2>
 												クレジットカード
 											</label><br><br>
 										</div>
 									</div>
+								</td>
+							</tr>
+							<tr class="card-info" style="display:none;"><td colspan="2">
+								<div style="font-weight: bold;" class="text-center">
+									カード情報
+									<span style="color: red" th:errors="*{card_cvv}"></span>
+								</div>
+							</td></tr>
+							<tr class="card-info" style="display:none;">
+								<td>
+									<div class="text-center">
+										カード番号(-なし)
+									</div>
+								</td>
+								<td>
+								<div th:errors="*{card_number}" style="color:red"></div>
+									<input id="inputCardNumber" type="text" name="card_number" th:field="*{card_number}">
+								</td>
+							</tr>
+							<tr class="card-info" style="display:none;">
+								<td>
+									<div class="text-center">
+										カードの有効期限
+									</div>
+								</td>
+								<td>
+									<input style="width: 4em" id="inputCardExpYear" type="text" name="card_exp_year" th:field="*{card_exp_year}">年
+									<input style="width: 2em" id="inputCardExpMonth" type="text" name="card_exp_month" th:field="*{card_exp_month}">月
+								</td>
+							</tr>
+							<tr class="card-info" style="display:none;">
+								<td>
+									<div class="text-center">
+										カード名義人
+									</div>
+								</td>
+								<td>
+									<input id="inputCardName" type="text" name="card_name"th:field="*{card_name}">
+								</td>
+							</tr>
+							<tr class="card-info" style="display:none;">
+								<td>
+									<div class="text-center">
+										セキュリティコード
+									</div>
+								</td>
+								<td>
+									<input style="width: 3em" id="inputCardCvv" type="text" name="card_cvv"th:field="*{card_cvv}">
 								</td>
 							</tr>
 						</tbody>
@@ -289,5 +338,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/zipcode.js}"></script>
+<script th:src="@{/js/show-and-hide-card-info.js}"></script>
 </body>
 </html>

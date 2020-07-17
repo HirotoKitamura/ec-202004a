@@ -3,36 +3,33 @@ package com.example.ecommerce_a.service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.ecommerce_a.domain.Order;
 import com.example.ecommerce_a.domain.OrderItem;
 import com.example.ecommerce_a.domain.OrderTopping;
-import com.example.ecommerce_a.domain.User;
 
 @Service
 @Transactional
 public class MailService {
 	@Autowired
 	MailSender sender;
-	@Autowired
-	private HttpSession session;
 
+	@Async
 	public void sendMail(Order order) {
 		SimpleMailMessage msg = new SimpleMailMessage();
 		msg.setFrom("sapec.tsukuba.ac.jp@gmail.com");
-		User user = (User) session.getAttribute("user");
 		msg.setTo(order.getDestinationEmail());
 		msg.setSubject("ご注文完了のお知らせ");// タイトルの設定
 		StringBuilder mainMessage = new StringBuilder();
 		mainMessage.append(order.getDestinationName() + "様\n\n");
-		mainMessage.append("ラクラクピザをご利用いただきありがとうございます。\n");
+		mainMessage.append("ラクラクカリーをご利用いただきありがとうございます。\n");
 		mainMessage.append("ご注文が完了いたしましたので、注文内容をお送りいたします。\n\n");
 		mainMessage.append("注文日:" + order.getOrderDate() + "\n");
 		mainMessage.append("宛先住所:〒" + order.getDestinationZipcode() + "  ");
@@ -61,6 +58,7 @@ public class MailService {
 		mainMessage.append("税込合計価格:" + order.getCalcTotalPrice() + "円\n");
 		mainMessage.append("支払方法:" + (order.getPaymentMethod() == 1 ? "代金引換" : "クレジットカード") + "\n");
 		msg.setText(mainMessage.toString()); // 本文の設定
+		System.out.println("mail送信完了");
 		sender.send(msg);
 	}
 }

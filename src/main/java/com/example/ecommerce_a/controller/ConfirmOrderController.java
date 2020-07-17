@@ -39,12 +39,12 @@ public class ConfirmOrderController {
 	/**
 	 * 注文確認画面を表示する.
 	 * 
-	 * @param model リクエストスコープに値を渡すためのオブジェクト
+	 * @param model     リクエストスコープに値を渡すためのオブジェクト
 	 * @param hasErrors エラーの有無を判定する
 	 * @return 注文確認画面
 	 */
 	@RequestMapping("")
-	public String showOrderConfirm(Model model, boolean hasErrors) {
+	public String showOrderConfirm(Model model, boolean hasErrors, String error) {
 		if (session.getAttribute("user") == null) {
 			return "redirect:/toLogin?from=cart";
 		}
@@ -52,18 +52,21 @@ public class ConfirmOrderController {
 		if (updated != 0) {
 			model.addAttribute("alert", "販売終了や売り切れによりカートから削除された商品があります カートの中身をご確認ください");
 		}
+		if ("modified".equals(error)) {
+			model.addAttribute("alert2", "注文確認画面の表示以降にカートが変更されました カートの中身をご確認ください");
+		}
 		Order order = service.findByuserIdAndStatus0();
 		if (order == null || order.getOrderItemList() == null || order.getOrderItemList().size() == 0
 				|| order.getOrderItemList().get(0).getId() == 0) {
 			model.addAttribute("nullorder", "カートに何も入っていません");
 		}
+		session.setAttribute("order", order);
 		model.addAttribute("order", order);
-		
-		//お届け先情報を入力する際に、デフォルト値にログイン者情報をセットする。
-		//バリデーションチェックでエラーがあった場合にif文の中身が実行されないようにした
+
+		model.addAttribute("today", java.sql.Date.valueOf(LocalDate.now()).toString());
 		if (!hasErrors) {
 			OrderForm orderForm = new OrderForm();
-			User user = (User)session.getAttribute("user");
+			User user = (User) session.getAttribute("user");
 			orderForm.setDestinationName(user.getName());
 			orderForm.setDestinationEmail(user.getEmail());
 			orderForm.setDestinationZipcode(user.getZipcode());

@@ -3,6 +3,8 @@ package com.example.ecommerce_a.controller;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -31,6 +33,9 @@ public class RegistrationUserController {
 		return new RegistrationUserForm();
 	}
 
+	@Autowired
+	private HttpSession session;
+
 	/**
 	 * ユーザ登録画面を表示する．
 	 * 
@@ -38,6 +43,9 @@ public class RegistrationUserController {
 	 */
 	@RequestMapping("")
 	public String index() {
+		if (session.getAttribute("user") != null) {
+			return "redirect:/showItemList";
+		}
 		return "register_user";
 	}
 
@@ -65,16 +73,24 @@ public class RegistrationUserController {
 
 		if (!"".equals(result.getFieldValue("password"))) {// パスワードnotnull
 			String pass = (String) result.getFieldValue("password");
-
+			boolean flag = true;
 			if (pass.length() < 8 || 16 < pass.length()) {// 8以上16以下判定＆エラー
 				result.rejectValue("password", "", "パスワードは８文字以上１６文字以内で設定してください");
+				flag = false;
+			}
+
+			if (isErrorPasswordFormat(pass) && flag) {// 形式チェック
+				System.out.println("haittayo~");
+				result.rejectValue("password", "", "英大文字、英小文字、数字すべてを使用してください");
 			}
 		}
 
-		if (!"".equals(result.getFieldValue("checkpassword"))) {// 確認パスワードnotnull
+		if (!"".equals(result.getFieldValue("checkpassword")))
+
+		{// 確認パスワードnotnull
 			if ("".equals(result.getFieldValue("password"))) {// パスワードnull
 				result.rejectValue("checkpassword", "", "パスワードが空欄です");
-			
+
 			} else if (!form.getPassword().equals(form.getCheckpassword())) {// パスワード不一致
 				result.rejectValue("checkpassword", "", "パスワードと確認用パスワードが不一致です");
 
@@ -92,7 +108,8 @@ public class RegistrationUserController {
 		// insert
 		registrationuserService.insertUser(form);
 
-		return "redirect:/toLogin";
+		return "redirect:/toLogin?from=reg";
+
 	}
 
 	/**
@@ -119,6 +136,33 @@ public class RegistrationUserController {
 		Pattern p = Pattern.compile("^[0-9]{3}-[0-9]{4}$");
 		Matcher m = p.matcher(matchval);
 		boolean b = m.matches();
+
+		return !b;
+	}
+
+	/**
+	 * パスワードが英大文字、小文字、数字全てを使用しているか確認し、エラーの発生を判定します．
+	 * 
+	 * @param matchval パスワード
+	 * @return
+	 */
+	public boolean isErrorPasswordFormat(String matchval) {
+		Pattern p = Pattern.compile("^.*[a-z].*$");
+		Matcher m = p.matcher(matchval);
+		boolean b1 = m.matches();
+
+		p = Pattern.compile("^.*[A-Z].*$");
+		m = p.matcher(matchval);
+		boolean b2 = m.matches();
+
+		p = Pattern.compile("^.*[0-9].*$");
+		m = p.matcher(matchval);
+		boolean b3 = m.matches();
+
+		boolean b = false;
+		if (b1 && b2 && b3) {// true
+			b = true;
+		}
 
 		return !b;
 	}

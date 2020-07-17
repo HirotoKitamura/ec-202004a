@@ -23,7 +23,7 @@ public class CreditCardService {
 	 * 
 	 * ※IPアドレスは自分のVMのアドレスにすること
 	 */
-	public static final String URL = "http://192.168.30.126:8080/sample-credit-card-web-api/credit-card/payment";
+	public static final String URL = "http://192.168.15.171:8080/sample-credit-card-web-api/credit-card/payment";
 
 	/**
 	 * APIにクレジットカードの認証を問い合わせる.
@@ -33,7 +33,7 @@ public class CreditCardService {
 	 */
 	public Boolean isAuthenticated(CreditCardRequest request) {
 		CreditCardResponse response = restTemplate.postForObject(URL, request, CreditCardResponse.class);
-		//System.out.println(response);
+		System.out.println(response);
 		return "success".equals(response.getStatus());
 	}
 

@@ -1,6 +1,7 @@
 package com.example.ecommerce_a.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -54,15 +55,42 @@ public class AdministerService {
 		itemRepository.insertItem(item);
 	}
 
-//	/**
-//	 * 商品の削除フラグを変更する.
-//	 * 
-//	 * @param id      商品ID
-//	 * @param deleted 削除フラグ
-//	 */
-//	public void setDeleteFlag(Integer id, boolean deleted) {
-//		itemRepository.setDeleteFlag(id, deleted);
-//	}
+	/**
+	 * 検索処理を行い、表示する商品情報を３列になるよう加工する．
+	 * 
+	 * @param name   検索ワード（一覧表示時: 空文字）
+	 * @param order  表示順（デフォルト: 価格安い順）
+	 * @param status 販売状況
+	 * @return 条件に合致する商品リスト
+	 */
+	public List<List<Item>> show3colItemList(String name, String order, Integer status) {
+		List<Item> list = itemRepository.findByFuzzyNameAndStatus(name, order, status);
+		List<Item> listIn3items = new ArrayList<>();
+		List<List<Item>> listInlist = new ArrayList<>();
+		System.out.println("商品数" + list.size());
+		for (int i = 0; i < list.size(); i++) {
+			if (i % 3 == 0) {
+				listIn3items = new ArrayList<Item>();
+				listIn3items.add(list.get(i));
+				listInlist.add(listIn3items);
+			} else {
+				listIn3items.add(list.get(i));
+			}
+
+		}
+		System.out.println("列数" + listInlist.size());
+		return listInlist;
+	}
+
+	/**
+	 * 商品の販売状況を変更する.
+	 * 
+	 * @param id     商品ID
+	 * @param status 販売状況
+	 */
+	public void setStatus(Integer id, Integer status) {
+		itemRepository.updateStatus(id, status);
+	}
 
 	/**
 	 * トッピングを追加.
@@ -78,9 +106,22 @@ public class AdministerService {
 	/**
 	 * トッピングを全件検索.
 	 * 
-	 * @return トッピングのリスト
+	 * @return トッピングのリストを販売状態別に集めたリスト.
 	 */
-	public List<Topping> searchAllToppings() {
-		return toppingRepository.findOnSale();
+	public List<List<Topping>> searchAllToppings() {
+		List<List<Topping>> toppingListList = new ArrayList<>();
+		toppingListList.add(toppingRepository.findOnSale());
+		toppingListList.add(toppingRepository.findSuspended());
+		return toppingListList;
+	}
+
+	/**
+	 * トッピングの削除フラグを変更する.
+	 * 
+	 * @param id      トッピングID
+	 * @param deleted 削除フラグ
+	 */
+	public void setDeleted(Integer id, Boolean deleted) {
+		toppingRepository.setDeleted(id, deleted);
 	}
 }

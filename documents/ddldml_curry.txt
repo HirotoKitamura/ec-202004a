@@ -40,9 +40,9 @@ insert into items values(9, 'Charity4', 'にんにくとトマトの旨みが効
 insert into items values(10, 'ほうれん草のカレードリア', 'カレードリアの王道！ホワイトソースとカレーのダブルソースとなす、ほうれん草、チーズのおいしい組み合わせ', 2160, 3380, '10.jpg');
 insert into items values(11, 'Specialドリア4', 'ホワイトソースとカレーのダブルソースにハンバーグを合わせました', 2700, 4050, '11.jpg');
 insert into items values(12, '季節の野菜カレー', '季節の野菜が一つになった4種の栄養満点カレー。ラクラクカレーオリジナル商品でベジタリアンの方にオススメです', 2160, 3380, '12.jpg');
-insert into items values(13, 'バラエティー４', 'あらびきスライス牛肉とイタリアンチーズを、トマトソースと特製マヨソースの2種類のソースで召し上がって頂く商品です', 2160, 3380, '13.jpg');
+insert into items values(13, 'バラエティー4', 'あらびきスライス牛肉とイタリアンチーズを、トマトソースと特製マヨソースの2種類のソースで召し上がって頂く商品です', 2160, 3380, '13.jpg');
 insert into items values(14, 'えびナスカレー', 'デミグラスソースでじっくり煮込んだ旨味たっぷりのえびとナスのカレー', 2980, 4460, '14.jpg');
-insert into items values(15, 'Family４', 'ラクラクピザ自慢「特うまプルコギ」定番「デラックス」お子様に人気「ツナマイルド」女性に好評「チーズ＆チーズ」の４種のおいしさを贅沢に組み合わせました', 2440, 3650, '15.jpg');
+insert into items values(15, 'Family4', 'ラクラクピザ自慢「特うまプルコギ」定番「デラックス」お子様に人気「ツナマイルド」女性に好評「チーズ＆チーズ」の４種のおいしさを贅沢に組み合わせました', 2440, 3650, '15.jpg');
 insert into items values(16, 'シンプルイズベスト', '人気ナンバー１！魚介の旨みたっぷり！人気の海の幸と、野菜のリッチなおいしさ', 2700, 4050, '16.jpg');
 insert into items values(17, '学芸会カレー', 'みんな大好き！学芸会で作るような味を再現！定番のおいしさを味わえます', 2440, 3650, '17.jpg');
 insert into items values(18, '黄金に輝くチキンカレー', 'カレーが黄金に輝く、超高級鶏肉を使用したカレーです', 2700, 4050, '18.jpg');
@@ -99,7 +99,7 @@ create table orders (
   , order_date date
   , destination_name varchar(100)
   , destination_email varchar(100)
-  , destination_zipcode varchar(7)
+  , destination_zipcode varchar(8)
   , destination_address varchar(200)
   , destination_tel varchar(15)
   , delivery_time timestamp

@@ -50,7 +50,7 @@ public class ToppingRepository {
 	 * @return トッピングのリスト
 	 */
 	public List<Topping> findSuspended() {
-		String sql = "select id, name, price_m, price_l, deleted from toppings where deleted=false order by id;";
+		String sql = "select id, name, price_m, price_l, deleted from toppings where deleted=true order by id;";
 		return template.query(sql, TOPPING_ROW_MAPPER);
 	}
 
@@ -74,13 +74,14 @@ public class ToppingRepository {
 	}
 
 	/**
-	 * トッピングを削除する.
+	 * トッピングの削除フラグを変更する.
 	 * 
-	 * @param id トッピングID
+	 * @param id      トッピングID
+	 * @param deleted 削除フラグ
 	 */
-	public void deleteTopping(Integer id) {
-		String sql = "delete from toppings where id=:id";
-		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id);
+	public void setDeleted(Integer id, Boolean deleted) {
+		String sql = "update toppings set deleted=:deleted where id=:id";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", id).addValue("deleted", deleted);
 		template.update(sql, param);
 	}
 }

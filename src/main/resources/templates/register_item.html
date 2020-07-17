@@ -17,7 +17,7 @@
 		<div th:include="fragment_header::frag_header"></div>
 		<!-- login form -->
 		<div class="row">
-			<div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-10 col-xs-12">
+			<div class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1  col-sm-10 col-xs-12">
 				<div class="well">
 					<form method="post" th:action="@{/administer/registerItem}" th:object="${insertItemForm}" enctype="multipart/form-data">
 						<fieldset>
@@ -60,9 +60,13 @@
 									placeholder="Image" th:field="*{image}" accept=".jpg,.png,image/jpeg,image/png" th:errorclass="fieldError" />
 							</div>							
 							<div class="form-group">
-								<label for="inputDeleted">商品を販売停止状態で追加する:</label>  
-								<input type="checkbox" id="inputDeleted"
-									th:field="*{deleted}" th:value="true" th:errorclass="fieldError" />
+								<label for="inputStatus">商品の初期販売状態:</label>  
+								<input type="radio" id="inputStatus0"
+									th:field="*{status}" th:value="0" th:errorclass="fieldError"/><label for="inputStatus0">販売中</label>
+								<input type="radio" id="inputStatus1"
+									th:field="*{status}" th:value="1" th:errorclass="fieldError"/><label for="inputStatus1">売り切れ</label>
+								<input type="radio" id="inputStatus2"
+									th:field="*{status}" th:value="2" th:errorclass="fieldError"/><label for="inputStatus2">販売停止中</label>
 							</div>
 							<div class="form-group">
 								<button type="submit" class="btn btn-primary">登録</button>

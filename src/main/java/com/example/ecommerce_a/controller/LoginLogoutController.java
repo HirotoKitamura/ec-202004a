@@ -41,7 +41,12 @@ public class LoginLogoutController {
 	 */
 	@RequestMapping("toLogin")
 	public String toLogin(String from) {
-		session.setAttribute("from", from);// nullだった場合は変更しないなどするといいかも
+		if (session.getAttribute("user") != null) {
+			return "redirect:/showItemList";
+		}
+		if (!"reg".equals(from)) {
+			session.setAttribute("from", from);// nullだった場合は変更しないなどするといいかも
+		}
 		return "login";
 	}
 

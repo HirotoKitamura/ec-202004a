@@ -21,10 +21,10 @@
 
 		<!-- search form -->
 		<div class="row">
-		<h5><a th:href="@{/administer}">←管理者トップに戻る</a></h5>
-		<h3 class="text-center">商品削除</h3>
+			<h5><a th:href="@{/administer}">←管理者トップ画面に戻る</a></h5>
+			<h3 class="text-center">商品販売状況変更</h3>
 			<div
-				class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-10 col-xs-12">
+				class="col-lg-offset-3 col-lg-6 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="panel-title">商品を検索する</div>
@@ -49,18 +49,24 @@
 			</div>
 		</div>
 
-		並び替え <br />
-		<form th:action="@{/administer/toDeleteItem}" method="post">
-			<select name="order" id="" >
-				<option value="priceasc">価格の安い順</option>
-				<option value="pricedesc">価格の高い順</option>
-				<option value="iddesc">新着順</option>
-				<option value="idasc">古い順</option>
-			</select>
-			<button>並び替え</button>
-		</form>
-
-		<span th:if="${message} != null" th:text="${message}"></span> <br />
+		<div class="row">
+			<div class="col-xs-offset-9 col-sm-offset-8 col-md-offset-10">
+				並び替え <br />
+					<form th:action="@{/administer/toDeleteItem}" method="post"
+						th:object="${orderSelectForm}" class="form-horizontal">
+						<select name="order" id="order" th:field="*{order}"
+							onChange="submit(this.form)">
+							<option value="priceasc">価格の安い順</option>
+							<option value="pricedesc">価格の高い順</option>
+							<option value="iddesc">新着順</option>
+							<option value="idasc">古い順</option>
+						</select>
+					</form>
+				</div>
+			</div>
+		<div th:each="i:${#numbers.sequence(0,2)}">
+		<h4 class="text-center" th:text="${statusList[i]}"></h4>
+		<div class="text-center" th:text="${message[i]}"></div> <br />
 		<!-- table -->
 		<div class="row">
 
@@ -69,25 +75,30 @@
 
 				<table class="table table-striped item-list-table">
 
-					<tbody th:each="itemlist: ${itemList}">
+					<tbody th:each="itemlist: ${itemListList.get(i)}">
 						<tr>
 							<td th:each="item,count:${itemlist}">
+							<div>
 							<img
 									th:src="${#strings.endsWith(item.imagePath,'.jpg')}?@{'/img_curry/'+${item.imagePath}}:@{${item.imagePath}}"
 									class="img-responsive img-rounded item-img-center" width="200"
 									height="600">
-							<br>
-								<span th:text="${item.name}"></span><br> <span class="price">&nbsp;М&nbsp;</span>
-								<span
-								th:text="${#numbers.formatInteger(item.priceM, 3, 'COMMA')} + '円(税抜)' "></span><br>
-								<span class="price">&nbsp;Ｌ</span> <span
-								th:text="${#numbers.formatInteger(item.priceL, 3, 'COMMA')} + '円(税抜)' "></span><br>
-								<a class="btn btn-primary" th:href="@{'/administer/deleteItem?id='+${item.id}}">削除</a>
+								<br> <a th:href="@{/showItemDetail(itemId=${item.id})}" th:text="${item.name}"></a>
+								<form th:action="@{/administer/deleteItem}" method="post">
+									<select name="status">
+										<option value="0" th:selected="${i==0}">販売中</option>
+										<option value="1" th:selected="${i==1}">売り切れ</option>
+										<option value="2" th:selected="${i==2}">販売停止中</option>
+									</select>
+									<input type="hidden" name="id" th:value="${item.id}">
+									<button type="submit" class="btn btn-primary">更新</button>
+								</form>
+							</div>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-
+				</div>
 			</div>
 		</div>
 
@@ -113,7 +124,7 @@
 	$(document).ready(function() {
 		$(".table").paginate({
 			rows: 9
-		});
+		});	
 	});
 	</script>
 </body>
