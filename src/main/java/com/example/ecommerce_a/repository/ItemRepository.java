@@ -62,7 +62,14 @@ public class ItemRepository {
 		} else if ("priceasc".equals(order)) {// 価格の安い順
 			order = "order by status, price_m asc, id asc;";
 
-		} else {// 初期動作
+		} else if("rankdesc".equals(order)) {
+			sql = "select i.id, i.name, description, price_m, price_l, image_path, status "
+				+ "from items as i join order_items as o on i.id = o.item_id "
+				+ "where name ilike :name and status != 2 "
+				+ "group by i.id ";
+			order = "order by sum(quantity) desc, status, price_m desc, id desc;";
+		}
+		else {// 初期動作
 			order = "order by status, price_m asc, id asc;";
 		}
 
@@ -100,7 +107,14 @@ public class ItemRepository {
 		} else if ("priceasc".equals(order)) {// 価格の安い順
 			order = "order by status, price_m asc, id asc;";
 
-		} else {// 初期動作
+		} else if("rankdesc".equals(order)) {
+			sql = "select i.id, i.name, description, price_m, price_l, image_path, status "
+					+ "from items as i join order_items as o on i.id = o.item_id "
+					+ "where name ilike :name and status != 2 "
+					+ "group by i.id ;";
+				order = "order by sum(quantity) desc, status, price_m desc, id desc";
+		}
+		else {// 初期動作
 			order = "order by status, price_m asc, id asc;";
 		}
 
