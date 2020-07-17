@@ -40,15 +40,17 @@ public class ItemRepository {
 	 * 販売されている商品一覧を表示する.
 	 * 
 	 * @param name  検索名
-	 * @param order 並び順(デフォルトではasc=安い順)
+	 * @param order 並び順(デフォルトでは人気順)
 	 * @return 条件に合致する商品一覧
 	 */
 	public List<Item> findByFuzzyName(String name, String order) {
 		if (name == null) {
 			name = "";
 		}
-		String sql = "select id, name, description, price_m, price_l, image_path, status "
-				+ "from items where name ilike :name and status != 2";
+	 String sql = "select i.id, i.name, description, price_m, price_l, image_path, status "
+				+ "from items as i left outer join order_items as o on i.id = o.item_id "
+				+ "where name ilike :name and status != 2 "
+				+ "group by i.id ";
 		name = "%" + name + "%";
 		if ("iddesc".equals(order)) {// 新着順--id降順desc
 			order = "order by status, id desc;";
@@ -63,16 +65,14 @@ public class ItemRepository {
 			order = "order by status, price_m asc, id asc;";
 
 		} else if("rankdesc".equals(order)) {
-			sql = "select i.id, i.name, description, price_m, price_l, image_path, status "
-				+ "from items as i left outer join order_items as o on i.id = o.item_id "
-				+ "where name ilike :name and status != 2 "
-				+ "group by i.id ";
 		  order = "order by coalesce((select sum(quantity) from order_items as oi left outer join orders as o "
 		  		+ "on oi.order_id = o.id where item_id = i.id and 0 < o.status and o.status < 5), 0) "
 		  		+ "desc, status, price_m asc, id asc;";
 		}
 		else {// 初期動作
-			order = "order by status, price_m asc, id asc;";
+			order = "order by coalesce((select sum(quantity) from order_items as oi left outer join orders as o "
+			  		+ "on oi.order_id = o.id where item_id = i.id and 0 < o.status and o.status < 5), 0) "
+			  		+ "desc, status, price_m asc, id asc;";
 		}
 
 		sql += order;
@@ -94,8 +94,10 @@ public class ItemRepository {
 		if (name == null) {
 			name = "";
 		}
-		String sql = "select id, name, description, price_m, price_l, image_path, status "
-				+ "from items where name ilike :name and status = :status ";
+	 String sql = "select i.id, i.name, description, price_m, price_l, image_path, status "
+				+ "from items as i left outer join order_items as o on i.id = o.item_id "
+				+ "where name ilike :name and status != 2 "
+				+ "group by i.id ";
 		name = "%" + name + "%";
 		if ("iddesc".equals(order)) {// 新着順--id降順desc
 			order = "order by status, id desc;";
@@ -110,14 +112,14 @@ public class ItemRepository {
 			order = "order by status, price_m asc, id asc;";
 
 		} else if("rankdesc".equals(order)) {
-			sql = "select i.id, i.name, description, price_m, price_l, image_path, status "
-					+ "from items as i join order_items as o on i.id = o.item_id "
-					+ "where name ilike :name and status != 2 "
-					+ "group by i.id ;";
-				order = "order by sum(quantity) desc, status, price_m desc, id desc";
+		  order = "order by coalesce((select sum(quantity) from order_items as oi left outer join orders as o "
+			    + "on oi.order_id = o.id where item_id = i.id and 0 < o.status and o.status < 5), 0) "
+			  	+ "desc, status, price_m asc, id asc;";
 		}
 		else {// 初期動作
-			order = "order by status, price_m asc, id asc;";
+			order = "order by coalesce((select sum(quantity) from order_items as oi left outer join orders as o "
+			  		+ "on oi.order_id = o.id where item_id = i.id and 0 < o.status and o.status < 5), 0) "
+			  		+ "desc, status, price_m asc, id asc;";
 		}
 
 		sql += order;
