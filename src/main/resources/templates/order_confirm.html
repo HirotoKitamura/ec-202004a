@@ -157,7 +157,7 @@
 											</div>
 											<div class="col-sm-5">
 												<input type="date" name="deliveryDate" id="date-form"
-													class="form-control input-sm" th:field="*{deliveryDate}">
+													class="form-control input-sm" th:field="*{deliveryDate}" th:min="${today}">
 											</div>
 										</div>
 										<div class="row">
@@ -260,13 +260,13 @@
 									</div>
 								</td>
 							</tr>
-							<tr><td colspan="2">
+							<tr class="card-info" style="display:none;"><td colspan="2">
 								<div style="font-weight: bold;" class="text-center">
 									カード情報
 									<span style="color: red" th:errors="*{card_cvv}"></span>
 								</div>
 							</td></tr>
-							<tr>
+							<tr class="card-info" style="display:none;">
 								<td>
 									<div class="text-center">
 										カード番号(-なし)
@@ -277,7 +277,7 @@
 									<input id="inputCardNumber" type="text" name="card_number" th:field="*{card_number}">
 								</td>
 							</tr>
-							<tr>
+							<tr class="card-info" style="display:none;">
 								<td>
 									<div class="text-center">
 										カードの有効期限
@@ -288,7 +288,7 @@
 									<input style="width: 2em" id="inputCardExpMonth" type="text" name="card_exp_month" th:field="*{card_exp_month}">月
 								</td>
 							</tr>
-							<tr>
+							<tr class="card-info" style="display:none;">
 								<td>
 									<div class="text-center">
 										カード名義人
@@ -298,7 +298,7 @@
 									<input id="inputCardName" type="text" name="card_name"th:field="*{card_name}">
 								</td>
 							</tr>
-							<tr>
+							<tr class="card-info" style="display:none;">
 								<td>
 									<div class="text-center">
 										セキュリティコード
@@ -325,5 +325,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/zipcode.js}"></script>
+<script th:src="@{/js/show-and-hide-card-info.js}"></script>
 </body>
 </html>
