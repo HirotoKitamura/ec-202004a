@@ -4,11 +4,12 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="../static/css/piza.css">
-<link rel="stylesheet" th:href="@{/css/bootstrap.css}" href="../static/css/bootstrap.css">
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}"
+	href="../static/css/bootstrap.css">
 </head>
 <body>
-<div th:fragment="frag_header">
-	<nav class="navbar navbar-default" style="background-color: #ffb31a;">
+	<div th:fragment="frag_header">
+		<nav class="navbar navbar-default" style="background-color: #ffb31a;">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
 				<div class="navbar-header" style="background-color: #ffb31a;">
@@ -20,7 +21,8 @@
 							class="icon-bar"></span>
 					</button>
 					<a class="navbar-brand" th:href="@{/showItemList}"> <!-- 企業ロゴ -->
-						<img alt="main log" th:src="@{/img_curry/header_logo.png}" height="35">
+						<img alt="main log" th:src="@{/img_curry/header_logo.png}"
+						height="35">
 					</a>
 				</div>
 
@@ -28,37 +30,44 @@
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<p class="navbar-text navbar-right">
-						<a th:href="@{/cartList}" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
-						<span th:if="${session.user}">
-						<a href="order_history.html" th:href="@{/showOrderHistory}" class="navbar-link" >注文履歴</a>&nbsp;&nbsp;
-						
-						<a href="order_history.html" th:href="@{/myPage}" data-placement="bottom" class="navbar-link" data-toggle="tooltip"  th:title="'「'+${session.user.name}+'」様'" >ユーザー情報</a>&nbsp;&nbsp;
-						
-						<a href="item_list_pizza.html" th:href="@{/logout}" class="navbar-link">ログアウト</a>&nbsp;&nbsp;
-						<span th:if="${session.user.id==0}">
-						<a href="order_history.html" th:href="@{/administer}" class="navbar-link" >管理者機能</a>&nbsp;&nbsp;
+						<a th:href="@{/cartList}" class="navbar-link"><strong
+							style="color: white;">ショッピングカート</strong></a>&nbsp;&nbsp; <span
+							th:if="${session.user}"> <a href="order_history.html"
+							th:href="@{/showOrderHistory}" class="navbar-link"><strong
+								style="color: white;">注文履歴</strong></a>&nbsp;&nbsp; <a
+							href="order_history.html" th:href="@{/myPage}"
+							data-placement="bottom" class="navbar-link" data-toggle="tooltip"
+							th:title="'「'+${session.user.name}+'」様'"><strong
+								style="color: white;">ユーザー情報</strong></a>&nbsp;&nbsp; <a
+							href="item_list_pizza.html" th:href="@{/logout}"
+							class="navbar-link"><strong style="color: white;">ログアウト</strong></a>&nbsp;&nbsp;
+							<span th:if="${session.user.id==0}"> <a
+								href="order_history.html" th:href="@{/administer}"
+								class="navbar-link"><strong style="color: white;">管理者機能</strong></a>&nbsp;&nbsp;
 						</span>
-						</span>
-						<span th:unless="${session.user}">
-						<a href="login.html" th:href="@{/toLogin}" class="navbar-link">ログイン</a>&nbsp;&nbsp;
+						</span> <span th:unless="${session.user}"> <a href="login.html"
+							th:href="@{/toLogin}" class="navbar-link"><strong
+								style="color: white;">ログイン</strong></a>&nbsp;&nbsp;
 						</span>
 					</p>
 				</div>
 				<!-- /.navbar-collapse -->
 			</div>
 			<!-- /.container-fluid -->
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+			<script
+				src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 			<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-			<script th:src="@{/js/bootstrap.min.js}" src="../static/js/bootstrap.min.js"></script>
+			<script th:src="@{/js/bootstrap.min.js}"
+				src="../static/js/bootstrap.min.js"></script>
 			<script>
-			$(function () {
-				$('[data-toggle="tooltip"]').tooltip();
-			});
+				$(function() {
+					$('[data-toggle="tooltip"]').tooltip();
+				});
 			</script>
 		</nav>
-</div>
+	</div>
 
-<div th:fragment="frag_header_register">
+	<div th:fragment="frag_header_register">
 		<nav class="navbar navbar-default" style="background-color: #ffb31a;">
 			<div class="container-fluid">
 				<!-- Brand and toggle get grouped for better mobile display -->
@@ -71,7 +80,8 @@
 							class="icon-bar"></span>
 					</button>
 					<a class="navbar-brand" th:href="@{/showItemList}"> <!-- 企業ロゴ -->
-						<img alt="main log" th:src="@{/img_curry/header_logo.png}" height="35">
+						<img alt="main log" th:src="@{/img_curry/header_logo.png}"
+						height="35">
 					</a>
 				</div>
 
@@ -79,14 +89,15 @@
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<p class="navbar-text navbar-right">
-						<a th:href="@{/cartList}" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
+						<a th:href="@{/cartList}" class="navbar-link"><strong
+							style="color: white;">ショッピングカート</strong></a>&nbsp;&nbsp;
 					</p>
 				</div>
 				<!-- /.navbar-collapse -->
 			</div>
 			<!-- /.container-fluid -->
 		</nav>
-</div>
+	</div>
 
 
 
