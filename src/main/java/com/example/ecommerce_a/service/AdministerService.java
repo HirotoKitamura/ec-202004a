@@ -71,7 +71,6 @@ public class AdministerService {
 		List<Item> list = itemRepository.findByFuzzyNameAndStatus(name, order, status);
 		List<Item> listIn3items = new ArrayList<>();
 		List<List<Item>> listInlist = new ArrayList<>();
-		System.out.println("商品数" + list.size());
 		for (int i = 0; i < list.size(); i++) {
 			if (i % 3 == 0) {
 				listIn3items = new ArrayList<Item>();
@@ -82,7 +81,6 @@ public class AdministerService {
 			}
 
 		}
-		System.out.println("列数" + listInlist.size());
 		return listInlist;
 	}
 
