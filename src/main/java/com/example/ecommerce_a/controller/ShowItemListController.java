@@ -19,12 +19,12 @@ import com.example.ecommerce_a.service.ShowItemListService;
  *
  */
 @Controller
-@RequestMapping({"showItemList",""})
+@RequestMapping({ "showItemList", "" })
 public class ShowItemListController {
 
 	@Autowired
 	private ShowItemListService service;
-	
+
 	@ModelAttribute
 	public OrderSelectForm setupOrderSelectForm() {
 		return new OrderSelectForm();
@@ -39,7 +39,7 @@ public class ShowItemListController {
 	 * @return 商品一覧ページ
 	 */
 	@RequestMapping("")
-	public String showItemList(String name,OrderSelectForm orderform ,Model model) {
+	public String showItemList(String name, OrderSelectForm orderform, Model model) {
 		String order = orderform.getOrder();
 		int itemhitSize = service.getItemHitSize(name);
 		List<List<Item>> itemList = service.show3colItemList(name, order);
@@ -49,8 +49,8 @@ public class ShowItemListController {
 			itemList = service.show3colItemList("", order);
 		}
 		// オートコンプリート用にJavaScriptの配列の中身を文字列で作ってスコープへ格納
-		List<Item> showItemList = service.showItemList(name, order);
-		StringBuilder itemListForAutocomplete = service.getItemListForAutocomplete(showItemList);
+		List<Item> showItemList = service.showItemList(null, order);
+		String itemListForAutocomplete = service.getItemListForAutocomplete(showItemList);
 		model.addAttribute("itemListForAutocomplete", itemListForAutocomplete);
 
 		model.addAttribute("itemList", itemList);

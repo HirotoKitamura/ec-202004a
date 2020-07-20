@@ -68,7 +68,7 @@ public class ShowItemListService {
 	 * @param itemList 商品一覧
 	 * @return オートコンプリート用JavaScriptの配列の文字列
 	 */
-	public StringBuilder getItemListForAutocomplete(List<Item> itemList) {
+	public String getItemListForAutocomplete(List<Item> itemList) {
 		StringBuilder itemListForAutocomplete = new StringBuilder();
 		for (int i = 0; i < itemList.size(); i++) {
 			if (i != 0) {
@@ -79,6 +79,6 @@ public class ShowItemListService {
 			itemListForAutocomplete.append(item.getName());
 			itemListForAutocomplete.append("\"");
 		}
-		return itemListForAutocomplete;
+		return itemListForAutocomplete.toString();
 	}
 }

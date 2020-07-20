@@ -98,6 +98,9 @@ public class AdministerController {
 		if (user == null || user.getId() != 0) {
 			return "redirect:/toLogin";
 		}
+		if (form.getName().contains("<") || form.getName().contains(">")) {
+			result.rejectValue("name", null, "<や>は使用できません");
+		}
 		MultipartFile image = form.getImage();
 		try {
 			String fileName = image.getOriginalFilename();
@@ -176,7 +179,7 @@ public class AdministerController {
 		model.addAttribute("message", messageList);
 		// オートコンプリート用にJavaScriptの配列の中身を文字列で作ってスコープへ格納
 		List<Item> showItemList = itemService.showItemList(name, order);
-		StringBuilder itemListForAutocomplete = itemService.getItemListForAutocomplete(showItemList);
+		String itemListForAutocomplete = itemService.getItemListForAutocomplete(showItemList);
 		model.addAttribute("itemListForAutocomplete", itemListForAutocomplete);
 
 		model.addAttribute("itemListList", itemListList);
