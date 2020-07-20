@@ -67,7 +67,7 @@
 									placeholder="Tel" th:field="*{telephone}"th:errorclass="fieldError" />
 							</div>
 							<div class="form-group">
-								<label for="inputPassword">パスワード(必須, 8文字以上16文字以下):</label> <label
+								<label for="inputPassword">パスワード(必須, 8文字以上16文字以下, 小文字,大文字,数字各1文字必須):</label> <label
 									class="control-label" style="color: red" for="inputError"
 									th:if="${#fields.hasErrors('password')}"
 									th:errors="*{password}">パスワードを入力してください</label> <input
